@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Progreso — Calistenia360</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f0f0f;--bg2:#1a1a1a;--bg3:#222;--text:#f0f0f0;--text2:#aaa;--text3:#555;--border:rgba(255,255,255,0.08);--green:#1D9E75;--blue:#378ADD;--amber:#EF9F27;--red:#E24B4A;--radius:10px;--radius2:14px}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.wrap{max-width:680px;margin:0 auto;padding:2rem 1.25rem 4rem}
+.brand{font-size:10px;letter-spacing:.2em;color:var(--text3);text-transform:uppercase;margin-bottom:2rem}
+.hero{margin-bottom:2rem}
+.name{font-size:28px;font-weight:500;margin-bottom:.25rem}
+.sub{font-size:14px;color:var(--text3)}
+.objetivo-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between}
+.obj-left{}
+.obj-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+.obj-value{font-size:18px;font-weight:500}
+.obj-value.cal{color:var(--green)}.obj-value.nut{color:var(--blue)}
+.semana-track{display:flex;gap:6px;align-items:center}
+.sem-dot{width:10px;height:10px;border-radius:50%;background:var(--bg3);border:1px solid var(--border)}
+.sem-dot.done{background:var(--green)}
+.sem-dot.done.nut{background:var(--blue)}
+.nota-block{background:var(--bg2);border-radius:0 var(--radius2) var(--radius2) 0;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:14px;font-style:italic;color:var(--text2);line-height:1.7}
+.nota-block.cal{border-left:3px solid var(--green)}.nota-block.nut{border-left:3px solid var(--blue)}
+.nota-by{font-size:11px;color:var(--text3);margin-top:6px;font-style:normal}
+.section-title{font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.14em;margin-bottom:.75rem}
+.mg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1.5rem}
+.mc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.9rem}
+.ml{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.mv{font-size:24px;font-weight:500;font-family:'DM Mono',monospace}
+.md{font-size:11px;margin-top:3px}
+.pos{color:var(--green)}.neg{color:var(--red)}.neu{color:var(--text3)}
+.chart-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:1.25rem 1.5rem;margin-bottom:1.5rem}
+.cw{position:relative;width:100%;height:180px;margin-top:.75rem}
+.skills-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:1.25rem 1.5rem;margin-bottom:1.5rem}
+.skill-row{padding:.75rem 0;border-bottom:1px solid var(--border)}
+.skill-row:last-child{border-bottom:none}
+.skill-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+.skill-name{font-size:14px;font-weight:500}
+.skill-vals{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace}
+.skill-current{font-size:13px;font-weight:500;font-family:'DM Mono',monospace}
+.pb{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.pbf{height:100%;border-radius:3px;transition:width .5s}
+.fotos-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:1.25rem 1.5rem;margin-bottom:1.5rem}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.75rem}
+.fslot{background:var(--bg3);border-radius:var(--radius);aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;position:relative;overflow:hidden}
+.fslot img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0}
+.fslot-lbl{font-size:11px;color:var(--text3);z-index:1}
+.empty{text-align:center;padding:1.5rem;color:var(--text3);font-size:13px}
+.adh-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:.75rem}
+.adh-w{background:var(--bg3);border-radius:var(--radius);padding:.7rem;text-align:center}
+.adh-l{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.adh-v{font-size:18px;font-weight:500;font-family:'DM Mono',monospace}
+.adh-b{height:4px;border-radius:2px;margin-top:5px;background:var(--bg2);overflow:hidden}
+.adh-f{height:100%;border-radius:2px}
+.footer{text-align:center;margin-top:3rem;font-size:11px;color:var(--text3);letter-spacing:.1em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">Calistenia 360°</div>
+  <div id="content"><div class="empty" style="padding:4rem">Cargando...</div></div>
+</div>
+<script>
+const CLIENT_KEY = (new URLSearchParams(window.location.search).get('c') || 'joan').toLowerCase();
+const DEFAULT_CLIENTS={joan:{name:'Joan Talavante',tipo:'cal'},human:{name:'Human',tipo:'cal'},antonio:{name:'Antonio Lovino',tipo:'nut'},eloy:{name:'Eloy',tipo:'nut'}};
+const DEFAULT_SKILLS={joan:[{name:'Dominadas estrictas',inicio:'8 reps',objetivo:'13-14 reps',actual:'8 reps'},{name:'Fondos en paralelas',inicio:'6 reps',objetivo:'10 reps',actual:'6 reps'},{name:'Tirón alto pecho barra',inicio:'3 reps',objetivo:'5 reps',actual:'3 reps'},{name:'L-Sit',inicio:'8s',objetivo:'18s',actual:'8s'},{name:'Hollow Hold',inicio:'20s',objetivo:'30s',actual:'20s'},{name:'Flexiones estrictas',inicio:'20 reps',objetivo:'30 reps',actual:'20 reps'}],human:[],antonio:[],eloy:[]};
+const DEFAULT_CFG={objetivo:'',mes:'Marzo 2026',semanas:4,semanaActual:3};
+
+const gs=k=>{try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}};
+const getClients=()=>gs('c360_clients')||DEFAULT_CLIENTS;
+const getEntries=c=>gs('c360_e_'+c)||[];
+const getSkills=c=>gs('c360_s_'+c)||(DEFAULT_SKILLS[c]||[]);
+const getCfg=c=>gs('c360_c_'+c)||{...DEFAULT_CFG};
+const getFotos=c=>gs('c360_f_'+c)||[];
+function pv(s){const m=(s||'').match(/[\d.]+/);return m?parseFloat(m[0]):0}
+
+function render(){
+  const clients=getClients();
+  const c=clients[CLIENT_KEY];
+  if(!c){document.getElementById('content').innerHTML='<div class="empty" style="padding:4rem">Cliente no encontrado.</div>';return;}
+  const entries=getEntries(CLIENT_KEY);
+  const skills=getSkills(CLIENT_KEY);
+  const cfg=getCfg(CLIENT_KEY);
+  const fotos=getFotos(CLIENT_KEY);
+  const last=entries.length?entries[entries.length-1]:null;
+  const first=entries.length?entries[0]:null;
+  const peso=last?last.peso:null;
+  const delta=first&&last&&first!==last?(last.peso-first.peso):null;
+  const avgAdh=entries.length?Math.round(entries.reduce((a,e)=>a+(e.adh||0),0)/entries.length):null;
+  const tipo=c.tipo||'cal';
+  const ac=tipo==='nut'?'#378ADD':'#1D9E75';
+
+  const semDots=Array.from({length:cfg.semanas||4},(_,i)=>`<div class="sem-dot ${i<(cfg.semanaActual||0)?'done '+tipo:''}"></div>`).join('');
+
+  const notaHtml=last&&last.nota?`<div class="nota-block ${tipo}">"${last.nota}"<div class="nota-by">— Lluís, semana ${last.semana}</div></div>`:'';
+
+  const extraMetrics=tipo==='nut'?`
+    <div class="mc"><div class="ml">Pasos media</div><div class="mv" style="font-size:18px">${entries.some(e=>e.pasos)?Math.round(entries.filter(e=>e.pasos).reduce((a,e)=>a+e.pasos,0)/entries.filter(e=>e.pasos).length).toLocaleString():'—'}</div><div class="md neu">por día</div></div>
+    <div class="mc"><div class="ml">Sueño media</div><div class="mv">${entries.some(e=>e.sueno)?(entries.filter(e=>e.sueno).reduce((a,e)=>a+e.sueno,0)/entries.filter(e=>e.sueno).length).toFixed(1):'—'}</div><div class="md neu">horas</div></div>`:
+    `<div class="mc"><div class="ml">Sesiones últ.</div><div class="mv">${last&&last.sesiones!=null?last.sesiones+'/3':'—'}</div><div class="md ${last&&last.sesiones>=3?'pos':last&&last.sesiones>=2?'neu':'neg'}">${last&&last.sesiones!=null?(last.sesiones>=3?'Semana completa':last.sesiones>=2?'Casi':'Mejorar'):'Sin datos'}</div></div>`;
+
+  const skillsHtml=skills.length&&tipo==='cal'?`
+    <div class="skills-block">
+      <div class="section-title">Mis skills</div>
+      ${skills.map(s=>{
+        const cur=pv(s.actual),ini=pv(s.inicio),goal=pv(s.objetivo);
+        const pct=goal>ini?Math.min(100,Math.round(((cur-ini)/(goal-ini))*100)):0;
+        const col=pct>=80?'#1D9E75':pct>=40?'#EF9F27':'#E24B4A';
+        return `<div class="skill-row">
+          <div class="skill-top">
+            <span class="skill-name">${s.name}</span>
+            <span class="skill-current" style="color:${col}">${s.actual}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="pb" style="flex:1"><div class="pbf" style="width:${pct}%;background:${col}"></div></div>
+            <span class="skill-vals">${s.inicio} → ${s.objetivo}</span>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`:'';
+
+  const fotosHtml=fotos.length?`
+    <div class="fotos-block">
+      <div class="section-title">Progreso visual</div>
+      ${[...new Set(fotos.map(f=>f.mes))].map(mes=>{
+        const ini=fotos.find(f=>f.mes===mes&&f.tipo==='inicio');
+        const fin=fotos.find(f=>f.mes===mes&&f.tipo==='fin');
+        return `<div style="margin-bottom:1rem">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:.5rem">${mes}</div>
+          <div class="fg">
+            <div class="fslot">${ini?`<img src="${ini.url}" onerror="this.style.display='none'">`:''}
+              <span class="fslot-lbl">Inicio</span></div>
+            <div class="fslot">${fin?`<img src="${fin.url}" onerror="this.style.display='none'">`:''}
+              <span class="fslot-lbl">Fin</span></div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`:'';
+
+  document.getElementById('content').innerHTML=`
+    <div class="hero">
+      <div class="name">${c.name}</div>
+      <div class="sub">${tipo==='nut'?'Plan Nutrición':'Plan Calistenia'}</div>
+    </div>
+    <div class="objetivo-block">
+      <div class="obj-left">
+        <div class="obj-label">Objetivo de ${cfg.mes||'este mes'}</div>
+        <div class="obj-value ${tipo}">${cfg.objetivo||'—'}</div>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--text3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.1em">Semana ${cfg.semanaActual||'?'} de ${cfg.semanas||4}</div>
+        <div class="semana-track">${semDots}</div>
+      </div>
+    </div>
+    ${notaHtml}
+    <div class="section-title">Mis métricas</div>
+    <div class="mg">
+      <div class="mc"><div class="ml">Peso actual</div><div class="mv">${peso?peso.toFixed(1):'—'}</div><div class="md ${delta===null?'neu':delta<0?'pos':'neg'}">${delta!==null?(delta<0?'↓ '+Math.abs(delta).toFixed(1)+' kg total':'↑ '+delta.toFixed(1)+' kg total'):'Sin datos aún'}</div></div>
+      <div class="mc"><div class="ml">Adherencia</div><div class="mv">${avgAdh!==null?avgAdh+'%':'—'}</div><div class="md ${avgAdh===null?'neu':avgAdh>=80?'pos':avgAdh>=60?'neu':'neg'}">${avgAdh!==null?(avgAdh>=80?'Muy buena':avgAdh>=60?'Mejorable':'Baja'):'Sin datos'}</div></div>
+      ${extraMetrics}
+    </div>
+    <div class="chart-block">
+      <div class="section-title">Evolución del peso</div>
+      <div class="cw" id="cwrap">${!entries.length?'<div class="empty">Aún sin datos registrados</div>':'<canvas id="wc"></canvas>'}</div>
+    </div>
+    <div class="skills-block" style="${entries.length?'':'display:none'}">
+      <div class="section-title">Adherencia semanal</div>
+      <div class="adh-grid">${entries.slice(-4).map(e=>{const p=e.adh||0,col=p>=80?'#1D9E75':p>=60?'#EF9F27':'#E24B4A';return `<div class="adh-w"><div class="adh-l">Sem ${e.semana}</div><div class="adh-v" style="color:${col}">${p}%</div><div class="adh-b"><div class="adh-f" style="width:${p}%;background:${col}"></div></div></div>`;}).join('')}</div>
+    </div>
+    ${skillsHtml}
+    ${fotosHtml}
+    <div class="footer">Calistenia 360° · Coaching online 1:1</div>`;
+
+  if(entries.length){
+    new Chart(document.getElementById('wc').getContext('2d'),{
+      type:'line',
+      data:{labels:entries.map(e=>'S'+e.semana),datasets:[{data:entries.map(e=>e.peso),borderColor:ac,backgroundColor:ac+'1a',borderWidth:2,pointRadius:5,pointBackgroundColor:ac,pointBorderColor:'#0f0f0f',pointBorderWidth:2,tension:0.35,fill:true}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{family:'DM Sans',size:11}}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{family:'DM Sans',size:11},callback:v=>v.toFixed(1)},min:Math.floor(Math.min(...entries.map(e=>e.peso))-2),max:Math.ceil(Math.max(...entries.map(e=>e.peso))+2)}}}
+    });
+  }
+}
+render();
+</script>
+</body>
+</html>
