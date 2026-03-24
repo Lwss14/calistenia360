@@ -213,10 +213,15 @@ function renderSCL(sk){
 async function addEntry(){
   const sem=parseInt(document.getElementById('rSem').value),peso=parseFloat(document.getElementById('rPeso').value);
   if(!sem||!peso){alert('Semana y peso son obligatorios');return;}
-  const c=gc(),entry={cliente_id:cur,semana:sem,peso,adh:parseInt(document.getElementById('rAdh').value)||null,nota:document.getElementById('rNota').value.trim()||null,obs:document.getElementById('rObs').value.trim()||null};
-  if(c.tipo==='nut'){entry.pasos=parseInt(document.getElementById('rPasos')?document.getElementById('rPasos').value:'')||null;entry.sueno=parseFloat(document.getElementById('rSueno')?document.getElementById('rSueno').value:'')||null;}
-  else{entry.sesiones=parseInt(document.getElementById('rSesiones')?document.getElementById('rSesiones').value:'')||null;}
-  await post('checkins',entry);await loadCD(cur);renderAll();switchTab('dash');
+  const c=gc();
+  const adh=parseInt(document.getElementById('rAdh').value)||null;
+  const nota=document.getElementById('rNota').value.trim()||null;
+  const obs=document.getElementById('rObs').value.trim()||null;
+  let pasos=null,sueno=null,sesiones=null;
+  if(c.tipo==='nut'){pasos=parseInt(document.getElementById('rPasos')?document.getElementById('rPasos').value:'')||null;sueno=parseFloat(document.getElementById('rSueno')?document.getElementById('rSueno').value:'')||null;}
+  else{sesiones=parseInt(document.getElementById('rSesiones')?document.getElementById('rSesiones').value:'')||null;}
+  await api('rpc/upsert_checkin','POST',{p_cliente_id:cur,p_semana:sem,p_peso:peso,p_adh:adh,p_pasos:pasos,p_sueno:sueno,p_sesiones:sesiones,p_nota:nota,p_obs:obs});
+  await loadCD(cur);renderAll();switchTab('dash');
 }
 async function updateSkill(){
   const id=document.getElementById('sSkill').value,val=document.getElementById('sVal').value.trim();
