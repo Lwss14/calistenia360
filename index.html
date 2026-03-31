@@ -61,6 +61,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .pb{height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;width:80px}
 .pbf{height:100%;border-radius:3px}
 .mono{font-family:'DM Mono',monospace}
+.ciclo-tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;font-family:'DM Mono',monospace}
+.ciclo-up{background:rgba(29,158,117,0.15);color:#1D9E75}
+.ciclo-same{background:rgba(239,159,39,0.15);color:#EF9F27}
+.ciclo-down{background:rgba(226,75,74,0.15);color:#E24B4A}
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .fslot{background:var(--bg3);border-radius:var(--r);aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:1px dashed var(--border2);position:relative;overflow:hidden}
 .fslot img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0}
@@ -161,8 +165,8 @@ async function loadAll(){
   renderAll();
 }
 async function loadCD(id){
-  const[entries,fotos]=await Promise.all([get('checkins','cliente_id=eq.'+id+'&order=semana'),get('fotos','cliente_id=eq.'+id)]);
-  S.entries[id]=entries||[];S.fotos[id]=fotos||[];
+  const[entries,fotos,ciclos]=await Promise.all([get('checkins','cliente_id=eq.'+id+'&order=semana'),get('fotos','cliente_id=eq.'+id),get('ciclos','cliente_id=eq.'+id+'&order=ciclo')]);
+  S.entries[id]=entries||[];S.fotos[id]=fotos||[];S.ciclos=S.ciclos||{};S.ciclos[id]=ciclos||[];
 }
 
 function renderCbar(){
@@ -193,7 +197,53 @@ function renderSkills(){
   const sk=gsk(),c=gc();
   if(c.tipo==='nut'){document.getElementById('tabSkills').innerHTML='<div class="card"><div class="empty">Plan nutrición — sin skills.</div></div>';return;}
   const rows=!sk.length?'<tr><td class="empty" colspan="5">Sin skills. Añádelas en Config.</td></tr>':sk.map(s=>{const cv=pv(s.actual),iv=pv(s.inicio),gv=pv(s.objetivo),pct=gv>iv?Math.min(100,Math.round(((cv-iv)/(gv-iv))*100)):0,col=pct>=80?'#1D9E75':pct>=40?'#EF9F27':'#E24B4A';return`<tr><td style="font-weight:500">${s.name}</td><td class="mono" style="color:#666">${s.inicio}</td><td class="mono" style="font-weight:500">${s.actual}</td><td class="mono" style="color:#666">${s.objetivo}</td><td><div class="pb"><div class="pbf" style="width:${pct}%;background:${col}"></div></div></td></tr>`;}).join('');
-  document.getElementById('tabSkills').innerHTML=`<div class="card"><div class="ct">Progresión de skills</div><table class="stbl"><thead><tr><th>Skill</th><th>Inicio</th><th>Actual</th><th>Objetivo</th><th>Progreso</th></tr></thead><tbody>${rows}</tbody></table></div><div class="fc"><div class="ct">Actualizar skill</div><div class="fg2"><div class="ff"><label class="fl">Skill</label><select id="sSkill">${sk.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')}</select></div><div class="ff"><label class="fl">Resultado actual</label><input type="text" id="sVal" placeholder="ej. 11 reps"></div></div><button class="btn btn-g" onclick="updateSkill()">Actualizar</button></div>`;
+
+  const ciclos=((S.ciclos||{})[cur])||[];
+  const ciclosMeses=[...new Set(ciclos.map(c=>c.ciclo))].sort();
+  let ciclosHtml='';
+  if(ciclos.length&&sk.length){
+    const headers=ciclosMeses.map(m=>`<th>${m}</th>`).join('');
+    const cicloRows=sk.map(s=>{
+      const vals=ciclosMeses.map(mes=>{
+        const entry=ciclos.find(c=>c.skill_id===s.id&&c.ciclo===mes);
+        return entry?entry.valor:'—';
+      });
+      const cells=vals.map((v,i)=>{
+        if(i===0)return`<td class="mono" style="color:#666">${v}</td>`;
+        const prev=vals[i-1];
+        const vn=pv(v),vp=pv(prev);
+        let cls='ciclo-same',label=v;
+        if(vn>vp){cls='ciclo-up';label='+'+((vn-vp).toFixed(1).replace('.0',''))+' → '+v;}
+        else if(vn<vp){cls='ciclo-down';}
+        return`<td><span class="ciclo-tag ${cls}">${label}</span></td>`;
+      }).join('');
+      return`<tr><td style="font-weight:500">${s.name}</td>${cells}</tr>`;
+    }).join('');
+    ciclosHtml=`<div class="card" style="margin-top:0">
+      <div class="ct">Progresión por ciclos</div>
+      <table class="stbl"><thead><tr><th>Skill</th>${headers}</tr></thead><tbody>${cicloRows}</tbody></table>
+    </div>`;
+  }
+
+  const skillOpts=sk.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+  document.getElementById('tabSkills').innerHTML=`
+    <div class="card"><div class="ct">Skills actuales</div><table class="stbl"><thead><tr><th>Skill</th><th>Inicio</th><th>Actual</th><th>Objetivo</th><th>Progreso</th></tr></thead><tbody>${rows}</tbody></table></div>
+    ${ciclosHtml}
+    <div class="fc"><div class="ct">Actualizar skill</div>
+      <div class="fg2">
+        <div class="ff"><label class="fl">Skill</label><select id="sSkill">${skillOpts}</select></div>
+        <div class="ff"><label class="fl">Resultado actual</label><input type="text" id="sVal" placeholder="ej. 11 reps"></div>
+      </div>
+      <button class="btn btn-g" onclick="updateSkill()">Actualizar</button>
+    </div>
+    <div class="fc"><div class="ct">Registrar cierre de ciclo</div>
+      <div class="fg2">
+        <div class="ff"><label class="fl">Mes del ciclo</label><input type="text" id="cMes" placeholder="ej. Marzo"></div>
+        <div class="ff"><label class="fl">Skill</label><select id="cSkill">${skillOpts}</select></div>
+        <div class="ff"><label class="fl">Valor conseguido</label><input type="text" id="cVal" placeholder="ej. 14 reps"></div>
+      </div>
+      <button class="btn btn-g" onclick="addCiclo()">Guardar cierre de ciclo</button>
+    </div>`;
 }
 function renderReg(){
   const c=gc(),e=ge(),next=(e.length?e[e.length-1].semana:0)+1;
@@ -222,6 +272,15 @@ async function addEntry(){
   else{sesiones=parseInt(document.getElementById('rSesiones')?document.getElementById('rSesiones').value:'')||null;}
   await api('rpc/upsert_checkin','POST',{p_cliente_id:cur,p_semana:sem,p_peso:peso,p_adh:adh,p_pasos:pasos,p_sueno:sueno,p_sesiones:sesiones,p_nota:nota,p_obs:obs});
   await loadCD(cur);renderAll();switchTab('dash');
+}
+async function addCiclo(){
+  const mes=document.getElementById('cMes').value.trim();
+  const skillId=parseInt(document.getElementById('cSkill').value);
+  const val=document.getElementById('cVal').value.trim();
+  if(!mes||!val){alert('Mes y valor son obligatorios');return;}
+  await api('ciclos?on_conflict=cliente_id,skill_id,ciclo','POST',[{cliente_id:cur,skill_id:skillId,ciclo:mes,valor:val}]);
+  await loadCD(cur);renderSkills();
+  document.getElementById('cMes').value='';document.getElementById('cVal').value='';
 }
 async function updateSkill(){
   const id=document.getElementById('sSkill').value,val=document.getElementById('sVal').value.trim();
