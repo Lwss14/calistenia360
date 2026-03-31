@@ -278,7 +278,7 @@ async function addCiclo(){
   const skillId=parseInt(document.getElementById('cSkill').value);
   const val=document.getElementById('cVal').value.trim();
   if(!mes||!val){alert('Mes y valor son obligatorios');return;}
-  await api('ciclos?on_conflict=cliente_id,skill_id,ciclo','POST',[{cliente_id:cur,skill_id:skillId,ciclo:mes,valor:val}]);
+  await api('rpc/upsert_ciclo','POST',{p_cliente_id:cur,p_skill_id:skillId,p_ciclo:mes,p_valor:val});
   await loadCD(cur);renderSkills();
   document.getElementById('cMes').value='';document.getElementById('cVal').value='';
 }
