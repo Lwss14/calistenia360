@@ -53,7 +53,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .fslot img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0}
 .fslot-lbl{font-size:11px;color:var(--text3);z-index:1}
 .fmonth{font-size:11px;color:var(--text3);margin-bottom:.5rem}
-.empty{text-align:center;padding:1.5rem;color:var(--text3);font-size:13px}
+.stbl{width:100%;border-collapse:collapse;font-size:12px}
+.stbl th{text-align:left;padding:5px 6px;font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border)}
+.stbl td{padding:8px 6px;border-bottom:1px solid var(--border)}
+.stbl tr:last-child td{border-bottom:none}
+.ciclo-tag{display:inline-block;padding:2px 7px;border-radius:20px;font-size:11px;font-weight:500;font-family:'DM Mono',monospace}
+.ciclo-up{background:rgba(29,158,117,0.15);color:#1D9E75}
+.ciclo-same{background:rgba(239,159,39,0.15);color:#EF9F27}
+.ciclo-down{background:rgba(226,75,74,0.15);color:#E24B4A}
 .footer{text-align:center;margin-top:3rem;font-size:11px;color:var(--text3);letter-spacing:.1em}
 </style>
 </head>
@@ -72,12 +79,13 @@ const pv=s=>{const m=(s||'').match(/[\d.]+/);return m?parseFloat(m[0]):0};
 const ac=t=>t==='nut'?'#378ADD':'#1D9E75';
 
 async function render(){
-  const[clients,entries,skills,cfgs,fotos]=await Promise.all([
+  const[clients,entries,skills,cfgs,fotos,ciclos]=await Promise.all([
     get('clientes','id=eq.'+CID),
     get('checkins','cliente_id=eq.'+CID+'&order=semana'),
     get('skills','cliente_id=eq.'+CID+'&order=orden'),
     get('config','cliente_id=eq.'+CID),
-    get('fotos','cliente_id=eq.'+CID)
+    get('fotos','cliente_id=eq.'+CID),
+    get('ciclos','cliente_id=eq.'+CID+'&order=ciclo')
   ]);
   const c=clients&&clients[0];
   if(!c){document.getElementById('content').innerHTML='<div class="empty" style="padding:4rem">Cliente no encontrado.</div>';return;}
@@ -91,8 +99,10 @@ async function render(){
     <div class="mc"><div class="ml">Pasos media</div><div class="mv" style="font-size:18px">${entries.some(e=>e.pasos)?Math.round(entries.filter(e=>e.pasos).reduce((a,e)=>a+e.pasos,0)/entries.filter(e=>e.pasos).length).toLocaleString():'—'}</div><div class="md neu">por día</div></div>
     <div class="mc"><div class="ml">Sueño media</div><div class="mv">${entries.some(e=>e.sueno)?(entries.filter(e=>e.sueno).reduce((a,e)=>a+parseFloat(e.sueno),0)/entries.filter(e=>e.sueno).length).toFixed(1):'—'}</div><div class="md neu">horas</div></div>`:
     `<div class="mc"><div class="ml">Sesiones últ.</div><div class="mv">${last&&last.sesiones!=null?last.sesiones+'/3':'—'}</div><div class="md ${last&&last.sesiones>=3?'pos':last&&last.sesiones>=2?'neu':'neg'}">${last&&last.sesiones!=null?(last.sesiones>=3?'Semana completa':last.sesiones>=2?'Casi':'Mejorar'):'Sin datos'}</div></div>`;
-  const skillsHtml=skills.length&&tipo==='cal'?`<div class="card"><div class="ct">Mis skills</div>${skills.map(s=>{const cv=pv(s.actual),iv=pv(s.inicio),gv=pv(s.objetivo),pct=gv>iv?Math.min(100,Math.round(((cv-iv)/(gv-iv))*100)):0,col=pct>=80?'#1D9E75':pct>=40?'#EF9F27':'#E24B4A';return`<div class="skill-row"><div class="skill-top"><span class="skill-name">${s.name}</span><span class="skill-cur" style="color:${col}">${s.actual}</span></div><div style="display:flex;align-items:center;gap:8px"><div class="pb" style="flex:1"><div class="pbf" style="width:${pct}%;background:${col}"></div></div><span class="skill-vals">${s.inicio} → ${s.objetivo}</span></div></div>`;}).join('')}</div>`:'';
-  const meses=[...new Set((fotos||[]).map(f=>f.mes))];
+  const skillsHtml=skills.length&&tipo==='cal'?`
+    <div class="card"><div class="ct">Mis skills</div>${skills.map(s=>{const cv=pv(s.actual),iv=pv(s.inicio),gv=pv(s.objetivo),pct=gv>iv?Math.min(100,Math.round(((cv-iv)/(gv-iv))*100)):0,col=pct>=80?'#1D9E75':pct>=40?'#EF9F27':'#E24B4A';return`<div class="skill-row"><div class="skill-top"><span class="skill-name">${s.name}</span><span class="skill-cur" style="color:${col}">${s.actual}</span></div><div style="display:flex;align-items:center;gap:8px"><div class="pb" style="flex:1"><div class="pbf" style="width:${pct}%;background:${col}"></div></div><span class="skill-vals">${s.inicio} → ${s.objetivo}</span></div></div>`;}).join('')}</div>
+    ${ciclos&&ciclos.length?`<div class="card"><div class="ct">Progresión por ciclos</div><table class="stbl"><thead><tr><th>Skill</th>${[...new Set(ciclos.map(c=>c.ciclo))].sort().map(m=>`<th>${m}</th>`).join('')}</tr></thead><tbody>${skills.map(s=>{const meses=[...new Set(ciclos.map(c=>c.ciclo))].sort();const vals=meses.map(mes=>{const e=ciclos.find(c=>c.skill_id===s.id&&c.ciclo===mes);return e?e.valor:'—';});const cells=vals.map((v,i)=>{if(i===0)return`<td class="mono" style="color:#666">${v}</td>`;const vn=pv(v),vp=pv(vals[i-1]);let cls='ciclo-same',label=v;if(vn>vp){cls='ciclo-up';label='+'+((vn-vp).toFixed(1).replace('.0',''))+' → '+v;}else if(vn<vp){cls='ciclo-down';}return`<td><span class="ciclo-tag ${cls}">${label}</span></td>`;}).join('');return`<tr><td style="font-weight:500">${s.name}</td>${cells}</tr>`;}).join('')}</tbody></table></div>`:''}
+  `:'';  const meses=[...new Set((fotos||[]).map(f=>f.mes))];
   const fotosHtml=meses.length?`<div class="card"><div class="ct">Progreso visual</div>${meses.map(mes=>{const ini=fotos.find(f=>f.mes===mes&&f.tipo==='inicio'),fin=fotos.find(f=>f.mes===mes&&f.tipo==='fin');return`<div style="margin-bottom:1rem"><div class="fmonth">${mes}</div><div class="fg"><div class="fslot">${ini?`<img src="${ini.url}" onerror="this.style.display='none'">`:''}<span class="fslot-lbl">Inicio</span></div><div class="fslot">${fin?`<img src="${fin.url}" onerror="this.style.display='none'">`:''}<span class="fslot-lbl">Fin</span></div></div></div>`;}).join('')}</div>`:'';
 
   document.getElementById('content').innerHTML=`
