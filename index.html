@@ -136,12 +136,16 @@ textarea{resize:vertical;min-height:60px;line-height:1.5}
 const SB='https://xiflekecgnzklicszwmv.supabase.co';
 const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpZmxla2VjZ256a2xpY3N6d212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNDYwODQsImV4cCI6MjA4OTkyMjA4NH0.qyWonslWP1YfvgxgisfNM2VjQsKR_xSE0npZyfXrGHI';
 const H={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation'};
+
+const MESES_ORDER=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+function sortMeses(meses){return [...meses].sort((a,b)=>MESES_ORDER.indexOf(a)-MESES_ORDER.indexOf(b));}
+
 async function api(path,method='GET',body=null){
   try{const r=await fetch(SB+'/rest/v1/'+path,{method,headers:H,body:body?JSON.stringify(body):null});
   const t=await r.text();return t?JSON.parse(t):null;}catch(e){console.error(e);return null;}
 }
 const get=(t,q='')=>api(t+'?'+q);
-const post=(t,b)=>api(t+'?on_conflict='+( t==='checkins'?'cliente_id,semana':t==='fotos'?'cliente_id,mes,tipo':'id'),'POST',Array.isArray(b)?b:[b]);
+const post=(t,b)=>api(t+'?on_conflict='+(t==='checkins'?'cliente_id,semana':t==='fotos'?'cliente_id,mes,tipo':'id'),'POST',Array.isArray(b)?b:[b]);
 const patch=(t,q,b)=>api(t+'?'+q,'PATCH',b);
 const del=(t,q)=>api(t+'?'+q,'DELETE');
 
@@ -165,7 +169,7 @@ async function loadAll(){
   renderAll();
 }
 async function loadCD(id){
-  const[entries,fotos,ciclos]=await Promise.all([get('checkins','cliente_id=eq.'+id+'&order=semana'),get('fotos','cliente_id=eq.'+id),get('ciclos','cliente_id=eq.'+id+'&order=ciclo')]);
+  const[entries,fotos,ciclos]=await Promise.all([get('checkins','cliente_id=eq.'+id+'&order=semana'),get('fotos','cliente_id=eq.'+id),get('ciclos','cliente_id=eq.'+id)]);
   S.entries[id]=entries||[];S.fotos[id]=fotos||[];S.ciclos=S.ciclos||{};S.ciclos[id]=ciclos||[];
 }
 
@@ -191,7 +195,7 @@ function renderDash(){
 function renderFotos(){
   const fotos=gf(),meses=[...new Set(fotos.map(f=>f.mes))];
   const content=!fotos.length?'<div class="empty">Sin fotos aún.</div>':meses.map(mes=>{const i2=fotos.find(f=>f.mes===mes&&f.tipo==='inicio'),fin=fotos.find(f=>f.mes===mes&&f.tipo==='fin');return`<div style="margin-bottom:1.25rem"><div class="fmonth">${mes}</div><div class="fg"><div class="fslot">${i2?`<img src="${i2.url}" onerror="this.style.display='none'">`:''}<span style="font-size:20px;z-index:1">${i2?'':'+'}</span><span class="fslot-lbl">Inicio</span></div><div class="fslot">${fin?`<img src="${fin.url}" onerror="this.style.display='none'">`:''}<span style="font-size:20px;z-index:1">${fin?'':'+'}</span><span class="fslot-lbl">Fin</span></div></div></div>`;}).join('');
-  document.getElementById('tabFotos').innerHTML=`<div class="card"><div class="ct">Fotos de progreso</div>${content}</div><div class="fc"><div class="ct">Añadir foto</div><div class="fg2"><div class="ff"><label class="fl">Mes</label><select id="fMes">${['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'].map(m=>`<option${m==='Marzo'?' selected':''}>${m}</option>`).join('')}</select></div><div class="ff"><label class="fl">Tipo</label><select id="fTipo"><option value="inicio">Inicio</option><option value="fin">Fin</option></select></div></div><div class="ff" style="margin-bottom:.75rem"><label class="fl">URL de la foto</label><input type="text" id="fUrl" placeholder="https://..."></div><button class="btn btn-g" onclick="addFoto()">Guardar</button></div>`;
+  document.getElementById('tabFotos').innerHTML=`<div class="card"><div class="ct">Fotos de progreso</div>${content}</div><div class="fc"><div class="ct">Añadir foto</div><div class="fg2"><div class="ff"><label class="fl">Mes</label><select id="fMes">${['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'].map(m=>`<option${m==='Abril'?' selected':''}>${m}</option>`).join('')}</select></div><div class="ff"><label class="fl">Tipo</label><select id="fTipo"><option value="inicio">Inicio</option><option value="fin">Fin</option></select></div></div><div class="ff" style="margin-bottom:.75rem"><label class="fl">URL de la foto</label><input type="text" id="fUrl" placeholder="https://..."></div><button class="btn btn-g" onclick="addFoto()">Guardar</button></div>`;
 }
 function renderSkills(){
   const sk=gsk(),c=gc();
@@ -199,7 +203,8 @@ function renderSkills(){
   const rows=!sk.length?'<tr><td class="empty" colspan="5">Sin skills. Añádelas en Config.</td></tr>':sk.map(s=>{const cv=pv(s.actual),iv=pv(s.inicio),gv=pv(s.objetivo),pct=gv>iv?Math.min(100,Math.round(((cv-iv)/(gv-iv))*100)):0,col=pct>=80?'#1D9E75':pct>=40?'#EF9F27':'#E24B4A';return`<tr><td style="font-weight:500">${s.name}</td><td class="mono" style="color:#666">${s.inicio}</td><td class="mono" style="font-weight:500">${s.actual}</td><td class="mono" style="color:#666">${s.objetivo}</td><td><div class="pb"><div class="pbf" style="width:${pct}%;background:${col}"></div></div></td></tr>`;}).join('');
 
   const ciclos=((S.ciclos||{})[cur])||[];
-  const ciclosMeses=[...new Set(ciclos.map(c=>c.ciclo))].sort();
+  const ciclosMesesRaw=[...new Set(ciclos.map(c=>c.ciclo))];
+  const ciclosMeses=sortMeses(ciclosMesesRaw);
   let ciclosHtml='';
   if(ciclos.length&&sk.length){
     const headers=ciclosMeses.map(m=>`<th>${m}</th>`).join('');
@@ -211,10 +216,11 @@ function renderSkills(){
       const cells=vals.map((v,i)=>{
         if(i===0)return`<td class="mono" style="color:#666">${v}</td>`;
         const prev=vals[i-1];
+        if(prev==='—')return`<td class="mono" style="color:#666">${v}</td>`;
         const vn=pv(v),vp=pv(prev);
         let cls='ciclo-same',label=v;
-        if(vn>vp){cls='ciclo-up';label='+'+((vn-vp).toFixed(1).replace('.0',''))+' → '+v;}
-        else if(vn<vp){cls='ciclo-down';}
+        if(vn>vp){cls='ciclo-up';const diff=(vn-vp);label='+'+( Number.isInteger(diff)?diff:diff.toFixed(1))+' → '+v;}
+        else if(vn<vp){cls='ciclo-down';label='↓ '+v;}
         return`<td><span class="ciclo-tag ${cls}">${label}</span></td>`;
       }).join('');
       return`<tr><td style="font-weight:500">${s.name}</td>${cells}</tr>`;
@@ -238,7 +244,7 @@ function renderSkills(){
     </div>
     <div class="fc"><div class="ct">Registrar cierre de ciclo</div>
       <div class="fg2">
-        <div class="ff"><label class="fl">Mes del ciclo</label><input type="text" id="cMes" placeholder="ej. Marzo"></div>
+        <div class="ff"><label class="fl">Mes del ciclo</label><select id="cMes">${MESES_ORDER.map(m=>`<option value="${m}">${m}</option>`).join('')}</select></div>
         <div class="ff"><label class="fl">Skill</label><select id="cSkill">${skillOpts}</select></div>
         <div class="ff"><label class="fl">Valor conseguido</label><input type="text" id="cVal" placeholder="ej. 14 reps"></div>
       </div>
@@ -259,7 +265,6 @@ function renderSCL(sk){
   if(!sk.length)return'<div class="empty">Sin skills.</div>';
   return sk.map(s=>`<div class="row"><span style="font-size:13px">${s.name} <span style="color:#666;font-size:11px">${s.inicio} → ${s.objetivo}</span></span><button class="btn-sm" onclick="delSkill(${s.id})">Eliminar</button></div>`).join('');
 }
-
 async function addEntry(){
   const sem=parseInt(document.getElementById('rSem').value),peso=parseFloat(document.getElementById('rPeso').value);
   if(!sem||!peso){alert('Semana y peso son obligatorios');return;}
@@ -274,13 +279,13 @@ async function addEntry(){
   await loadCD(cur);renderAll();switchTab('dash');
 }
 async function addCiclo(){
-  const mes=document.getElementById('cMes').value.trim();
+  const mes=document.getElementById('cMes').value;
   const skillId=parseInt(document.getElementById('cSkill').value);
   const val=document.getElementById('cVal').value.trim();
-  if(!mes||!val){alert('Mes y valor son obligatorios');return;}
+  if(!val){alert('El valor es obligatorio');return;}
   await api('rpc/upsert_ciclo','POST',{p_cliente_id:cur,p_skill_id:skillId,p_ciclo:mes,p_valor:val});
   await loadCD(cur);renderSkills();
-  document.getElementById('cMes').value='';document.getElementById('cVal').value='';
+  document.getElementById('cVal').value='';
 }
 async function updateSkill(){
   const id=document.getElementById('sSkill').value,val=document.getElementById('sVal').value.trim();
@@ -326,7 +331,7 @@ async function saveNewClient(){
   const id=name.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'')+'_'+Date.now();
   await api('clientes','POST',{id,name,initials:ini(name),tipo:modalTipo});
   const obj=document.getElementById('mObj').value.trim();
-  if(obj)await api('config','POST',{cliente_id:id,objetivo:obj,mes:'Marzo 2026',semanas:4,semana_actual:1});
+  if(obj)await api('config','POST',{cliente_id:id,objetivo:obj,mes:'Abril 2026',semanas:4,semana_actual:1});
   cur=id;closeModal();await loadAll();
 }
 function switchTab(t){
