@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario de Conocimiento — Calistenia360</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#080808;--bg2:#111;--bg3:#181818;--bg4:#222;--text:#f0ede8;--text2:#888;--text3:#444;--green:#1D9E75;--green2:rgba(29,158,117,0.1);--gold:#c9a84c;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--r:10px;--r2:16px}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .6s ease forwards;opacity:0}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.35s}
+.wrap{max-width:640px;margin:0 auto;padding:2.5rem 1.25rem 5rem}
+.header{text-align:center;margin-bottom:3rem}
+.brand{font-size:10px;letter-spacing:.2em;color:var(--text3);text-transform:uppercase;margin-bottom:1.25rem}
+.title{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,8vw,64px);letter-spacing:.03em;line-height:.95;margin-bottom:1rem}
+.title span{color:var(--green)}
+.subtitle{font-size:14px;color:var(--text2);line-height:1.7;max-width:460px;margin:0 auto}
+.progress-wrap{margin-bottom:2.5rem}
+.progress-bar{height:2px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-bottom:.5rem}
+.progress-fill{height:100%;background:var(--green);border-radius:2px;transition:width .4s ease;width:0%}
+.progress-label{font-size:11px;color:var(--text3);text-align:right;font-family:'DM Mono',monospace}
+.section{margin-bottom:2.5rem;display:none}
+.section.active{display:block}
+.sec-num{font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--green);opacity:.15;line-height:1;margin-bottom:.15rem}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.04em;margin-bottom:.4rem}
+.sec-desc{font-size:13px;color:var(--text2);margin-bottom:1.5rem;line-height:1.6}
+.field{margin-bottom:1.1rem}
+.field-label{font-size:12px;font-weight:500;color:var(--text2);margin-bottom:.4rem;display:block}
+.field-label .req{color:var(--green)}
+input[type=text],input[type=number],input[type=email],select,textarea{width:100%;padding:11px 13px;font-size:13px;border:1px solid var(--border2);border-radius:var(--r);background:var(--bg2);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--green)}
+select option{background:var(--bg2)}
+textarea{resize:vertical;min-height:80px;line-height:1.6}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.checkbox-group{display:flex;flex-direction:column;gap:6px}
+.checkbox-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;transition:all .15s}
+.checkbox-item:hover{border-color:var(--border2);background:var(--bg3)}
+.checkbox-item input{width:16px;height:16px;accent-color:var(--green);flex-shrink:0;cursor:pointer}
+.checkbox-item label{font-size:13px;color:var(--text2);cursor:pointer;line-height:1.4}
+.radio-group{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px}
+.radio-item{position:relative}
+.radio-item input{position:absolute;opacity:0;width:0;height:0}
+.radio-item label{display:flex;align-items:center;justify-content:center;padding:9px 8px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;transition:all .15s;font-size:13px;color:var(--text2);text-align:center;min-height:44px}
+.radio-item input:checked+label{background:var(--green2);border-color:var(--green);color:var(--text)}
+.divider{height:1px;background:var(--border);margin:1.5rem 0}
+.test-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn-row{display:flex;gap:10px;margin-top:2rem}
+.btn{flex:1;padding:12px;font-size:13px;font-weight:500;border:none;border-radius:var(--r);cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .15s}
+.btn-back{background:var(--bg3);color:var(--text2);border:1px solid var(--border2)}
+.btn-next{background:var(--green);color:#fff}
+.btn:hover{opacity:.85}
+.btn-submit{width:100%;padding:14px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.08em;background:var(--green);color:#fff;border:none;border-radius:var(--r2);cursor:pointer;margin-top:2rem;transition:opacity .15s}
+.btn-submit:hover{opacity:.85}
+.success{display:none;text-align:center;padding:4rem 1rem}
+.success-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,60px);letter-spacing:.04em;line-height:1;margin-bottom:1rem}
+.success-title span{color:var(--green)}
+.success-text{font-size:14px;color:var(--text2);line-height:1.8;max-width:400px;margin:0 auto}
+.hint{font-size:11px;color:var(--text3);margin-top:3px;font-style:italic}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="formWrap">
+    <div class="header fu d1">
+      <div class="brand">Calistenia 360°</div>
+      <div class="title">FORMULARIO DE<br><span>CONOCIMIENTO</span></div>
+      <p class="subtitle">Tómate tu tiempo. Cuanto más detallado seas, mejor será tu plan desde el primer día.</p>
+    </div>
+    <div class="progress-wrap fu d2">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">Sección 1 de 6</div>
+    </div>
+    <form id="mainForm" action="https://formspree.io/f/xgoppqlp" method="POST">
+      <input type="hidden" name="_subject" value="Nuevo cliente Calistenia360 — Formulario completado">
+
+      <!-- SECCIÓN 1: DATOS PERSONALES -->
+      <div class="section active" id="sec1">
+        <div class="sec-num">01</div>
+        <div class="sec-title">Datos personales</div>
+        <div class="sec-desc">Lo básico para conocerte.</div>
+        <div class="field-grid">
+          <div class="field"><label class="field-label">Nombre completo <span class="req">*</span></label><input type="text" name="nombre" placeholder="Tu nombre"></div>
+          <div class="field"><label class="field-label">Email <span class="req">*</span></label><input type="email" name="email" placeholder="tu@email.com"></div>
+          <div class="field"><label class="field-label">Edad</label><input type="number" name="edad" placeholder="Años" min="16" max="70"></div>
+          <div class="field"><label class="field-label">Peso (kg)</label><input type="number" name="peso_kg" placeholder="kg" step="0.1"></div>
+          <div class="field"><label class="field-label">Altura (cm)</label><input type="number" name="altura_cm" placeholder="cm"></div>
+          <div class="field"><label class="field-label">Ciudad / País</label><input type="text" name="ciudad_pais" placeholder="ej. Barcelona, España"></div>
+        </div>
+        <div class="field"><label class="field-label">Situación laboral</label><input type="text" name="situacion_laboral" placeholder="ej. Trabajo de oficina, estudiante..."></div>
+        <div class="field"><label class="field-label">Esfuerzo físico en el trabajo</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="esfuerzo_fisico_trabajo" value="Muy sedentario" id="ef1"><label for="ef1">Muy sedentario</label></div>
+            <div class="radio-item"><input type="radio" name="esfuerzo_fisico_trabajo" value="Algo de pie o caminando" id="ef2"><label for="ef2">Algo de pie</label></div>
+            <div class="radio-item"><input type="radio" name="esfuerzo_fisico_trabajo" value="Trabajo físico moderado" id="ef3"><label for="ef3">Físico moderado</label></div>
+            <div class="radio-item"><input type="radio" name="esfuerzo_fisico_trabajo" value="Trabajo muy físico" id="ef4"><label for="ef4">Muy físico</label></div>
+          </div>
+        </div>
+        <div class="btn-row"><button type="button" class="btn btn-next" onclick="nextSection(1)">Siguiente →</button></div>
+      </div>
+
+      <!-- SECCIÓN 2: OBJETIVO -->
+      <div class="section" id="sec2">
+        <div class="sec-num">02</div>
+        <div class="sec-title">Tu objetivo</div>
+        <div class="sec-desc">¿Qué quieres conseguir y por qué ahora?</div>
+        <div class="field"><label class="field-label">Objetivo principal <span class="req">*</span></label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="objetivo_principal" value="Muscle up" id="op1"><label for="op1">Muscle up</label></div>
+            <div class="radio-item"><input type="radio" name="objetivo_principal" value="Más dominadas" id="op2"><label for="op2">Más dominadas</label></div>
+            <div class="radio-item"><input type="radio" name="objetivo_principal" value="Fuerza general" id="op3"><label for="op3">Fuerza general</label></div>
+            <div class="radio-item"><input type="radio" name="objetivo_principal" value="Handstand" id="op4"><label for="op4">Handstand</label></div>
+            <div class="radio-item"><input type="radio" name="objetivo_principal" value="Front lever" id="op5"><label for="op5">Front lever</label></div>
+            <div class="radio-item"><input type="radio" name="objetivo_principal" value="Estética / físico" id="op6"><label for="op6">Estética</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Cómo quieres estar en 3 meses?</label><textarea name="objetivo_3_meses" placeholder="Descríbelo con detalle..."></textarea></div>
+        <div class="field"><label class="field-label">Habilidad prioritaria</label><input type="text" name="habilidad_prioritaria" placeholder="ej. Muscle up, Handstand..."></div>
+        <div class="field"><label class="field-label">Intereses (selecciona todos)</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item"><input type="checkbox" name="intereses" value="Fuerza" id="i1"><label for="i1">Fuerza</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="intereses" value="Estética" id="i2"><label for="i2">Estética</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="intereses" value="Movilidad" id="i3"><label for="i3">Movilidad</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="intereses" value="Skills avanzadas" id="i4"><label for="i4">Skills avanzadas</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="intereses" value="Salud y energía" id="i5"><label for="i5">Salud y energía</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="intereses" value="Rendimiento" id="i6"><label for="i6">Rendimiento</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="intereses" value="Disciplina" id="i7"><label for="i7">Disciplina</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Por qué ahora?</label><textarea name="por_que_ahora" placeholder="¿Qué te ha llevado a dar este paso?"></textarea></div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevSection(2)">← Atrás</button>
+          <button type="button" class="btn btn-next" onclick="nextSection(2)">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 3: EXPERIENCIA -->
+      <div class="section" id="sec3">
+        <div class="sec-num">03</div>
+        <div class="sec-title">Tu experiencia</div>
+        <div class="sec-desc">Necesito saber de dónde partimos.</div>
+        <div class="field"><label class="field-label">Tiempo haciendo calistenia</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="tiempo_calistenia" value="Menos de 6 meses" id="tc1"><label for="tc1">Menos de 6m</label></div>
+            <div class="radio-item"><input type="radio" name="tiempo_calistenia" value="6 meses — 1 año" id="tc2"><label for="tc2">6m — 1 año</label></div>
+            <div class="radio-item"><input type="radio" name="tiempo_calistenia" value="1 — 3 años" id="tc3"><label for="tc3">1 — 3 años</label></div>
+            <div class="radio-item"><input type="radio" name="tiempo_calistenia" value="Más de 3 años" id="tc4"><label for="tc4">+3 años</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Tiempo entrenando en general</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="tiempo_entreno_general" value="Menos de 6 meses" id="tg1"><label for="tg1">Menos de 6m</label></div>
+            <div class="radio-item"><input type="radio" name="tiempo_entreno_general" value="6 meses — 1 año" id="tg2"><label for="tg2">6m — 1 año</label></div>
+            <div class="radio-item"><input type="radio" name="tiempo_entreno_general" value="1 — 3 años" id="tg3"><label for="tg3">1 — 3 años</label></div>
+            <div class="radio-item"><input type="radio" name="tiempo_entreno_general" value="Más de 3 años" id="tg4"><label for="tg4">+3 años</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Tipo de entrenamiento previo</label><input type="text" name="tipo_entreno_previo" placeholder="ej. Gym, CrossFit, deporte de equipo..."></div>
+        <div class="field"><label class="field-label">Habilidad en la que te sientes bloqueado</label><textarea name="habilidad_bloqueada" placeholder="¿Qué llevas tiempo intentando y no consigues?"></textarea></div>
+        <div class="field"><label class="field-label">¿Has trabajado con un coach antes?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="experiencia_coach" value="Sí" id="ec1"><label for="ec1">Sí</label></div>
+            <div class="radio-item"><input type="radio" name="experiencia_coach" value="No" id="ec2"><label for="ec2">No</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Qué esperas del coach?</label><textarea name="espera_coach" placeholder="Disciplina, motivación, técnica, acompañamiento..."></textarea></div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevSection(3)">← Atrás</button>
+          <button type="button" class="btn btn-next" onclick="nextSection(3)">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 4: ENTRENAMIENTO -->
+      <div class="section" id="sec4">
+        <div class="sec-num">04</div>
+        <div class="sec-title">Tu entrenamiento</div>
+        <div class="sec-desc">Cómo, dónde y cuándo entrenas.</div>
+        <div class="field-grid">
+          <div class="field"><label class="field-label">Días a la semana <span class="req">*</span></label><input type="number" name="dias_semana" min="1" max="7" placeholder="ej. 4"></div>
+          <div class="field"><label class="field-label">Duración por sesión</label>
+            <select name="duracion_sesion">
+              <option value="" disabled selected>Selecciona</option>
+              <option>30 — 45 min</option><option>45 — 60 min</option>
+              <option>60 — 75 min</option><option>75 — 90 min</option><option>+90 min</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Días que puedes entrenar</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item"><input type="checkbox" name="dias_entreno" value="Lunes" id="de1"><label for="de1">Lunes</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="dias_entreno" value="Martes" id="de2"><label for="de2">Martes</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="dias_entreno" value="Miércoles" id="de3"><label for="de3">Miércoles</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="dias_entreno" value="Jueves" id="de4"><label for="de4">Jueves</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="dias_entreno" value="Viernes" id="de5"><label for="de5">Viernes</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="dias_entreno" value="Sábado" id="de6"><label for="de6">Sábado</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="dias_entreno" value="Domingo" id="de7"><label for="de7">Domingo</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Momento del día preferido</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="momento_dia" value="Mañana" id="md1"><label for="md1">Mañana</label></div>
+            <div class="radio-item"><input type="radio" name="momento_dia" value="Mediodía" id="md2"><label for="md2">Mediodía</label></div>
+            <div class="radio-item"><input type="radio" name="momento_dia" value="Tarde" id="md3"><label for="md3">Tarde</label></div>
+            <div class="radio-item"><input type="radio" name="momento_dia" value="Noche" id="md4"><label for="md4">Noche</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Lugar de entrenamiento</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item"><input type="checkbox" name="lugar_entreno" value="Parque de calistenia" id="le1"><label for="le1">Parque de calistenia</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="lugar_entreno" value="Gimnasio" id="le2"><label for="le2">Gimnasio</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="lugar_entreno" value="Casa" id="le3"><label for="le3">Casa</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Material disponible</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item"><input type="checkbox" name="material" value="Barra fija" id="mat1"><label for="mat1">Barra fija</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="material" value="Paralelas" id="mat2"><label for="mat2">Paralelas</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="material" value="Anillas" id="mat3"><label for="mat3">Anillas</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="material" value="Bandas elásticas" id="mat4"><label for="mat4">Bandas elásticas</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="material" value="Suelo" id="mat5"><label for="mat5">Solo suelo</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Tiempo de desplazamiento al lugar de entreno</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="tiempo_desplazamiento" value="Menos de 10 min" id="td1"><label for="td1">Menos de 10 min</label></div>
+            <div class="radio-item"><input type="radio" name="tiempo_desplazamiento" value="10 — 20 min" id="td2"><label for="td2">10 — 20 min</label></div>
+            <div class="radio-item"><input type="radio" name="tiempo_desplazamiento" value="Más de 20 min" id="td3"><label for="td3">+20 min</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Preferencias de entrenamiento</label><textarea name="preferencias_entreno" placeholder="¿Qué tipo de entrenamiento te gusta más o menos?"></textarea></div>
+        <div style="background:var(--bg3);border-left:3px solid var(--green);border-radius:0 var(--r) var(--r) 0;padding:.9rem 1rem;margin-top:.5rem;margin-bottom:1rem">
+          <div style="font-size:12px;color:var(--green);font-weight:500;margin-bottom:3px">Nota importante</div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.6">Dado a que tienes acceso casi diario con Lluís, el plan se adaptará semana a semana. Esta información es para dar contexto y empezar. Cualquier cambio en tu disponibilidad, material o situación, siempre avisa al coach.</div>
+        </div>
+          <button type="button" class="btn btn-back" onclick="prevSection(4)">← Atrás</button>
+          <button type="button" class="btn btn-next" onclick="nextSection(4)">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 5: HÁBITOS Y SALUD -->
+      <div class="section" id="sec5">
+        <div class="sec-num">05</div>
+        <div class="sec-title">Hábitos y salud</div>
+        <div class="sec-desc">El entrenamiento es solo una parte del cuadro.</div>
+        <div class="field"><label class="field-label">Horas de sueño por noche</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="horas_sueno" value="Menos de 5h" id="hs1"><label for="hs1">Menos de 5h</label></div>
+            <div class="radio-item"><input type="radio" name="horas_sueno" value="5 — 6h" id="hs2"><label for="hs2">5 — 6h</label></div>
+            <div class="radio-item"><input type="radio" name="horas_sueno" value="6 — 7h" id="hs3"><label for="hs3">6 — 7h</label></div>
+            <div class="radio-item"><input type="radio" name="horas_sueno" value="7 — 8h" id="hs4"><label for="hs4">7 — 8h</label></div>
+            <div class="radio-item"><input type="radio" name="horas_sueno" value="Más de 8h" id="hs5"><label for="hs5">+8h</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Te despiertas descansado?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="descansado" value="Sí, siempre" id="ds1"><label for="ds1">Sí, siempre</label></div>
+            <div class="radio-item"><input type="radio" name="descansado" value="A veces" id="ds2"><label for="ds2">A veces</label></div>
+            <div class="radio-item"><input type="radio" name="descansado" value="Rara vez" id="ds3"><label for="ds3">Rara vez</label></div>
+            <div class="radio-item"><input type="radio" name="descansado" value="Nunca" id="ds4"><label for="ds4">Nunca</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Nivel de estrés diario (1-10)</label>
+          <div class="radio-group" style="grid-template-columns:repeat(5,1fr)">
+            <div class="radio-item"><input type="radio" name="nivel_estres" value="1-2" id="ne1"><label for="ne1">1-2</label></div>
+            <div class="radio-item"><input type="radio" name="nivel_estres" value="3-4" id="ne2"><label for="ne2">3-4</label></div>
+            <div class="radio-item"><input type="radio" name="nivel_estres" value="5-6" id="ne3"><label for="ne3">5-6</label></div>
+            <div class="radio-item"><input type="radio" name="nivel_estres" value="7-8" id="ne4"><label for="ne4">7-8</label></div>
+            <div class="radio-item"><input type="radio" name="nivel_estres" value="9-10" id="ne5"><label for="ne5">9-10</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Tienes alguna lesión?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="tiene_lesion" value="No" id="tl1"><label for="tl1">No</label></div>
+            <div class="radio-item"><input type="radio" name="tiene_lesion" value="Algo leve" id="tl2"><label for="tl2">Algo leve</label></div>
+            <div class="radio-item"><input type="radio" name="tiene_lesion" value="Sí, moderada" id="tl3"><label for="tl3">Moderada</label></div>
+            <div class="radio-item"><input type="radio" name="tiene_lesion" value="Sí, importante" id="tl4"><label for="tl4">Importante</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Detalla la lesión si la hay</label><textarea name="detalle_lesion" placeholder="Zona, cuándo ocurrió, qué te limita..."></textarea></div>
+        <div class="field"><label class="field-label">¿Tienes movilidad reducida en alguna zona?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="movilidad_reducida" value="No" id="mr1"><label for="mr1">No</label></div>
+            <div class="radio-item"><input type="radio" name="movilidad_reducida" value="Sí" id="mr2"><label for="mr2">Sí</label></div>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevSection(5)">← Atrás</button>
+          <button type="button" class="btn btn-next" onclick="nextSection(5)">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 6: TEST DE NIVEL + FINAL -->
+      <div class="section" id="sec6">
+        <div class="sec-num">06</div>
+        <div class="sec-title">Test de nivel</div>
+        <div class="sec-desc">Reps máximas con buena técnica. Si no has probado un ejercicio escribe "sin probar".</div>
+        <div class="test-grid">
+          <div class="field"><label class="field-label">Dominadas pronas</label><input type="text" name="test_dominadas_pronas" placeholder="ej. 10-12"></div>
+          <div class="field"><label class="field-label">Dominadas supinas</label><input type="text" name="test_dominadas_supinas" placeholder="ej. 10-12"></div>
+          <div class="field"><label class="field-label">Flexiones estándar</label><input type="text" name="test_flexiones_estandar" placeholder="ej. 20-25"></div>
+          <div class="field"><label class="field-label">Flexiones declinadas</label><input type="text" name="test_flexiones_declinadas" placeholder="ej. 10"></div>
+          <div class="field"><label class="field-label">Fondos en paralelas</label><input type="text" name="test_fondos_paralelas" placeholder="ej. 8-10"></div>
+          <div class="field"><label class="field-label">Pike push-ups</label><input type="text" name="test_pike_pushups" placeholder="ej. 6-8"></div>
+          <div class="field"><label class="field-label">Dominada con pecho a barra</label><input type="text" name="test_dominada_pecho" placeholder="ej. 3-5"></div>
+          <div class="field"><label class="field-label">Australian pull-ups</label><input type="text" name="test_australian" placeholder="ej. 12-15"></div>
+          <div class="field"><label class="field-label">Dead hang (segundos)</label><input type="text" name="test_dead_hang" placeholder="ej. 60s"></div>
+          <div class="field"><label class="field-label">L-Sit (segundos)</label><input type="text" name="test_lsit" placeholder="ej. 10s"></div>
+          <div class="field"><label class="field-label">Hollow hold (segundos)</label><input type="text" name="test_hollow_hold" placeholder="ej. 30s"></div>
+          <div class="field"><label class="field-label">Plancha (segundos)</label><input type="text" name="test_plancha" placeholder="ej. 60s"></div>
+          <div class="field"><label class="field-label">Knee raises</label><input type="text" name="test_knee_raises" placeholder="ej. 15-20"></div>
+          <div class="field"><label class="field-label">Leg raises</label><input type="text" name="test_leg_raises" placeholder="ej. 10-12"></div>
+          <div class="field"><label class="field-label">Pseudo planche</label><input type="text" name="test_pseudo_planche" placeholder="ej. 5-8"></div>
+          <div class="field"><label class="field-label">Handstand pared (seg.)</label><input type="text" name="test_handstand_pared" placeholder="ej. 20s"></div>
+          <div class="field"><label class="field-label">Flexión explosiva</label><input type="text" name="test_flexion_explosiva" placeholder="ej. 8-10"></div>
+          <div class="field"><label class="field-label">Muscle up</label><input type="text" name="test_muscle_up" placeholder="ej. sin probar"></div>
+          <div class="field"><label class="field-label">Sentadillas</label><input type="text" name="test_sentadillas" placeholder="ej. 20-25"></div>
+          <div class="field"><label class="field-label">Zancadas</label><input type="text" name="test_zancadas" placeholder="ej. 15-20"></div>
+        </div>
+        <div class="divider"></div>
+        <div class="field"><label class="field-label">¿Qué funciona bien en tu entrenamiento actual?</label><textarea name="que_funciona" placeholder="Lo que ya haces bien..."></textarea></div>
+        <div class="field"><label class="field-label">¿Qué no funciona o te cuesta?</label><textarea name="que_no_funciona" placeholder="Dificultades, bloqueos..."></textarea></div>
+        <div class="field"><label class="field-label">¿Qué cambiarías de cómo has entrenado hasta ahora?</label><textarea name="que_cambiaria" placeholder=""></textarea></div>
+        <div class="field"><label class="field-label">¿Por qué sueles abandonar cuando entrenas solo?</label><textarea name="por_que_abandona" placeholder="Ser honesto aquí es muy valioso"></textarea></div>
+        <div class="field"><label class="field-label">¿Qué haces cuando falla un día?</label><textarea name="si_falla_dia" placeholder="¿Lo recuperas, lo dejas pasar...?"></textarea></div>
+        <div class="field"><label class="field-label">Información extra que quieras añadir</label><textarea name="informacion_extra" placeholder="Cualquier cosa que creas importante que sepa"></textarea></div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevSection(6)">← Atrás</button>
+        </div>
+        <button type="submit" class="btn-submit">ENVIAR FORMULARIO →</button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="success" id="successMsg">
+    <div class="success-title">GRACIAS<br><span>POR TU CONFIANZA</span></div>
+    <p class="success-text" style="margin-top:1rem">He recibido tu formulario. Lluís se pondrá en contacto contigo en las próximas 24h para empezar a trabajar.</p>
+    <p style="font-size:12px;color:var(--text3);margin-top:2rem">— Calistenia360</p>
+  </div>
+</div>
+
+<script>
+let currentSection = 1;
+const totalSections = 6;
+
+function showSection(n) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec' + n).classList.add('active');
+  currentSection = n;
+  const pct = ((n - 1) / totalSections) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = 'Sección ' + n + ' de ' + totalSections;
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function nextSection(n) { showSection(n + 1); }
+function prevSection(n) { showSection(n - 1); }
+
+document.getElementById('mainForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const fd = new FormData(this);
+
+  // Validación manual (los campos required no funcionan en secciones ocultas)
+  const nombre = (fd.get('nombre')||'').trim();
+  const email = (fd.get('email')||'').trim();
+  if (!nombre || !email) {
+    alert('Por favor rellena al menos tu nombre y email en la sección 1.');
+    showSection(1);
+    return;
+  }
+
+  const data = {};
+  // Handle checkboxes - join multiple values
+  const checkboxFields = ['intereses','dias_entreno','lugar_entreno','material'];
+  checkboxFields.forEach(f => data[f] = fd.getAll(f).join(', '));
+  // Handle all other fields
+  for (let [k, v] of fd.entries()) {
+    if (!checkboxFields.includes(k)) data[k] = v;
+  }
+
+  // Campos numéricos vacíos -> null (Supabase rechaza '' en columnas numéricas)
+  ['edad','peso_kg','altura_cm','dias_semana'].forEach(f => {
+    if (data[f] === '' || data[f] === undefined) data[f] = null;
+    else data[f] = Number(data[f]);
+  });
+
+  try {
+    const r = await fetch('https://xiflekecgnzklicszwmv.supabase.co/rest/v1/formularios_clientes', {
+      method: 'POST',
+      headers: {
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpZmxla2VjZ256a2xpY3N6d212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNDYwODQsImV4cCI6MjA4OTkyMjA4NH0.qyWonslWP1YfvgxgisfNM2VjQsKR_xSE0npZyfXrGHI',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpZmxla2VjZ256a2xpY3N6d212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNDYwODQsImV4cCI6MjA4OTkyMjA4NH0.qyWonslWP1YfvgxgisfNM2VjQsKR_xSE0npZyfXrGHI',
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(data)
+    });
+    if (r.ok) {
+      document.getElementById('formWrap').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+      window.scrollTo(0, 0);
+    } else {
+      const err = await r.text();
+      console.error(err);
+      alert('Error al enviar. Inténtalo de nuevo.');
+    }
+  } catch(err) {
+    console.error(err);
+    alert('Error de conexión. Inténtalo de nuevo.');
+  }
+});
+</script>
+</body>
+</html>
