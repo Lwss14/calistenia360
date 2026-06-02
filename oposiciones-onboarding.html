@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bienvenido a Rey de las Dominadas | Oposiciones</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070707;--bg2:#0f0f0f;--bg3:#161616;--bg4:#1e1e1e;
+  --text:#f0ede8;--text2:#888;--text3:#444;
+  --gold:#c9a84c;--gold2:rgba(201,168,76,0.1);--gold3:rgba(201,168,76,0.22);
+  --steel:#5b8bb0;--steel2:rgba(91,139,176,0.1);--steel3:rgba(91,139,176,0.25);
+  --green:#1D9E75;--green2:rgba(29,158,117,0.1);
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);
+  --r:12px;--r2:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes lineGrow{from{width:0}to{width:100%}}
+.fu{animation:fadeUp .7s cubic-bezier(.16,1,.3,1) forwards;opacity:0}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.35s}.d4{animation-delay:.5s}.d5{animation-delay:.65s}.d6{animation-delay:.8s}.d7{animation-delay:.95s}.d8{animation-delay:1.1s}
+.wrap{max-width:680px;margin:0 auto;padding:3rem 1.25rem 6rem;position:relative;z-index:1}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:4rem}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:30px;height:30px;border:1px solid var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:13px;color:var(--gold);letter-spacing:.02em;text-align:center;line-height:1}
+.brand-name{font-size:11px;font-weight:500;letter-spacing:.18em;color:var(--text3);text-transform:uppercase}
+.edition-badge{font-size:10px;font-weight:500;letter-spacing:.12em;color:var(--steel);text-transform:uppercase;padding:4px 10px;border:1px solid var(--steel3);border-radius:20px;background:var(--steel2)}
+.hero{margin-bottom:3.5rem}
+.hero-from{font-size:12px;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.hero-from::before{content:'';width:20px;height:1px;background:var(--gold);opacity:.5}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(50px,10vw,90px);line-height:.9;letter-spacing:.02em;margin-bottom:1.5rem}
+.hero-title .l1{display:block;color:var(--text)}
+.hero-title .l2{display:block;color:var(--gold)}
+.hero-title .name{display:block;color:var(--text)}
+.hero-sub{font-size:15px;color:var(--text2);line-height:1.8;max-width:520px}
+.hero-sub strong{color:var(--text);font-weight:500}
+.mission-line{display:flex;align-items:flex-start;gap:12px;margin:2.5rem 0;padding:1rem 1.25rem;background:var(--steel2);border:1px solid var(--steel3);border-radius:var(--r)}
+.mission-icon{font-size:20px;flex-shrink:0}
+.mission-text{font-size:13px;color:var(--text2);line-height:1.6}
+.mission-text strong{color:var(--steel);font-weight:500}
+.divider{height:1px;background:var(--border);margin:2.5rem 0;position:relative}
+.divider::after{content:'';position:absolute;left:0;top:0;height:1px;background:linear-gradient(90deg,var(--gold),transparent);animation:lineGrow 1.2s ease forwards;animation-delay:.5s;width:0}
+.sec-label{font-size:10px;font-weight:500;letter-spacing:.2em;color:var(--text3);text-transform:uppercase;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.msg-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);padding:1.75rem;margin-bottom:2.5rem;position:relative;overflow:hidden}
+.msg-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:linear-gradient(180deg,var(--steel),transparent)}
+.msg-text{font-size:15px;line-height:1.85;color:var(--text2);font-style:italic;margin-bottom:1.25rem}
+.msg-text strong{color:var(--text);font-style:normal}
+.msg-author{display:flex;align-items:center;gap:10px}
+.msg-av{width:32px;height:32px;border-radius:50%;background:var(--steel);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.msg-name{font-size:12px;color:var(--text3)}
+.msg-role{font-size:11px;color:var(--text3);margin-top:1px}
+.incl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:2.5rem}
+.incl-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.1rem 1.25rem;display:flex;align-items:flex-start;gap:.75rem;transition:border-color .2s}
+.incl-card:hover{border-color:var(--border2)}
+.incl-icon{width:30px;height:30px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.incl-title{font-size:13px;font-weight:500;margin-bottom:2px}
+.incl-desc{font-size:11px;color:var(--text3);line-height:1.4}
+.steps{margin-bottom:2.5rem}
+.step{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step-num{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--gold);opacity:.3;line-height:1;flex-shrink:0;width:32px;text-align:center}
+.step-title{font-size:14px;font-weight:500;margin-bottom:3px}
+.step-desc{font-size:12px;color:var(--text3);line-height:1.6}
+.step-badge{display:inline-block;padding:1px 8px;border-radius:10px;font-size:10px;font-weight:500;margin-top:5px}
+.step-badge.gold{background:var(--gold2);color:var(--gold);border:1px solid var(--gold3)}
+.step-badge.steel{background:var(--steel2);color:var(--steel);border:1px solid var(--steel3)}
+.step-badge.green{background:var(--green2);color:var(--green);border:1px solid rgba(29,158,117,0.2)}
+.garantia{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);padding:1.5rem;margin-bottom:2.5rem}
+.garantia-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--green);letter-spacing:.04em;margin-bottom:.5rem}
+.garantia-text{font-size:13px;color:var(--text2);line-height:1.7}
+.garantia-text strong{color:var(--text)}
+.plan-box{background:var(--bg2);border:1px solid var(--steel);border-radius:var(--r2);padding:1.25rem 1.5rem;margin-bottom:2.5rem;display:flex;align-items:center;justify-content:space-between}
+.plan-num{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--steel);line-height:1}
+.plan-lbl{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.plan-r{text-align:right}
+.plan-tag{font-size:11px;color:var(--steel);text-transform:uppercase;letter-spacing:.1em}
+.plan-sub{font-size:12px;color:var(--text3);margin-top:4px}
+.cta-block{text-align:center;margin-bottom:2.5rem}
+.cta-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.04em;margin-bottom:.5rem}
+.cta-sub{font-size:13px;color:var(--text2);line-height:1.6}
+.footer{text-align:center;font-size:11px;color:var(--text3);letter-spacing:.08em}
+@media(max-width:520px){.incl-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar fu d1">
+    <div class="brand"><div class="brand-mark">RD</div><span class="brand-name">Rey de las Dominadas</span></div>
+    <span class="edition-badge">Edición Oposiciones</span>
+  </div>
+
+  <div class="hero">
+    <div class="hero-from fu d1">Edición Oposiciones</div>
+    <div class="hero-title fu d2">
+      <span class="l1">BIENVENIDO</span>
+      <span class="l2">A LA MISIÓN,</span>
+      <span class="name" id="clientName">OPOSITOR</span>
+    </div>
+    <p class="hero-sub fu d3">Tienes una fecha, una marca que superar y un objetivo claro. <strong>A partir de hoy entrenas con un plan diseñado para llegar a tu examen en tu mejor versión física.</strong> Sin improvisar. Con un sistema probado y un coach detrás.</p>
+  </div>
+
+  <div class="mission-line fu d3">
+    <span class="mission-icon">🎯</span>
+    <div class="mission-text">Este no es un plan genérico. Está construido alrededor de <strong>tu prueba física y tu fecha de examen</strong>. Cada semana nos acerca a la marca que necesitas.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-label fu d4">Mensaje del coach</div>
+  <div class="msg-card fu d4">
+    <div class="msg-text">"<span id="msgName">Opositor</span>, prepararse para una oposición es un trabajo de cabeza y de cuerpo. Yo me encargo del cuerpo. Vamos a construir la fuerza, la resistencia y la técnica que necesitas para superar tu prueba física con margen, no por los pelos. <strong>Tú pones la disciplina, yo pongo el plan.</strong> Y llegamos a esa fecha listos."</div>
+    <div class="msg-author"><div class="msg-av">L</div><div><div class="msg-name">Lluís García</div><div class="msg-role">Coach · Rey de las Dominadas</div></div></div>
+  </div>
+
+  <div class="sec-label fu d4">Qué incluye tu programa</div>
+  <div class="incl-grid fu d5">
+    <div class="incl-card"><div class="incl-icon">📋</div><div><div class="incl-title">Plan orientado a tu prueba</div><div class="incl-desc">Diseñado alrededor de las marcas físicas que tienes que superar.</div></div></div>
+    <div class="incl-card"><div class="incl-icon">📅</div><div><div class="incl-title">Periodización hasta el examen</div><div class="incl-desc">El plan se estructura según el tiempo que queda hasta tu fecha.</div></div></div>
+    <div class="incl-card"><div class="incl-icon">🔄</div><div><div class="incl-title">Check-in semanal</div><div class="incl-desc">Cada semana revisamos tus marcas y ajustamos lo que haga falta.</div></div></div>
+    <div class="incl-card"><div class="incl-icon">📱</div><div><div class="incl-title">Correcciones por WhatsApp</div><div class="incl-desc">Mandas vídeo, recibes feedback técnico. Sin esperas.</div></div></div>
+    <div class="incl-card"><div class="incl-icon">📞</div><div><div class="incl-title">Llamada técnica mensual</div><div class="incl-desc">Revisamos progreso, marcas y estrategia para tu fecha.</div></div></div>
+    <div class="incl-card"><div class="incl-icon">📊</div><div><div class="incl-title">Seguimiento de marcas</div><div class="incl-desc">Tu progreso en cada prueba visible y medido semana a semana.</div></div></div>
+    <div class="incl-card"><div class="incl-icon">🔧</div><div><div class="incl-title">Adaptación semana a semana</div><div class="incl-desc">El plan se ajusta a tu vida, a los imprevistos, a tu disponibilidad y a cómo responde tu cuerpo.</div></div></div>
+  </div>
+
+  <div class="plan-box fu d5">
+    <div><div class="plan-num" id="planNum">HASTA TU EXAMEN</div><div class="plan-lbl">Programa completo</div></div>
+    <div class="plan-r"><div class="plan-tag">Misión activa</div><div class="plan-sub">Rey de las Dominadas · Oposiciones</div></div>
+  </div>
+
+  <div class="sec-label fu d5">Los próximos pasos</div>
+  <div class="steps fu d6">
+    <div class="step"><div class="step-num">1</div><div><div class="step-title">Rellenas el formulario de la misión</div><div class="step-desc">Me cuentas qué oposición preparas, tu fecha de examen, las marcas que tienes que superar y dónde estás ahora.</div><span class="step-badge gold">Hoy</span></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">Envío de marcas y vídeos iniciales</div><div class="step-desc">Hacemos un test de tu nivel actual en cada prueba para tener el punto de partida real.</div><span class="step-badge gold">Hoy</span></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-title">Recibes tu plan en Notion</div><div class="step-desc">Tu espacio con el plan periodizado hasta tu fecha de examen y vídeos de técnica.</div><span class="step-badge steel">Esta semana</span></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-title">Check-in cada domingo</div><div class="step-desc">Me mandas tus marcas de la semana. Reviso, ajusto y te doy mi feedback.</div><span class="step-badge green">Cada semana</span></div></div>
+    <div class="step"><div class="step-num">5</div><div><div class="step-title">Vídeo explicativo de tu espacio</div><div class="step-desc">Te explico en vídeo dónde está todo y cómo entender tu planning desde el primer día.</div><span class="step-badge steel">Al recibir el plan</span></div></div>
+  </div>
+
+  <div class="garantia fu d6">
+    <div class="garantia-title">Garantía total de resultados</div>
+    <div class="garantia-text">Si completas el <strong>95% del planning</strong> durante tu programa y no mejoras tus marcas físicas, te <strong>devuelvo el 100% del dinero</strong>. Sin preguntas. Si tú pones el trabajo, los resultados llegan.</div>
+  </div>
+
+  <div class="cta-block fu d7">
+    <div class="cta-title">¿Listo para empezar?</div>
+    <p class="cta-sub">Lluís te enviará el formulario de la misión para empezar a preparar tu plan hasta el examen.</p>
+  </div>
+
+  <div class="footer fu d8">Rey de las Dominadas · Edición Oposiciones · calistenicslluis@gmail.com</div>
+</div>
+<script>
+const p=new URLSearchParams(window.location.search);
+const name=p.get('name')||'OPOSITOR';
+document.getElementById('clientName').textContent=name.toUpperCase();
+document.getElementById('msgName').textContent=name.charAt(0).toUpperCase()+name.slice(1).toLowerCase();
+</script>
+</body>
+</html>
