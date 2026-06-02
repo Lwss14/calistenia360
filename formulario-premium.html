@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario de Conocimiento — Rey de las Dominadas Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#070707;--bg2:#0f0f0f;--bg3:#161616;--bg4:#1e1e1e;--text:#f0ede8;--text2:#888;--text3:#444;--gold:#c9a84c;--gold2:rgba(201,168,76,0.12);--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--r:10px;--r2:16px}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .6s ease forwards;opacity:0}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}
+.wrap{max-width:640px;margin:0 auto;padding:2.5rem 1.25rem 5rem}
+.header{text-align:center;margin-bottom:2.5rem}
+.brand{font-size:10px;letter-spacing:.2em;color:var(--text3);text-transform:uppercase;margin-bottom:1.25rem}
+.title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,60px);letter-spacing:.03em;line-height:.95;margin-bottom:1rem}
+.title span{color:var(--gold)}
+.subtitle{font-size:14px;color:var(--text2);line-height:1.7;max-width:480px;margin:0 auto}
+.intro-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);padding:1.5rem;margin-bottom:2.5rem;position:relative;overflow:hidden}
+.intro-box::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:var(--gold)}
+.intro-title{font-size:11px;font-weight:500;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:.6rem}
+.intro-text{font-size:13px;color:var(--text2);line-height:1.8}
+.intro-text strong{color:var(--text)}
+.progress-wrap{margin-bottom:2.5rem}
+.progress-bar{height:2px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-bottom:.5rem}
+.progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s ease;width:0%}
+.progress-label{font-size:11px;color:var(--text3);text-align:right;font-family:'DM Mono',monospace}
+.section{margin-bottom:2.5rem;display:none}
+.section.active{display:block}
+.sec-tag{display:inline-block;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:.75rem}
+.sec-tag.obli{background:var(--gold2);color:var(--gold);border:1px solid rgba(201,168,76,0.3)}
+.sec-tag.opci{background:var(--bg3);color:var(--text3);border:1px solid var(--border2)}
+.sec-num{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold);opacity:.15;line-height:1;margin-bottom:.15rem}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.04em;margin-bottom:.4rem}
+.sec-desc{font-size:13px;color:var(--text2);margin-bottom:1.5rem;line-height:1.6}
+.field{margin-bottom:1.3rem}
+.field-label{font-size:13px;font-weight:500;color:var(--text);margin-bottom:.5rem;display:block;line-height:1.5}
+.field-label .num{color:var(--gold);font-family:'DM Mono',monospace;font-size:12px;margin-right:4px}
+.field-label .req{color:var(--gold)}
+.field-hint{font-size:12px;color:var(--text3);margin-bottom:.6rem;line-height:1.5;font-style:italic}
+input[type=text],input[type=number],input[type=email],select,textarea{width:100%;padding:11px 13px;font-size:13px;border:1px solid var(--border2);border-radius:var(--r);background:var(--bg2);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)}
+select option{background:var(--bg2)}
+textarea{resize:vertical;min-height:70px;line-height:1.6}
+.field-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.field-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.radio-group{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px}
+.radio-item{position:relative}
+.radio-item input{position:absolute;opacity:0;width:0;height:0}
+.radio-item label{display:flex;align-items:center;justify-content:center;padding:9px 8px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;transition:all .15s;font-size:12px;color:var(--text2);text-align:center;min-height:42px}
+.radio-item input:checked+label{background:var(--gold2);border-color:var(--gold);color:var(--text)}
+.video-note{background:var(--bg3);border-left:3px solid var(--gold);border-radius:0 var(--r) var(--r) 0;padding:.9rem 1rem;margin-top:.4rem}
+.video-note-t{font-size:12px;color:var(--gold);font-weight:500;margin-bottom:3px}
+.video-note-d{font-size:12px;color:var(--text2);line-height:1.6}
+.btn-row{display:flex;gap:10px;margin-top:2rem}
+.btn{flex:1;padding:12px;font-size:13px;font-weight:500;border:none;border-radius:var(--r);cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .15s}
+.btn-back{background:var(--bg3);color:var(--text2);border:1px solid var(--border2)}
+.btn-next{background:var(--gold);color:#000}
+.btn:hover{opacity:.85}
+.btn-submit{width:100%;padding:14px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.08em;background:var(--gold);color:#000;border:none;border-radius:var(--r2);cursor:pointer;margin-top:2rem;transition:opacity .15s}
+.btn-submit:hover{opacity:.85}
+.success{display:none;text-align:center;padding:4rem 1rem}
+.success-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,60px);letter-spacing:.04em;line-height:1;margin-bottom:1rem}
+.success-title span{color:var(--gold)}
+.success-text{font-size:14px;color:var(--text2);line-height:1.8;max-width:420px;margin:0 auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="formWrap">
+    <div class="header fu d1">
+      <div class="brand">Rey de las Dominadas · Premium</div>
+      <div class="title">FORMULARIO DE<br><span>CONOCIMIENTO</span></div>
+      <p class="subtitle">Esta es la foto inicial de dónde partes. Cuanto más concreto seas, mejor arrancamos.</p>
+    </div>
+
+    <div class="progress-wrap fu d2">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">Sección 1 de 6</div>
+    </div>
+
+    <form id="mainForm">
+
+      <!-- SECCIÓN 1: PUNTO DE PARTIDA -->
+      <div class="section active" id="sec1">
+        <span class="sec-tag obli">Obligatorio</span>
+        <div class="sec-num">01</div>
+        <div class="sec-title">Tu punto de partida</div>
+        <div class="sec-desc">Lo más importante de todo. Sé honesto con tus números.</div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">1.</span>¿Cuántas dominadas estrictas pronas haces en una sola serie al fallo?</label>
+          <div class="field-hint">Palmas hacia fuera, brazos estirados abajo, barbilla por encima arriba y sin impulso.</div>
+          <input type="text" name="dominadas_serie1" placeholder="ej. 12">
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">2.</span>Descansa 2 minutos y haz una segunda serie al fallo. Descansa otros 2 minutos y haz una tercera.</label>
+          <div class="field-hint">Apunta las dos: segunda serie y tercera serie.</div>
+          <div class="field-grid-2">
+            <input type="text" name="dominadas_serie2" placeholder="2ª serie: ej. 8">
+            <input type="text" name="dominadas_serie3" placeholder="3ª serie: ej. 6">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">3.</span>¿En qué punto te cuesta más?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="punto_dificil" value="Despegar desde abajo" id="pd1"><label for="pd1">Despegar abajo</label></div>
+            <div class="radio-item"><input type="radio" name="punto_dificil" value="La mitad del recorrido" id="pd2"><label for="pd2">La mitad</label></div>
+            <div class="radio-item"><input type="radio" name="punto_dificil" value="El tramo final, barbilla por encima" id="pd3"><label for="pd3">El tramo final</label></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">4.</span>¿Notas diferencia entre un brazo y el otro, o que uno se abre más al agarrar?</label>
+          <textarea name="asimetria_brazos" placeholder="Descríbelo, o escribe 'No noto diferencia'"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">5.</span>¿Entrenas con lastre?</label>
+          <div class="field-hint">Si es así, dime cuánto peso manejas y para cuántas repeticiones.</div>
+          <input type="text" name="lastre" placeholder="ej. +20kg para 5 reps / No entreno con lastre">
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">6.</span>Vídeo de tu primera serie al fallo</label>
+          <div class="video-note">
+            <div class="video-note-t">Cómo enviar el vídeo</div>
+            <div class="video-note-d">Grábate esa primera serie al fallo desde un lateral y mándamela directamente por WhatsApp a Lluís. Es clave para analizar tu técnica.</div>
+          </div>
+        </div>
+
+        <div class="btn-row"><button type="button" class="btn btn-next" onclick="nextSection(1)">Siguiente →</button></div>
+      </div>
+
+      <!-- SECCIÓN 2: OBJETIVO -->
+      <div class="section" id="sec2">
+        <span class="sec-tag obli">Obligatorio</span>
+        <div class="sec-num">02</div>
+        <div class="sec-title">Tu objetivo</div>
+        <div class="sec-desc">A dónde quieres llegar y cuándo.</div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">7.</span>¿A cuántas dominadas quieres llegar?</label>
+          <input type="text" name="objetivo_dominadas" placeholder="ej. 20 dominadas estrictas">
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">8.</span>¿Hay fecha límite?</label>
+          <div class="field-hint">¿Cuál y por qué: oposición, examen, evento?</div>
+          <input type="text" name="fecha_limite" placeholder="ej. Oposición bombero en octubre 2026">
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">9.</span>Si es oposición o examen, cuéntame los detalles</label>
+          <div class="field-hint">¿Cuántas piden, cómo se puntúan, hay mínimo para aprobar y máximo para nota, y qué otras pruebas físicas incluye?</div>
+          <textarea name="detalles_oposicion" placeholder="Cuéntame todo lo que sepas de la convocatoria. Si no es oposición, escribe 'No aplica'."></textarea>
+        </div>
+
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(2)">← Atrás</button><button type="button" class="btn btn-next" onclick="nextSection(2)">Siguiente →</button></div>
+      </div>
+
+      <!-- SECCIÓN 3: LESIONES -->
+      <div class="section" id="sec3">
+        <span class="sec-tag obli">Obligatorio</span>
+        <div class="sec-num">03</div>
+        <div class="sec-title">Tus lesiones</div>
+        <div class="sec-desc">Para entrenar seguro y sin parones.</div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">10.</span>¿Tienes alguna molestia o lesión activa ahora mismo?</label>
+          <div class="field-hint">En hombro, codo, muñeca o espalda.</div>
+          <textarea name="lesion_activa" placeholder="Descríbela, o escribe 'Ninguna'"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">11.</span>¿Y lesiones o cirugías pasadas relevantes?</label>
+          <div class="field-hint">¿Algún movimiento que ya sabes que te molesta?</div>
+          <textarea name="lesion_pasada" placeholder="Cuéntame, o escribe 'Ninguna'"></textarea>
+        </div>
+
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(3)">← Atrás</button><button type="button" class="btn btn-next" onclick="nextSection(3)">Siguiente →</button></div>
+      </div>
+
+      <!-- SECCIÓN 4: MATERIAL Y DISPONIBILIDAD -->
+      <div class="section" id="sec4">
+        <span class="sec-tag obli">Obligatorio</span>
+        <div class="sec-num">04</div>
+        <div class="sec-title">Material y disponibilidad</div>
+        <div class="sec-desc">Con qué cuentas y cuánto puedes entrenar.</div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">12.</span>¿Dónde entrenas?</label>
+          <div class="field-hint">¿Tu barra permite colgarte con los brazos totalmente estirados sin tocar el suelo?</div>
+          <textarea name="lugar_entreno" placeholder="ej. Parque de calistenia. Sí, puedo colgarme con brazos estirados sin tocar el suelo."></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">13.</span>¿Qué bandas elásticas tienes y qué lastre?</label>
+          <div class="field-hint">Cinturón, chaleco, discos, mancuernas... y cuánto peso.</div>
+          <textarea name="material_lastre" placeholder="ej. Banda media, cinturón de lastre con discos hasta 25kg"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">14.</span>¿Cuántos días reales a la semana puedes entrenar?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="dias_semana" value="2" id="ds2"><label for="ds2">2 días</label></div>
+            <div class="radio-item"><input type="radio" name="dias_semana" value="3" id="ds3"><label for="ds3">3 días</label></div>
+            <div class="radio-item"><input type="radio" name="dias_semana" value="4" id="ds4"><label for="ds4">4 días</label></div>
+            <div class="radio-item"><input type="radio" name="dias_semana" value="5" id="ds5"><label for="ds5">5 días</label></div>
+            <div class="radio-item"><input type="radio" name="dias_semana" value="6+" id="ds6"><label for="ds6">6+ días</label></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">15.</span>¿Haces otra actividad física?</label>
+          <div class="field-hint">Si corres, dime si son rodajes suaves, series o tempo. Apunta también deportes, gimnasio o trabajo físico.</div>
+          <textarea name="otra_actividad" placeholder="ej. Corro 3 días (rodajes suaves) + trabajo físico de pie"></textarea>
+        </div>
+
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(4)">← Atrás</button><button type="button" class="btn btn-next" onclick="nextSection(4)">Siguiente →</button></div>
+      </div>
+
+      <!-- SECCIÓN 5: OPCIONAL -->
+      <div class="section" id="sec5">
+        <span class="sec-tag opci">Opcional · relleno rápido</span>
+        <div class="sec-num">05</div>
+        <div class="sec-title">Un poco más sobre ti</div>
+        <div class="sec-desc">Opcional, pero ayuda a afinar. Rellena lo que puedas.</div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">16.</span>Edad, peso y altura</label>
+          <div class="field-grid">
+            <input type="number" name="edad" placeholder="Edad">
+            <input type="number" name="peso_kg" placeholder="Peso kg" step="0.1">
+            <input type="number" name="altura_cm" placeholder="Altura cm">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">17.</span>Horas de sueño y si descansas bien</label>
+          <input type="text" name="sueno" placeholder="ej. 7h, descanso bien">
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">18.</span>Alimentación</label>
+          <div class="field-hint">Déficit, mantenimiento o superávit, y si comes con orden o hay caos.</div>
+          <input type="text" name="alimentacion" placeholder="ej. Mantenimiento, como con bastante orden">
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">19.</span>Nivel de estrés general</label>
+          <div class="radio-group" style="grid-template-columns:repeat(4,1fr)">
+            <div class="radio-item"><input type="radio" name="estres" value="Bajo" id="es1"><label for="es1">Bajo</label></div>
+            <div class="radio-item"><input type="radio" name="estres" value="Medio" id="es2"><label for="es2">Medio</label></div>
+            <div class="radio-item"><input type="radio" name="estres" value="Alto" id="es3"><label for="es3">Alto</label></div>
+            <div class="radio-item"><input type="radio" name="estres" value="Muy alto" id="es4"><label for="es4">Muy alto</label></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="num">20.</span>¿Algo más que deba saber para ayudarte mejor?</label>
+          <textarea name="informacion_extra" placeholder="Lo que creas importante"></textarea>
+        </div>
+
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(5)">← Atrás</button><button type="button" class="btn btn-next" onclick="nextSection(5)">Siguiente →</button></div>
+      </div>
+
+      <!-- SECCIÓN 6: DATOS DE CONTACTO + ENVÍO -->
+      <div class="section" id="sec6">
+        <span class="sec-tag obli">Casi listo</span>
+        <div class="sec-num">06</div>
+        <div class="sec-title">Antes de empezar</div>
+        <div class="sec-desc">No te agobies si hay preguntas que no sabes responder con exactitud. Pon lo que puedas y sigue. Lo que de verdad afina el plan llega después: con tu feedback diario tras cada entreno iré detectando tus puntos débiles y cualquier problema que aparezca, y los resolvemos sobre la marcha. El formulario me da la foto inicial; el día a día me da la película.</div>
+
+        <div class="field">
+          <label class="field-label">Tu nombre <span class="req">*</span></label>
+          <input type="text" name="nombre" placeholder="Tu nombre completo">
+        </div>
+        <div class="field">
+          <label class="field-label">Tu email <span class="req">*</span></label>
+          <input type="email" name="email" placeholder="tu@email.com">
+        </div>
+
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(6)">← Atrás</button></div>
+        <button type="submit" class="btn-submit">VAMOS →</button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="success" id="successMsg">
+    <div class="success-title">¡VAMOS<br><span>A POR ELLO!</span></div>
+    <p class="success-text" style="margin-top:1rem">He recibido tu formulario. Esta es tu foto inicial. Ahora arranca lo bueno: Lluís se pondrá en contacto contigo para empezar a trabajar y resolveremos todo sobre la marcha con tu feedback diario.</p>
+    <p style="font-size:12px;color:var(--text3);margin-top:2rem">— Rey de las Dominadas Premium</p>
+  </div>
+</div>
+
+<script>
+let currentSection=1;const totalSections=6;
+function showSection(n){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('sec'+n).classList.add('active');currentSection=n;const pct=((n-1)/totalSections)*100;document.getElementById('progressFill').style.width=pct+'%';document.getElementById('progressLabel').textContent='Sección '+n+' de '+totalSections;window.scrollTo({top:0,behavior:'smooth'});}
+function nextSection(n){showSection(n+1);}
+function prevSection(n){showSection(n-1);}
+document.getElementById('mainForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const fd=new FormData(this);
+  const nombre=(fd.get('nombre')||'').trim();
+  const email=(fd.get('email')||'').trim();
+  if(!nombre||!email){alert('Por favor rellena tu nombre y email en la última sección.');showSection(6);return;}
+  const data={};
+  for(let [k,v] of fd.entries()){if(!k.startsWith('_'))data[k]=v;}
+  ['edad','peso_kg','altura_cm'].forEach(f=>{if(data[f]===''||data[f]===undefined)data[f]=null;else data[f]=Number(data[f]);});
+  try{
+    const r=await fetch('https://xiflekecgnzklicszwmv.supabase.co/rest/v1/formularios_premium',{
+      method:'POST',
+      headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpZmxla2VjZ256a2xpY3N6d212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNDYwODQsImV4cCI6MjA4OTkyMjA4NH0.qyWonslWP1YfvgxgisfNM2VjQsKR_xSE0npZyfXrGHI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpZmxla2VjZ256a2xpY3N6d212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNDYwODQsImV4cCI6MjA4OTkyMjA4NH0.qyWonslWP1YfvgxgisfNM2VjQsKR_xSE0npZyfXrGHI','Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify(data)
+    });
+    if(r.ok){document.getElementById('formWrap').style.display='none';document.getElementById('successMsg').style.display='block';window.scrollTo(0,0);}
+    else{const err=await r.text();console.error(err);alert('Error al enviar. Inténtalo de nuevo.');}
+  }catch(err){console.error(err);alert('Error de conexión. Inténtalo de nuevo.');}
+});
+</script>
+</body>
+</html>
