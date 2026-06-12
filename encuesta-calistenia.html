@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bienvenido — Calistenia360</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0c0c0c;--bg2:#151515;--bg3:#1d1d1d;--text:#f0ede8;--text2:#999;--text3:#555;--green:#1D9E75;--green2:rgba(29,158,117,0.12);--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.15);--r:10px;--r2:16px}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .6s ease forwards;opacity:0}
+.d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}.d5{animation-delay:.7s}.d6{animation-delay:.85s}.d7{animation-delay:1s}.d8{animation-delay:1.15s}.d9{animation-delay:1.3s}.d10{animation-delay:1.45s}
+.wrap{max-width:620px;margin:0 auto;padding:3rem 1.25rem 5rem}
+.header{text-align:center;margin-bottom:3.5rem}
+.header-eyebrow{font-size:11px;font-weight:500;letter-spacing:.2em;color:var(--green);text-transform:uppercase;margin-bottom:1rem}
+.header-title{font-family:'DM Sans',sans-serif;font-weight:500;font-size:clamp(30px,6vw,46px);letter-spacing:-.01em;line-height:1.05;margin-bottom:1.25rem}
+.header-title span{color:var(--green)}
+.header-sub{font-size:14px;color:var(--text2);line-height:1.8;max-width:460px;margin:0 auto}
+.field{margin-bottom:2rem}
+.field-num{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.05em;color:var(--green);opacity:.7;margin-bottom:.5rem}
+.field-label{font-size:15px;font-weight:500;color:var(--text);margin-bottom:.4rem;line-height:1.5}
+.field-hint{font-size:12px;color:var(--text3);margin-bottom:.75rem;font-style:italic}
+textarea,input[type=text]{width:100%;padding:14px 16px;font-size:14px;border:1px solid var(--border2);border-radius:var(--r2);background:var(--bg2);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;resize:vertical;line-height:1.7;transition:border-color .2s,background .2s}
+textarea{min-height:110px}
+textarea:focus,input[type=text]:focus{border-color:var(--green);background:var(--bg3)}
+textarea::placeholder,input::placeholder{color:var(--text3)}
+.divider{height:1px;background:var(--border);margin:2.25rem 0}
+.submit-btn{width:100%;padding:16px;font-family:'DM Sans',sans-serif;font-weight:500;font-size:15px;letter-spacing:.02em;background:var(--green);color:#fff;border:none;border-radius:var(--r2);cursor:pointer;transition:opacity .15s}
+.submit-btn:hover{opacity:.85}
+.success{display:none;text-align:center;padding:4rem 1rem}
+.success-title{font-family:'DM Sans',sans-serif;font-weight:500;font-size:clamp(28px,6vw,44px);letter-spacing:-.01em;line-height:1.1;margin-bottom:1.25rem}
+.success-title span{color:var(--green)}
+.success-text{font-size:15px;color:var(--text2);line-height:1.8;max-width:420px;margin:0 auto}
+.success-author{font-size:12px;color:var(--text3);margin-top:2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="formWrap">
+    <div class="header fu d1">
+      <div class="header-eyebrow">Calistenia360</div>
+      <div class="header-title">Bienvenido al equipo.<br><span>Antes de empezar, cuéntame.</span></div>
+      <p class="header-sub">Tómate unos minutos para responder estas preguntas. Me ayudan a entenderte mejor y a seguir mejorando lo que hago.</p>
+    </div>
+    <form id="surveyForm" onsubmit="submitForm(event)">
+
+      <div class="field fu d2">
+        <div class="field-num">01 — 08</div>
+        <div class="field-label">¿Dónde me viste por primera vez?</div>
+        <div class="field-hint">Instagram, YouTube, un referido, un podcast, Google... sé lo más específico que puedas.</div>
+        <input type="text" name="donde_me_viste" placeholder="ej. Un reel en Instagram sobre progresiones">
+      </div>
+      <div class="divider"></div>
+
+      <div class="field fu d3">
+        <div class="field-num">02 — 08</div>
+        <div class="field-label">¿Cuál fue el último contenido que viste antes de dar el paso?</div>
+        <div class="field-hint">Sé lo más específico posible: el título, el tema o de qué iba.</div>
+        <input type="text" name="ultimo_contenido" placeholder="ej. Un vídeo sobre cómo estructurar tu semana de entreno">
+      </div>
+      <div class="divider"></div>
+
+      <div class="field fu d4">
+        <div class="field-num">03 — 08</div>
+        <div class="field-label">¿Qué problema intentabas resolver cuando me encontraste?</div>
+        <div class="field-hint">En tus propias palabras, no la versión "oficial". ¿Qué te frustraba de verdad de tu entrenamiento?</div>
+        <textarea name="problema" placeholder="Escribe aquí..."></textarea>
+      </div>
+      <div class="divider"></div>
+
+      <div class="field fu d5">
+        <div class="field-num">04 — 08</div>
+        <div class="field-label">¿Qué te llevó a querer trabajar conmigo?</div>
+        <div class="field-hint">¿Qué viste en mí o en mi contenido que te llamó la atención?</div>
+        <textarea name="por_que_yo" placeholder="Escribe aquí..." required></textarea>
+      </div>
+      <div class="divider"></div>
+
+      <div class="field fu d6">
+        <div class="field-num">05 — 08</div>
+        <div class="field-label">¿Qué fue lo que finalmente te empujó a dar el paso?</div>
+        <div class="field-hint">¿Fue un contenido, una historia, algo que dije o algo más?</div>
+        <textarea name="push_final" placeholder="Escribe aquí..." required></textarea>
+      </div>
+      <div class="divider"></div>
+
+      <div class="field fu d7">
+        <div class="field-num">06 — 08</div>
+        <div class="field-label">¿Cuáles fueron tus mayores dudas antes de unirte?</div>
+        <div class="field-hint">¿El precio, la confianza, el momento, o algo más?</div>
+        <textarea name="dudas" placeholder="Escribe aquí..." required></textarea>
+      </div>
+      <div class="divider"></div>
+
+      <div class="field fu d8">
+        <div class="field-num">07 — 08</div>
+        <div class="field-label">Hay otros coaches de calistenia online. ¿Por qué me elegiste a mí?</div>
+        <div class="field-hint">Tu respuesta honesta, sin filtros.</div>
+        <textarea name="por_que_no_otros" placeholder="Escribe aquí..." required></textarea>
+      </div>
+      <div class="divider"></div>
+
+      <div class="field fu d9">
+        <div class="field-num">08 — 08</div>
+        <div class="field-label">¿Hay algo del programa que no esperabas que estuviera incluido y te sorprendió positivamente?</div>
+        <div class="field-hint">Cosas que no mencioné en Instagram, en stories, en el chat...</div>
+        <textarea name="sorpresa" placeholder="Escribe aquí..."></textarea>
+      </div>
+
+      <div class="fu d10">
+        <button type="submit" class="submit-btn">Enviar mis respuestas →</button>
+      </div>
+    </form>
+  </div>
+  <div class="success" id="successMsg">
+    <div class="success-title">Gracias por<br><span>tu confianza</span></div>
+    <p class="success-text">He recibido tus respuestas. Lluís se pondrá en contacto contigo para empezar a trabajar en tu plan.</p>
+    <div class="success-author">— Calistenia360</div>
+  </div>
+</div>
+<script>
+async function submitForm(e){
+  e.preventDefault();
+  const data={};
+  new FormData(e.target).forEach((v,k)=>data[k]=v);
+  try{
+    const r=await fetch('https://xiflekecgnzklicszwmv.supabase.co/rest/v1/encuestas_calistenia',{
+      method:'POST',
+      headers:{
+        'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpZmxla2VjZ256a2xpY3N6d212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNDYwODQsImV4cCI6MjA4OTkyMjA4NH0.qyWonslWP1YfvgxgisfNM2VjQsKR_xSE0npZyfXrGHI',
+        'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpZmxla2VjZ256a2xpY3N6d212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNDYwODQsImV4cCI6MjA4OTkyMjA4NH0.qyWonslWP1YfvgxgisfNM2VjQsKR_xSE0npZyfXrGHI',
+        'Content-Type':'application/json',
+        'Prefer':'return=minimal'
+      },
+      body:JSON.stringify(data)
+    });
+    if(r.ok){
+      document.getElementById('formWrap').style.display='none';
+      document.getElementById('successMsg').style.display='block';
+      window.scrollTo(0,0);
+    } else { const err=await r.text(); console.error(err); alert('Error al enviar. Inténtalo de nuevo.'); }
+  }catch(err){ console.error(err); alert('Error de conexión. Inténtalo de nuevo.'); }
+}
+</script>
+</body>
+</html>
