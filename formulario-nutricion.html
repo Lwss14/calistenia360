@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario de Admisión — Nutrición Calistenia360</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#080a0c;--bg2:#0f1316;--bg3:#161b1f;--bg4:#1e252a;--text:#f0ede8;--text2:#8a929a;--text3:#444c52;--blue:#378ADD;--blue2:rgba(55,138,221,0.12);--blue3:rgba(55,138,221,0.25);--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--r:10px;--r2:16px}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .6s ease forwards;opacity:0}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}
+.wrap{max-width:640px;margin:0 auto;padding:2.5rem 1.25rem 5rem}
+.header{text-align:center;margin-bottom:2.25rem}
+.brand{font-size:10px;letter-spacing:.2em;color:var(--text3);text-transform:uppercase;margin-bottom:1.25rem}
+.title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,58px);letter-spacing:.03em;line-height:.95;margin-bottom:1rem}
+.title span{color:var(--blue)}
+.subtitle{font-size:14px;color:var(--text2);line-height:1.75;max-width:500px;margin:0 auto}
+.intro-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);padding:1.4rem;margin-bottom:2.5rem;position:relative;overflow:hidden}
+.intro-box::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:var(--blue)}
+.intro-text{font-size:13px;color:var(--text2);line-height:1.8;font-style:italic}
+.intro-text strong{color:var(--text);font-style:normal}
+.intro-time{font-size:12px;color:var(--blue);margin-top:.75rem;font-weight:500;font-style:normal}
+.progress-wrap{margin-bottom:2.5rem}
+.progress-bar{height:2px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-bottom:.5rem}
+.progress-fill{height:100%;background:var(--blue);border-radius:2px;transition:width .4s ease;width:0%}
+.progress-label{font-size:11px;color:var(--text3);text-align:right;font-family:'DM Mono',monospace}
+.section{margin-bottom:2.5rem;display:none}
+.section.active{display:block}
+.sec-num{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--blue);opacity:.15;line-height:1;margin-bottom:.15rem}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.04em;margin-bottom:.4rem}
+.sec-desc{font-size:13px;color:var(--text2);margin-bottom:1.5rem;line-height:1.6}
+.field{margin-bottom:1.3rem}
+.field-label{font-size:13px;font-weight:500;color:var(--text);margin-bottom:.5rem;display:block;line-height:1.5}
+.field-label .num{color:var(--blue);font-family:'DM Mono',monospace;font-size:12px;margin-right:5px}
+.field-label .req{color:var(--blue)}
+.field-hint{font-size:12px;color:var(--text3);margin-bottom:.6rem;line-height:1.5;font-style:italic}
+input[type=text],input[type=number],input[type=email],select,textarea{width:100%;padding:11px 13px;font-size:13px;border:1px solid var(--border2);border-radius:var(--r);background:var(--bg2);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+select option{background:var(--bg2)}
+textarea{resize:vertical;min-height:70px;line-height:1.6}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.radio-group{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px}
+.radio-item{position:relative}
+.radio-item input{position:absolute;opacity:0;width:0;height:0}
+.radio-item label{display:flex;align-items:center;justify-content:center;padding:9px 8px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;transition:all .15s;font-size:12px;color:var(--text2);text-align:center;min-height:42px}
+.radio-item input:checked+label{background:var(--blue2);border-color:var(--blue);color:var(--text)}
+.checkbox-group{display:flex;flex-direction:column;gap:6px}
+.checkbox-item{display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;transition:all .15s}
+.checkbox-item:hover{border-color:var(--border2);background:var(--bg3)}
+.checkbox-item input{width:16px;height:16px;accent-color:var(--blue);flex-shrink:0;cursor:pointer}
+.checkbox-item label{font-size:13px;color:var(--text2);cursor:pointer;line-height:1.4}
+.note{background:var(--bg3);border-left:3px solid var(--blue);border-radius:0 var(--r) var(--r) 0;padding:.85rem 1rem;margin-top:.5rem}
+.note-d{font-size:12px;color:var(--text2);line-height:1.6}
+.note-soft{background:var(--bg3);border-left:3px solid var(--text3);border-radius:0 var(--r) var(--r) 0;padding:.85rem 1rem;margin-top:.5rem}
+.note-soft .note-d{color:var(--text3)}
+.divider{height:1px;background:var(--border);margin:1.5rem 0}
+.btn-row{display:flex;gap:10px;margin-top:2rem}
+.btn{flex:1;padding:12px;font-size:13px;font-weight:500;border:none;border-radius:var(--r);cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .15s}
+.btn-back{background:var(--bg3);color:var(--text2);border:1px solid var(--border2)}
+.btn-next{background:var(--blue);color:#fff}
+.btn:hover{opacity:.85}
+.btn-submit{width:100%;padding:14px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.08em;background:var(--blue);color:#fff;border:none;border-radius:var(--r2);cursor:pointer;margin-top:2rem;transition:opacity .15s}
+.btn-submit:hover{opacity:.85}
+.success{display:none;text-align:center;padding:4rem 1rem}
+.success-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,58px);letter-spacing:.04em;line-height:1;margin-bottom:1rem}
+.success-title span{color:var(--blue)}
+.success-text{font-size:14px;color:var(--text2);line-height:1.8;max-width:430px;margin:0 auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="formWrap">
+    <div class="header fu d1">
+      <div class="brand">Calistenia360 · Nutrición</div>
+      <div class="title">FORMULARIO DE<br><span>ADMISIÓN</span></div>
+      <p class="subtitle">Comida real, biología primero, contexto individual.</p>
+    </div>
+    <div class="intro-box fu d1">
+      <div class="intro-text">Este formulario nos da el mapa completo de tu situación para construir un plan hecho a tu medida, no una dieta genérica. Cuanto más honesto seas, mejor será el plan. <strong>No hay respuestas "buenas" o "malas".</strong>
+      <div class="intro-time">Tiempo estimado: 14–16 min. Tómatelo con calma.</div></div>
+    </div>
+    <div class="progress-wrap fu d2">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">Sección 1 de 11</div>
+    </div>
+    <form id="mainForm">
+      <div class="section active" id="sec1">
+        <div class="sec-num">00</div><div class="sec-title">Contacto</div>
+        <div class="sec-desc">Cómo te localizamos y en qué idioma trabajamos.</div>
+        <div class="field"><label class="field-label"><span class="req">*</span> Nombre completo</label><input type="text" name="nombre" placeholder="Tu nombre"></div>
+        <div class="field"><label class="field-label"><span class="req">*</span> Email</label><input type="email" name="email" placeholder="tu@email.com"></div>
+        <div class="field"><label class="field-label">WhatsApp (con prefijo de país)</label><div class="field-hint">Será nuestro canal principal de seguimiento.</div><input type="text" name="whatsapp" placeholder="+34 600 000 000"></div>
+        <div class="field"><label class="field-label">Ciudad / país y zona horaria</label><input type="text" name="ciudad_zona" placeholder="ej. Barcelona, España (GMT+1)"></div>
+        <div class="field"><label class="field-label">¿En qué idioma prefieres recibir tu plan?</label><input type="text" name="idioma" placeholder="ej. Español"></div>
+        <div class="btn-row"><button type="button" class="btn btn-next" onclick="nextSection(1)">Siguiente →</button></div>
+      </div>
+      <div class="section" id="sec2">
+        <div class="sec-num">01</div><div class="sec-title">Datos básicos</div>
+        <div class="sec-desc">Para tener tu punto de partida. Rellena lo que sepas.</div>
+        <div class="field-grid">
+          <div class="field"><label class="field-label">Edad</label><input type="number" name="edad" placeholder="Años"></div>
+          <div class="field"><label class="field-label">Sexo biológico</label><select name="sexo"><option value="" disabled selected>Selecciona</option><option>Hombre</option><option>Mujer</option></select></div>
+          <div class="field"><label class="field-label">Altura (cm)</label><input type="number" name="altura_cm" placeholder="cm"></div>
+          <div class="field"><label class="field-label">Peso actual (kg)</label><input type="number" name="peso_actual" step="0.1" placeholder="kg"></div>
+        </div>
+        <div class="field"><label class="field-label">Peso máximo y mínimo que has tenido siendo adulto</label><input type="text" name="peso_max_min" placeholder="ej. máx 95, mín 78"></div>
+        <div class="field"><label class="field-label">¿En qué peso te sientes bien y lo mantienes sin demasiado esfuerzo?</label><div class="field-hint">Si lo sabes.</div><input type="text" name="peso_facil" placeholder="ej. 82 kg"></div>
+        <div class="field"><label class="field-label">Perímetro de cintura, a la altura del ombligo (cm)</label><div class="field-hint">Si tienes una cinta métrica a mano.</div><input type="text" name="cintura_cm" placeholder="cm"></div>
+        <div class="field"><label class="field-label">¿Conoces tu % de grasa o composición corporal?</label><div class="field-hint">Báscula, InBody, pliegues. Opcional.</div><input type="text" name="grasa_corporal" placeholder="ej. 22% / no lo sé"></div>
+        <div class="field"><label class="field-label">Fotos de seguimiento (frente, perfil, espalda)</label>
+          <div class="note"><div class="note-d">Opcional pero útil para el seguimiento. Si quieres, mándaselas a Lluís por WhatsApp con buena luz.</div></div>
+        </div>
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(2)">← Atrás</button><button type="button" class="btn btn-next" onclick="nextSection(2)">Siguiente →</button></div>
+      </div>
+      <div class="section" id="sec3">
+        <div class="sec-num">02</div><div class="sec-title">Objetivo y motivación</div>
+        <div class="sec-desc">A dónde quieres llegar y por qué ahora.</div>
+        <div class="field"><label class="field-label">¿Cuál es tu objetivo principal?</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item"><input type="radio" name="objetivo_principal" value="Perder grasa manteniendo músculo" id="op1"><label for="op1">Perder grasa manteniendo músculo</label></div>
+            <div class="checkbox-item"><input type="radio" name="objetivo_principal" value="Ganar masa muscular" id="op2"><label for="op2">Ganar masa muscular</label></div>
+            <div class="checkbox-item"><input type="radio" name="objetivo_principal" value="Recomposición" id="op3"><label for="op3">Recomposición (las dos a la vez)</label></div>
+            <div class="checkbox-item"><input type="radio" name="objetivo_principal" value="Mejorar salud, energía y digestión" id="op4"><label for="op4">Mejorar salud, energía y digestión</label></div>
+            <div class="checkbox-item"><input type="radio" name="objetivo_principal" value="Rendimiento en calistenia" id="op5"><label for="op5">Rendimiento en calistenia</label></div>
+            <div class="checkbox-item"><input type="radio" name="objetivo_principal" value="Otro" id="op6"><label for="op6">Otro</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Por qué AHORA? ¿Qué te ha hecho dar el paso en este momento?</label><textarea name="por_que_ahora" placeholder="Escribe aquí..."></textarea></div>
+        <div class="field"><label class="field-label">¿Hay alguna fecha o evento de referencia?</label><div class="field-hint">Boda, verano, competición... Opcional.</div><input type="text" name="fecha_evento" placeholder="ej. Verano 2026"></div>
+        <div class="field"><label class="field-label">En una frase: ¿cómo te quieres sentir dentro de 3 meses?</label><textarea name="como_sentirse_3meses" placeholder="Escribe aquí..."></textarea></div>
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(3)">← Atrás</button><button type="button" class="btn btn-next" onclick="nextSection(3)">Siguiente →</button></div>
+      </div>
+      <div class="section" id="sec4">
+        <div class="sec-num">03</div><div class="sec-title">Historial con la comida</div>
+        <div class="sec-desc">Tu recorrido con las dietas y tu relación con la comida.</div>
+        <div class="field"><label class="field-label">¿Cuántas dietas has hecho en los últimos 5 años?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="num_dietas" value="Ninguna" id="nd1"><label for="nd1">Ninguna</label></div>
+            <div class="radio-item"><input type="radio" name="num_dietas" value="1-2" id="nd2"><label for="nd2">1–2</label></div>
+            <div class="radio-item"><input type="radio" name="num_dietas" value="3-5" id="nd3"><label for="nd3">3–5</label></div>
+            <div class="radio-item"><input type="radio" name="num_dietas" value="Más de 5" id="nd4"><label for="nd4">Más de 5</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Has experimentado el "efecto rebote"?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="efecto_rebote" value="Sí" id="er1"><label for="er1">Sí</label></div>
+            <div class="radio-item"><input type="radio" name="efecto_rebote" value="No" id="er2"><label for="er2">No</label></div>
+            <div class="radio-item"><input type="radio" name="efecto_rebote" value="Varias veces" id="er3"><label for="er3">Varias veces</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Qué método has probado y cómo te fue?</label><div class="field-hint">Keto, ayuno, conteo de calorías, batidos, etc.</div><textarea name="metodos_probados" placeholder="Escribe aquí..."></textarea></div>
+        <div class="field"><label class="field-label">¿Sueles comer por ansiedad, aburrimiento o emociones, más allá del hambre real?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="comer_emocional" value="Nunca" id="ce1"><label for="ce1">Nunca</label></div>
+            <div class="radio-item"><input type="radio" name="comer_emocional" value="A veces" id="ce2"><label for="ce2">A veces</label></div>
+            <div class="radio-item"><input type="radio" name="comer_emocional" value="A menudo" id="ce3"><label for="ce3">A menudo</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Has tenido episodios de atracones o una relación complicada con la comida?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="atracones_relacion" value="Sí" id="ar1"><label for="ar1">Sí</label></div>
+            <div class="radio-item"><input type="radio" name="atracones_relacion" value="No" id="ar2"><label for="ar2">No</label></div>
+            <div class="radio-item"><input type="radio" name="atracones_relacion" value="Prefiero comentarlo en privado" id="ar3"><label for="ar3">Prefiero hablarlo en privado</label></div>
+          </div>
+          <div class="note"><div class="note-d">Esta pregunta es importante para diseñar un plan seguro y sin restricción agresiva. Si prefieres, lo hablamos directamente con Lluís, sin problema.</div></div>
+        </div>
+        <div class="field"><label class="field-label">¿Hay algún alimento que te genere culpa o que evites por miedo?</label><textarea name="alimento_culpa" placeholder="Escribe aquí, o deja en blanco si no aplica."></textarea></div>
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(4)">← Atrás</button><button type="button" class="btn btn-next" onclick="nextSection(4)">Siguiente →</button></div>
+      </div>
+      <div class="section" id="sec5">
+        <div class="sec-num">04</div><div class="sec-title">Digestión y salud intestinal</div>
+        <div class="sec-desc">Cómo procesa tu cuerpo lo que comes.</div>
+        <div class="field"><label class="field-label">¿Cómo describirías tu digestión en general?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="digestion_general" value="Excelente" id="dg1"><label for="dg1">Excelente</label></div>
+            <div class="radio-item"><input type="radio" name="digestion_general" value="Normal" id="dg2"><label for="dg2">Normal</label></div>
+            <div class="radio-item"><input type="radio" name="digestion_general" value="Regular" id="dg3"><label for="dg3">Regular</label></div>
+            <div class="radio-item"><input type="radio" name="digestion_general" value="Mala" id="dg4"><label for="dg4">Mala</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Tienes hinchazón o gases con frecuencia? ¿En qué momento del día?</label><input type="text" name="hinchazon_gases" placeholder="ej. A veces, sobre todo por la noche"></div>
+        <div class="field"><label class="field-label">¿Sufres reflujo, acidez o pesadez después de comer?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="reflujo_acidez" value="Sí" id="ra1"><label for="ra1">Sí</label></div>
+            <div class="radio-item"><input type="radio" name="reflujo_acidez" value="No" id="ra2"><label for="ra2">No</label></div>
+            <div class="radio-item"><input type="radio" name="reflujo_acidez" value="A veces" id="ra3"><label for="ra3">A veces</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Cómo van tus deposiciones?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="deposiciones" value="Regulares y formadas" id="de1"><label for="de1">Regulares y formadas</label></div>
+            <div class="radio-item"><input type="radio" name="deposiciones" value="Estreñimiento" id="de2"><label for="de2">Estreñimiento</label></div>
+            <div class="radio-item"><input type="radio" name="deposiciones" value="Heces sueltas" id="de3"><label for="de3">Heces sueltas</label></div>
+            <div class="radio-item"><input type="radio" name="deposiciones" value="Alterna" id="de4"><label for="de4">Alterna</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Te han diagnosticado SIBO, disbiosis, intolerancias o algún problema digestivo?</label><textarea name="diagnostico_digestivo" placeholder="Escribe aquí, o 'Ninguno'."></textarea></div>
+        <div class="field"><label class="field-label">¿Hay alimentos que sabes que te sientan mal?</label><div class="field-hint">Lácteos, legumbres, gluten, crudos, etc.</div><textarea name="alimentos_sientan_mal" placeholder="Escribe aquí..."></textarea></div>
+        <div class="field"><label class="field-label">Después de comer, ¿cómo te sueles sentir?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="despues_comer" value="Con energía" id="dc1"><label for="dc1">Con energía</label></div>
+            <div class="radio-item"><input type="radio" name="despues_comer" value="Somnoliento" id="dc2"><label for="dc2">Somnoliento</label></div>
+            <div class="radio-item"><input type="radio" name="despues_comer" value="Hinchado" id="dc3"><label for="dc3">Hinchado</label></div>
+            <div class="radio-item"><input type="radio" name="despues_comer" value="Normal" id="dc4"><label for="dc4">Normal</label></div>
+          </div>
+        </div>
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(5)">← Atrás</button><button type="button" class="btn btn-next" onclick="nextSection(5)">Siguiente →</button></div>
+      </div>
+      <div class="section" id="sec6">
+        <div class="sec-num">05</div><div class="sec-title">Sueño y estrés</div>
+        <div class="sec-desc">Dos pilares que afectan tanto como la comida.</div>
+        <div class="field"><label class="field-label">¿Cuántas horas duermes de media?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="horas_sueno" value="Menos de 5" id="hs1"><label for="hs1">Menos de 5</label></div>
+            <div class="radio-item"><input type="radio" name="horas_sueno" value="5-6" id="hs2"><label for="hs2">5–6</label></div>
+            <div class="radio-item"><input type="radio" name="horas_sueno" value="6-7" id="hs3"><label for="hs3">6–7</label></div>
+            <div class="radio-item"><input type="radio" name="horas_sueno" value="7-8" id="hs4"><label for="hs4">7–8</label></div>
+            <div class="radio-item"><input type="radio" name="horas_sueno" value="Más de 8" id="hs5"><label for="hs5">Más de 8</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿A qué hora te acuestas y a qué hora te levantas?</label><input type="text" name="hora_acostar_levantar" placeholder="ej. 23:30 — 7:00"></div>
+        <div class="field"><label class="field-label">¿Cómo calificarías la calidad de tu sueño?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="calidad_sueno" value="Reparador" id="cs1"><label for="cs1">Reparador</label></div>
+            <div class="radio-item"><input type="radio" name="calidad_sueno" value="Regular" id="cs2"><label for="cs2">Regular</label></div>
+            <div class="radio-item"><input type="radio" name="calidad_sueno" value="Me despierto cansado" id="cs3"><label for="cs3">Me despierto cansado</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Te cuesta dormirte o te despiertas por la noche?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="cuesta_dormir" value="Sí" id="cd1"><label for="cd1">Sí</label></div>
+            <div class="radio-item"><input type="radio" name="cuesta_dormir" value="No" id="cd2"><label for="cd2">No</label></div>
+            <div class="radio-item"><input type="radio" name="cuesta_dormir" value="A veces" id="cd3"><label for="cd3">A veces</label></div>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field"><label class="field-label">¿Pantallas la última hora antes de dormir?</label>
+            <div class="radio-group"><div class="radio-item"><input type="radio" name="pantallas_dormir" value="Sí" id="pd1b"><label for="pd1b">Sí</label></div><div class="radio-item"><input type="radio" name="pantallas_dormir" value="No" id="pd2b"><label for="pd2b">No</label></div></div>
+          </div>
+          <div class="field"><label class="field-label">¿Trabajas a turnos?</label>
+            <div class="radio-group"><div class="radio-item"><input type="radio" name="trabajo_turnos" value="Sí" id="tt1"><label for="tt1">Sí</label></div><div class="radio-item"><input type="radio" name="trabajo_turnos" value="No" id="tt2"><label for="tt2">No</label></div></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Tomas luz solar directa por la mañana?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="luz_solar" value="Sí, casi a diario" id="ls1"><label for="ls1">Casi a diario</label></div>
+            <div class="radio-item"><input type="radio" name="luz_solar" value="A veces" id="ls2"><label for="ls2">A veces</label></div>
+            <div class="radio-item"><input type="radio" name="luz_solar" value="Casi nunca" id="ls3"><label for="ls3">Casi nunca</label></div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="field"><label class="field-label">Del 1 al 10, ¿cuál es tu nivel de estrés en el día a día?</label>
+          <div class="radio-group" style="grid-template-columns:repeat(5,1fr)">
+            <div class="radio-item"><input type="radio" name="nivel_estres" value="1-2" id="ne1"><label for="ne1">1–2</label></div>
+            <div class="radio-item"><input type="radio" name="nivel_estres" value="3-4" id="ne2"><label for="ne2">3–4</label></div>
+            <div class="radio-item"><input type="radio" name="nivel_estres" value="5-6" id="ne3"><label for="ne3">5–6</label></div>
+            <div class="radio-item"><input type="radio" name="nivel_estres" value="7-8" id="ne4"><label for="ne4">7–8</label></div>
+            <div class="radio-item"><input type="radio" name="nivel_estres" value="9-10" id="ne5"><label for="ne5">9–10</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Cuáles son tus principales fuentes de estrés ahora mismo?</label><div class="field-hint">Trabajo, familia, economía, salud...</div><textarea name="fuentes_estres" placeholder="Escribe aquí..."></textarea></div>
+        <div class="field"><label class="field-label">¿Cómo está tu energía a lo largo del día?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="energia_dia" value="Estable" id="ed1"><label for="ed1">Estable</label></div>
+            <div class="radio-item"><input type="radio" name="energia_dia" value="Bajón por la tarde" id="ed2"><label for="ed2">Bajón por la tarde</label></div>
+            <div class="radio-item"><input type="radio" name="energia_dia" value="Agotado siempre" id="ed3"><label for="ed3">Agotado siempre</label></div>
+            <div class="radio-item"><input type="radio" name="energia_dia" value="Picos y caídas" id="ed4"><label for="ed4">Picos y caídas</label></div>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field"><label class="field-label">¿Te levantas descansado o cansado?</label>
+            <div class="radio-group"><div class="radio-item"><input type="radio" name="descansado" value="Descansado" id="dn1"><label for="dn1">Descansado</label></div><div class="radio-item"><input type="radio" name="descansado" value="Cansado" id="dn2"><label for="dn2">Cansado</label></div></div>
+          </div>
+          <div class="field"><label class="field-label">¿Acumulas grasa en la zona abdominal?</label>
+            <div class="radio-group"><div class="radio-item"><input type="radio" name="grasa_abdominal" value="Sí" id="ga1"><label for="ga1">Sí</label></div><div class="radio-item"><input type="radio" name="grasa_abdominal" value="No" id="ga2"><label for="ga2">No</label></div></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Practicas algo para gestionar el estrés?</label><div class="field-hint">Respiración, paseos, meditación, naturaleza...</div><textarea name="gestion_estres" placeholder="Escribe aquí..."></textarea></div>
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(6)">← Atrás</button><button type="button" class="btn btn-next" onclick="nextSection(6)">Siguiente →</button></div>
+      </div>
+      <div class="section" id="sec7">
+        <div class="sec-num">07</div><div class="sec-title">Actividad física</div>
+        <div class="sec-desc">Tu movimiento diario y tu entrenamiento.</div>
+        <div class="field"><label class="field-label">¿Cuántos pasos das al día de media?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="pasos_dia" value="Menos de 4.000" id="ps1"><label for="ps1">Menos de 4.000</label></div>
+            <div class="radio-item"><input type="radio" name="pasos_dia" value="4.000-7.000" id="ps2"><label for="ps2">4.000–7.000</label></div>
+            <div class="radio-item"><input type="radio" name="pasos_dia" value="7.000-10.000" id="ps3"><label for="ps3">7.000–10.000</label></div>
+            <div class="radio-item"><input type="radio" name="pasos_dia" value="Más de 10.000" id="ps4"><label for="ps4">Más de 10.000</label></div>
+            <div class="radio-item"><input type="radio" name="pasos_dia" value="No lo sé" id="ps5"><label for="ps5">No lo sé</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Cómo es tu trabajo a nivel de movimiento?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="trabajo_movimiento" value="Sentado todo el día" id="tm1"><label for="tm1">Sentado todo el día</label></div>
+            <div class="radio-item"><input type="radio" name="trabajo_movimiento" value="Mixto" id="tm2"><label for="tm2">Mixto</label></div>
+            <div class="radio-item"><input type="radio" name="trabajo_movimiento" value="De pie o físico" id="tm3"><label for="tm3">De pie o físico</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Entrenas actualmente? ¿Qué tipo y cuántos días por semana?</label><textarea name="entrena_actualmente" placeholder="ej. Calistenia 4 días + carrera 1 día"></textarea></div>
+        <div class="field"><label class="field-label">Si haces calistenia o fuerza, ¿qué nivel dirías que tienes?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="nivel_calistenia" value="Iniciación" id="nc1"><label for="nc1">Iniciación</label></div>
+            <div class="radio-item"><input type="radio" name="nivel_calistenia" value="Intermedio" id="nc2"><label for="nc2">Intermedio</label></div>
+            <div class="radio-item"><input type="radio" name="nivel_calistenia" value="Avanzado" id="nc3"><label for="nc3">Avanzado</label></div>
+            <div class="radio-item"><input type="radio" name="nivel_calistenia" value="No entreno aún" id="nc4"><label for="nc4">No entreno aún</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿A qué hora sueles entrenar?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="hora_entreno" value="Mañana" id="he1"><label for="he1">Mañana</label></div>
+            <div class="radio-item"><input type="radio" name="hora_entreno" value="Mediodía" id="he2"><label for="he2">Mediodía</label></div>
+            <div class="radio-item"><input type="radio" name="hora_entreno" value="Tarde" id="he3"><label for="he3">Tarde</label></div>
+            <div class="radio-item"><input type="radio" name="hora_entreno" value="Noche" id="he4"><label for="he4">Noche</label></div>
+            <div class="radio-item"><input type="radio" name="hora_entreno" value="Variable" id="he5"><label for="he5">Variable</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Practicas algún deporte o actividad adicional?</label><textarea name="deporte_adicional" placeholder="Escribe aquí, o 'Ninguno'."></textarea></div>
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(7)">← Atrás</button><button type="button" class="btn btn-next" onclick="nextSection(7)">Siguiente →</button></div>
+      </div>
+      <div class="section" id="sec8">
+        <div class="sec-num">08</div><div class="sec-title">Salud, hormonas y analíticas</div>
+        <div class="sec-desc">Para diseñar un plan seguro y adaptado a ti.</div>
+        <div class="field"><label class="field-label">¿Tienes alguna patología o condición médica diagnosticada?</label><textarea name="patologia" placeholder="Escribe aquí, o 'Ninguna'."></textarea></div>
+        <div class="field"><label class="field-label">¿Tomas medicación o suplementos actualmente? ¿Cuáles?</label><textarea name="medicacion_suplementos" placeholder="Escribe aquí, o 'Ninguno'."></textarea></div>
+        <div class="field"><label class="field-label">¿Problemas hormonales o de tiroides conocidos?</label><textarea name="problemas_hormonales" placeholder="Escribe aquí, o 'Ninguno'."></textarea></div>
+        <div class="field"><label class="field-label">Solo mujeres: ¿cómo es tu ciclo menstrual?</label><div class="field-hint">Regular / irregular / ausente. ¿Anticonceptivos? ¿Embarazo o lactancia?</div><textarea name="mujeres_ciclo" placeholder="Si no aplica, deja en blanco."></textarea></div>
+        <div class="field"><label class="field-label">¿Te has hecho una analítica reciente (últimos 12 meses)?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="analitica_reciente" value="Sí" id="an1"><label for="an1">Sí</label></div>
+            <div class="radio-item"><input type="radio" name="analitica_reciente" value="No" id="an2"><label for="an2">No</label></div>
+          </div>
+          <div class="note-soft"><div class="note-d">Si la tienes a mano, adjúntala por WhatsApp. Interesa: insulina en ayunas, HbA1c, glucosa, perfil tiroideo (TSH, T4, T3), vitamina D, ferritina y perfil lipídico. No es obligatoria para empezar.</div></div>
+        </div>
+        <div class="field"><label class="field-label">¿Fumas? ¿Consumes alcohol? ¿Con qué frecuencia?</label><textarea name="fuma_alcohol" placeholder="Escribe aquí..."></textarea></div>
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(8)">← Atrás</button><button type="button" class="btn btn-next" onclick="nextSection(8)">Siguiente →</button></div>
+      </div>
+      <div class="section" id="sec9">
+        <div class="sec-num">09</div><div class="sec-title">Contexto y logística</div>
+        <div class="sec-desc">Para que el plan sea ejecutable de verdad en tu día a día.</div>
+        <div class="field"><label class="field-label">¿De qué trabajas y cuántas horas al día? ¿Horario fijo o a turnos?</label><textarea name="trabajo_horas" placeholder="Escribe aquí..."></textarea></div>
+        <div class="field"><label class="field-label">Durante la jornada, ¿puedes cocinar o calentar comida? ¿Tienes nevera y microondas?</label><textarea name="cocinar_jornada" placeholder="Escribe aquí..."></textarea></div>
+        <div class="field"><label class="field-label">¿Dónde sueles comer a mediodía?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="donde_come" value="En casa" id="dco1"><label for="dco1">En casa</label></div>
+            <div class="radio-item"><input type="radio" name="donde_come" value="En el trabajo" id="dco2"><label for="dco2">En el trabajo</label></div>
+            <div class="radio-item"><input type="radio" name="donde_come" value="Fuera/restaurante" id="dco3"><label for="dco3">Fuera</label></div>
+            <div class="radio-item"><input type="radio" name="donde_come" value="Variable" id="dco4"><label for="dco4">Variable</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Cuántas comidas haces al día normalmente y a qué horas?</label><input type="text" name="comidas_dia" placeholder="ej. 3 comidas: 9h, 14h, 21h"></div>
+        <div class="field"><label class="field-label">¿Sueles desayunar con hambre o sin hambre? ¿A qué hora es tu primera comida?</label><input type="text" name="desayuno_hambre" placeholder="ej. Sin hambre, primera comida a las 12h"></div>
+        <div class="field"><label class="field-label">¿Quién cocina en casa? ¿Cocinas para más personas?</label><input type="text" name="quien_cocina" placeholder="Escribe aquí..."></div>
+        <div class="field"><label class="field-label">¿Cuánto tiempo real puedes dedicar a cocinar entre semana?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="tiempo_cocinar" value="Casi nada" id="tc1"><label for="tc1">Casi nada</label></div>
+            <div class="radio-item"><input type="radio" name="tiempo_cocinar" value="Poco" id="tc2"><label for="tc2">Poco</label></div>
+            <div class="radio-item"><input type="radio" name="tiempo_cocinar" value="Tengo tiempo" id="tc3"><label for="tc3">Tengo tiempo</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Te organizas con batch cooking?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="batch_cooking" value="Sí" id="bc1"><label for="bc1">Sí</label></div>
+            <div class="radio-item"><input type="radio" name="batch_cooking" value="No" id="bc2"><label for="bc2">No</label></div>
+            <div class="radio-item"><input type="radio" name="batch_cooking" value="Me gustaría aprender" id="bc3"><label for="bc3">Me gustaría aprender</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Cuántas veces por semana comes fuera de casa?</label><input type="text" name="comer_fuera" placeholder="ej. 2-3 veces"></div>
+        <div class="field"><label class="field-label">¿Viajas con frecuencia?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="viaja" value="Casi nunca" id="vi1"><label for="vi1">Casi nunca</label></div>
+            <div class="radio-item"><input type="radio" name="viaja" value="Alguna vez al mes" id="vi2"><label for="vi2">Alguna vez al mes</label></div>
+            <div class="radio-item"><input type="radio" name="viaja" value="Muy a menudo" id="vi3"><label for="vi3">Muy a menudo</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Cuál es tu presupuesto para la compra?</label>
+          <div class="radio-group">
+            <div class="radio-item"><input type="radio" name="presupuesto" value="Ajustado" id="pr1"><label for="pr1">Ajustado</label></div>
+            <div class="radio-item"><input type="radio" name="presupuesto" value="Medio" id="pr2"><label for="pr2">Medio</label></div>
+            <div class="radio-item"><input type="radio" name="presupuesto" value="Sin problema" id="pr3"><label for="pr3">Sin problema</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Alimentos que AMAS y no quieres que falten</label><textarea name="alimentos_ama" placeholder="Escribe aquí..."></textarea></div>
+        <div class="field"><label class="field-label">Alimentos que ODIAS o no quieres ver en el plan</label><textarea name="alimentos_odia" placeholder="Escribe aquí..."></textarea></div>
+        <div class="field"><label class="field-label">¿Alergias o intolerancias confirmadas?</label><textarea name="alergias" placeholder="Escribe aquí, o 'Ninguna'."></textarea></div>
+        <div class="field"><label class="field-label">¿Platos o comidas con valor emocional/cultural que te gustaría conservar?</label><textarea name="platos_emocionales" placeholder="Escribe aquí..."></textarea></div>
+        <div class="field"><label class="field-label">¿Tienes antojos? ¿De dulce o salado, y a qué hora aparecen?</label><input type="text" name="antojos" placeholder="ej. De dulce, sobre media tarde"></div>
+        <div class="field"><label class="field-label">¿Cuánta agua bebes al día? ¿Cuántos cafés/té y a qué hora el último?</label><input type="text" name="agua_cafe" placeholder="ej. 2L agua, 2 cafés, último a las 16h"></div>
+        <div class="field"><label class="field-label">¿Comes de forma especial los fines de semana o en eventos sociales?</label><textarea name="finde_eventos" placeholder="Escribe aquí..."></textarea></div>
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(9)">← Atrás</button><button type="button" class="btn btn-next" onclick="nextSection(9)">Siguiente →</button></div>
+      </div>
+      <div class="section" id="sec10">
+        <div class="sec-num">10</div><div class="sec-title">Hábitos y disposición</div>
+        <div class="sec-desc">Tu día real y por dónde podemos empezar.</div>
+        <div class="field"><label class="field-label">Describe un día típico de comidas (de la mañana a la noche)</label><textarea name="dia_tipico" placeholder="Escribe aquí..." style="min-height:100px"></textarea></div>
+        <div class="field"><label class="field-label">Diario de fotos (recomendado)</label>
+          <div class="note"><div class="note-d">La mejor forma de que el plan parta de tu realidad es enviar fotos de lo que comes durante 3 días normales. Si te animas, mándaselas a Lluís por WhatsApp esos días. Es opcional pero ayuda muchísimo.</div></div>
+        </div>
+        <div class="field"><label class="field-label">De estos hábitos, ¿cuáles ya haces o te ves capaz de incorporar?</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item"><input type="checkbox" name="habitos" value="10.000 pasos al día" id="h1"><label for="h1">10.000 pasos al día</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="habitos" value="Comer sentado, sin pantallas y sin prisa" id="h2"><label for="h2">Comer sentado, sin pantallas y sin prisa</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="habitos" value="Respirar 1 minuto antes de comer" id="h3"><label for="h3">Respirar 1 minuto antes de comer</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="habitos" value="Paseo de 5-10 min después de comer" id="h4"><label for="h4">Paseo de 5–10 min después de comer</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="habitos" value="Masticar bien cada bocado" id="h5"><label for="h5">Masticar bien cada bocado</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="habitos" value="Cenar antes de las 21:00" id="h6"><label for="h6">Cenar antes de las 21:00</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="habitos" value="Luz solar por la mañana" id="h7"><label for="h7">Luz solar por la mañana</label></div>
+            <div class="checkbox-item"><input type="checkbox" name="habitos" value="Reducir pantallas antes de dormir" id="h8"><label for="h8">Reducir pantallas antes de dormir</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">Del 1 al 10, ¿cómo de comprometido estás con hacer cambios sostenibles (no parches)?</label>
+          <div class="radio-group" style="grid-template-columns:repeat(5,1fr)">
+            <div class="radio-item"><input type="radio" name="compromiso" value="1-2" id="cm1"><label for="cm1">1–2</label></div>
+            <div class="radio-item"><input type="radio" name="compromiso" value="3-4" id="cm2"><label for="cm2">3–4</label></div>
+            <div class="radio-item"><input type="radio" name="compromiso" value="5-6" id="cm3"><label for="cm3">5–6</label></div>
+            <div class="radio-item"><input type="radio" name="compromiso" value="7-8" id="cm4"><label for="cm4">7–8</label></div>
+            <div class="radio-item"><input type="radio" name="compromiso" value="9-10" id="cm5"><label for="cm5">9–10</label></div>
+          </div>
+        </div>
+        <div class="field"><label class="field-label">¿Qué te ha hecho fracasar en intentos anteriores? ¿Qué necesitas de mí para que esta vez funcione?</label><textarea name="que_fracaso" placeholder="Escribe aquí..."></textarea></div>
+        <div class="field"><label class="field-label">¿Hay algo más que deba saber sobre ti, tu contexto o tu salud?</label><textarea name="algo_mas" placeholder="Escribe aquí..."></textarea></div>
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(10)">← Atrás</button><button type="button" class="btn btn-next" onclick="nextSection(10)">Siguiente →</button></div>
+      </div>
+      <div class="section" id="sec11">
+        <div class="sec-num">11</div><div class="sec-title">Confirmación</div>
+        <div class="sec-desc">Lo último antes de enviar.</div>
+        <div class="checkbox-group">
+          <div class="checkbox-item"><input type="checkbox" name="confirma_veracidad" value="Sí" id="cf1"><label for="cf1">Confirmo que la información facilitada es veraz y completa.</label></div>
+          <div class="checkbox-item"><input type="checkbox" name="confirma_medico" value="Sí" id="cf2"><label for="cf2">Entiendo que este servicio es asesoramiento nutricional y de hábitos, no un tratamiento ni diagnóstico médico, y que ante cualquier patología debo consultar con mi médico.</label></div>
+          <div class="checkbox-item"><input type="checkbox" name="confirma_datos" value="Sí" id="cf3"><label for="cf3">Autorizo a Calistenia360 a usar estos datos para elaborar y ajustar mi plan personalizado.</label></div>
+        </div>
+        <div class="btn-row"><button type="button" class="btn btn-back" onclick="prevSection(11)">← Atrás</button></div>
+        <button type="submit" class="btn-submit">ENVIAR FORMULARIO →</button>
+      </div>
+    </form>
+  </div>
+  <div class="success" id="successMsg">
+    <div class="success-title">GRACIAS<br><span>POR TU CONFIANZA</span></div>
+    <p class="success-text" style="margin-top:1rem">He recibido tu formulario. Esta es la foto inicial de tu situación. Lluís lo revisará a fondo y se pondrá en contacto contigo para construir tu plan a medida. El día a día y tu feedback harán el resto.</p>
+    <p style="font-size:12px;color:var(--text3);margin-top:2rem">— Calistenia360 · Nutrición</p>
+  </div>
+</div>
+<script>
+let currentSection=1;const totalSections=11;
+function showSection(n){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('sec'+n).classList.add('active');currentSection=n;const pct=((n-1)/totalSections)*100;document.getElementById('progressFill').style.width=pct+'%';document.getElementById('progressLabel').textContent='Sección '+n+' de '+totalSections;window.scrollTo({top:0,behavior:'smooth'});}
+function nextSection(n){showSection(n+1);}
+function prevSection(n){showSection(n-1);}
+document.getElementById('mainForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const fd=new FormData(this);
+  const nombre=(fd.get('nombre')||'').trim();
+  const email=(fd.get('email')||'').trim();
+  if(!nombre||!email){alert('Por favor rellena al menos tu nombre y email en la primera sección.');showSection(1);return;}
+  const data={};
+  const multi=['habitos'];
+  multi.forEach(f=>data[f]=fd.getAll(f).join(', '));
+  for(let [k,v] of fd.entries()){if(!multi.includes(k)&&!k.startsWith('_'))data[k]=v;}
+  ['edad','altura_cm','peso_actual'].forEach(f=>{if(data[f]===''||data[f]===undefined)data[f]=null;else data[f]=Number(data[f]);});
+  try{
+    const r=await fetch('https://xiflekecgnzklicszwmv.supabase.co/rest/v1/formularios_nutricion',{
+      method:'POST',
+      headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpZmxla2VjZ256a2xpY3N6d212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNDYwODQsImV4cCI6MjA4OTkyMjA4NH0.qyWonslWP1YfvgxgisfNM2VjQsKR_xSE0npZyfXrGHI','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpZmxla2VjZ256a2xpY3N6d212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNDYwODQsImV4cCI6MjA4OTkyMjA4NH0.qyWonslWP1YfvgxgisfNM2VjQsKR_xSE0npZyfXrGHI','Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify(data)
+    });
+    if(r.ok){document.getElementById('formWrap').style.display='none';document.getElementById('successMsg').style.display='block';window.scrollTo(0,0);}
+    else{const err=await r.text();console.error(err);alert('Error al enviar. Inténtalo de nuevo.');}
+  }catch(err){console.error(err);alert('Error de conexión. Inténtalo de nuevo.');}
+});
+</script>
+</body>
+</html>
