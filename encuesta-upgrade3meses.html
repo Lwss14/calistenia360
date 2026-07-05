@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bienvenido — Rey de las Dominadas Personalizado</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#080808;--bg2:#111;--bg3:#1a1a1a;--text:#f5f5f0;--text2:#999;--text3:#555;--gold:#f0c040;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.15);--r:10px;--r2:16px}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .6s ease forwards;opacity:0}
+.d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}.d5{animation-delay:.7s}
+.wrap{max-width:620px;margin:0 auto;padding:3rem 1.25rem 5rem}
+.header{text-align:center;margin-bottom:3.5rem}
+.header-eyebrow{font-size:11px;font-weight:500;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem}
+.header-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,8vw,66px);letter-spacing:.04em;line-height:.95;margin-bottom:1.25rem}
+.header-title span{color:var(--gold)}
+.header-sub{font-size:14px;color:var(--text2);line-height:1.8;max-width:460px;margin:0 auto}
+.field{margin-bottom:2rem}
+.field-num{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.1em;color:var(--gold);opacity:.6;margin-bottom:.4rem}
+.field-label{font-size:15px;font-weight:500;color:var(--text);margin-bottom:.4rem;line-height:1.5}
+textarea{width:100%;padding:14px 16px;font-size:14px;border:1px solid var(--border2);border-radius:var(--r2);background:var(--bg2);color:var(--text);font-family:'DM Sans',sans-serif;outline:none;resize:vertical;min-height:110px;line-height:1.7;transition:border-color .2s,background .2s}
+textarea:focus{border-color:var(--gold);background:var(--bg3)}
+textarea::placeholder{color:var(--text3)}
+.divider{height:1px;background:var(--border);margin:2.25rem 0}
+.submit-btn{width:100%;padding:16px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.08em;background:var(--gold);color:#000;border:none;border-radius:var(--r2);cursor:pointer;transition:opacity .15s}
+.submit-btn:hover{opacity:.85}
+.success{display:none;text-align:center;padding:4rem 1rem}
+.success-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,60px);letter-spacing:.04em;line-height:1;margin-bottom:1.25rem}
+.success-title span{color:var(--gold)}
+.success-text{font-size:15px;color:var(--text2);line-height:1.8;max-width:420px;margin:0 auto}
+.success-author{font-size:12px;color:var(--text3);margin-top:2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="formWrap">
+    <div class="header fu d1">
+      <div class="header-eyebrow">Rey de las Dominadas · Personalizado</div>
+      <div class="header-title">DISTE EL<br><span>SIGUIENTE PASO</span></div>
+      <p class="header-sub">Antes de empezar los 3 meses, tómate un momento para responder estas 3 preguntas. Me ayudan a entenderte mejor y a seguir mejorando.</p>
+    </div>
+    <form id="surveyForm" onsubmit="submitForm(event)">
+
+      <div class="field fu d2">
+        <div class="field-num">01 — 03</div>
+        <div class="field-label">¿Qué te hizo decidirte a dar el paso de trabajar 3 meses conmigo, justo en ese momento y no antes o después?</div>
+        <textarea name="por_que_ese_momento" placeholder="Escribe aquí..." required></textarea>
+      </div>
+      <div class="divider"></div>
+
+      <div class="field fu d3">
+        <div class="field-num">02 — 03</div>
+        <div class="field-label">¿Qué es lo que más te ha hecho confiar en mí como coach, por encima de cualquier otra opción?</div>
+        <textarea name="que_genero_confianza" placeholder="Escribe aquí..." required></textarea>
+      </div>
+      <div class="divider"></div>
+
+      <div class="field fu d4">
+        <div class="field-num">03 — 03</div>
+        <div class="field-label">¿Habías considerado otra opción (otro coach, academia o método) antes de elegirme? ¿Y qué te hizo quedarte conmigo?</div>
+        <textarea name="otras_opciones" placeholder="Escribe aquí..." required></textarea>
+      </div>
+
+      <div class="fu d5">
+        <button type="submit" class="submit-btn">ENVIAR MIS RESPUESTAS →</button>
+      </div>
+    </form>
+  </div>
+  <div class="success" id="successMsg">
+    <div class="success-title">GRACIAS POR<br><span>TU CONFIANZA</span></div>
+    <p class="success-text">He recibido tus respuestas. Vamos a por estos 3 meses.</p>
+    <div class="success-author">— Calistenia360 · Rey de las Dominadas</div>
+  </div>
+</div>
+<script>
+async function submitForm(e){
+  e.preventDefault();
+  const data={};
+  new FormData(e.target).forEach((v,k)=>data[k]=v);
+  try{
+    const r=await fetch('https://xiflekecgnzklicszwmv.supabase.co/rest/v1/encuestas_upgrade3meses',{
+      method:'POST',
+      headers:{
+        'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpZmxla2VjZ256a2xpY3N6d212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNDYwODQsImV4cCI6MjA4OTkyMjA4NH0.qyWonslWP1YfvgxgisfNM2VjQsKR_xSE0npZyfXrGHI',
+        'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpZmxla2VjZ256a2xpY3N6d212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNDYwODQsImV4cCI6MjA4OTkyMjA4NH0.qyWonslWP1YfvgxgisfNM2VjQsKR_xSE0npZyfXrGHI',
+        'Content-Type':'application/json',
+        'Prefer':'return=minimal'
+      },
+      body:JSON.stringify(data)
+    });
+    if(r.ok){
+      document.getElementById('formWrap').style.display='none';
+      document.getElementById('successMsg').style.display='block';
+      window.scrollTo(0,0);
+    } else { const err=await r.text(); console.error(err); alert('Error al enviar. Inténtalo de nuevo.'); }
+  }catch(err){ console.error(err); alert('Error de conexión. Inténtalo de nuevo.'); }
+}
+</script>
+</body>
+</html>
