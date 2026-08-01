@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test del Punto Débil · Rey de las Dominadas</title>
+<meta name="description" content="Llevas meses estancado en dominadas y no sabes por qué. Seis preguntas para saber dónde falla tu dominada.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --negro:#0B0B0B;--carbon:#141414;--carbon-alto:#1B1B1B;
+    --oro:#C9A227;--oro-claro:#E0BE55;--crema:#EFEAE0;--gris:#9C968C;
+    --linea:rgba(201,162,39,.22);--linea-sutil:rgba(255,255,255,.07);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--negro);color:var(--crema);font-family:'Montserrat',sans-serif;
+    font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+
+  header{text-align:center;padding:34px 0 10px;
+    background:radial-gradient(ellipse at 50% 0%, rgba(201,162,39,.10), transparent 62%)}
+  .logo{width:150px;height:auto;margin:0 auto 20px;display:block}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:.34em;text-transform:uppercase;color:var(--oro);
+    display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px}
+  .eyebrow::before,.eyebrow::after{content:'';height:1px;width:26px;background:var(--linea)}
+  h1{font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;
+    font-size:clamp(34px,9vw,62px);line-height:.98;color:var(--crema)}
+  h1 em{font-style:normal;color:var(--oro);display:block}
+  .sub{font-size:15.5px;color:var(--gris);max-width:470px;margin:16px auto 0}
+
+  .panel{background:var(--carbon);border:1px solid var(--linea);padding:26px 22px 28px;margin:30px 0 12px}
+  .panel-tag{font-size:10.5px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--oro);margin-bottom:16px}
+  .intro-txt{font-size:15px;color:var(--gris);margin-bottom:22px}
+  .intro-txt b{color:var(--crema);font-weight:700}
+  .btn{display:block;width:100%;padding:18px;border:none;cursor:pointer;background:var(--oro);color:var(--negro);
+    font-family:'Oswald',sans-serif;font-size:17px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;transition:background .15s}
+  .btn:hover{background:var(--oro-claro)}
+  .btn:focus-visible{outline:2px solid var(--crema);outline-offset:3px}
+
+  .progreso{height:3px;background:rgba(255,255,255,.08);margin-bottom:22px}
+  .progreso .relleno{height:100%;width:0%;background:var(--oro);transition:width .3s ease}
+  .num-preg{font-size:10.5px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--oro);margin-bottom:10px}
+  .pregunta{font-family:'Oswald',sans-serif;font-size:clamp(21px,5vw,27px);font-weight:600;
+    text-transform:uppercase;line-height:1.15;margin-bottom:20px;color:var(--crema)}
+  .opciones button{display:flex;gap:16px;align-items:flex-start;width:100%;text-align:left;
+    padding:16px 18px;margin-bottom:10px;background:var(--carbon-alto);
+    border:1px solid var(--linea-sutil);cursor:pointer;
+    font-family:'Montserrat',sans-serif;font-size:14.8px;font-weight:500;color:var(--gris);
+    line-height:1.55;transition:border-color .12s,color .12s}
+  .opciones button:hover{border-color:var(--oro);color:var(--crema)}
+  .opciones button:focus-visible{outline:2px solid var(--oro);outline-offset:2px}
+  .opciones .letra{font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;color:var(--oro);min-width:16px}
+
+  .res-cab{background:var(--oro);padding:20px}
+  .res-cab .et{font-size:10.5px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(11,11,11,.6)}
+  .res-cab .nom{font-family:'Oswald',sans-serif;font-size:clamp(26px,6.5vw,36px);font-weight:700;
+    text-transform:uppercase;line-height:1.02;margin-top:3px;color:var(--negro)}
+  .res-cuerpo{background:var(--carbon-alto);border:1px solid var(--linea-sutil);border-top:none;padding:22px 20px}
+  .res-cuerpo h4{font-size:10.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--oro);margin:20px 0 7px}
+  .res-cuerpo h4:first-child{margin-top:0}
+  .res-cuerpo p{font-size:15px;color:var(--crema)}
+  .cta-res{display:block;text-align:center;margin-top:22px;padding:16px;background:var(--oro);color:var(--negro);
+    text-decoration:none;font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;transition:background .15s}
+  .cta-res:hover{background:var(--oro-claro)}
+  .reiniciar{display:block;width:100%;text-align:center;margin-top:14px;background:none;border:none;
+    font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;color:var(--gris);
+    text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+  .nota-metodo{font-size:12px;color:var(--gris);line-height:1.6;margin-top:18px;
+    padding:14px;border-left:2px solid var(--linea);background:rgba(255,255,255,.02)}
+  .nota-metodo b{color:var(--oro-claro)}
+
+  section{padding:52px 0 0}
+  .sec-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--oro);
+    display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .sec-eyebrow::before{content:'';height:1px;width:28px;background:var(--linea)}
+  h2{font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;
+    font-size:clamp(26px,6.5vw,42px);line-height:1.02;color:var(--crema);margin-bottom:16px}
+  h2 em{font-style:normal;color:var(--oro)}
+  section p{font-size:15.5px;color:var(--gris);margin-bottom:16px}
+  section p b{color:var(--crema);font-weight:700}
+  blockquote{border-left:2px solid var(--oro);padding:6px 0 6px 20px;margin:24px 0;
+    font-family:'Oswald',sans-serif;font-size:clamp(19px,4.6vw,25px);font-weight:500;
+    line-height:1.3;color:var(--crema);text-transform:uppercase}
+
+  .cierre{margin:56px 0 0;padding:44px 26px;text-align:center;border:1px solid var(--linea);
+    background:radial-gradient(ellipse at 50% 0%, rgba(201,162,39,.12), transparent 65%), var(--carbon)}
+  .cierre h2{margin-bottom:14px}
+  .cierre p{font-size:15px;color:var(--gris);max-width:470px;margin:0 auto 24px}
+  .btn-oro{display:inline-block;padding:17px 40px;background:var(--oro);color:var(--negro);text-decoration:none;
+    font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;transition:background .15s}
+  .btn-oro:hover{background:var(--oro-claro)}
+  .link-canal{display:block;margin-top:20px;color:var(--gris);font-size:13.5px;
+    text-decoration:underline;text-underline-offset:4px}
+  .link-canal:hover{color:var(--oro)}
+  footer{text-align:center;padding:36px 0 44px;font-size:11.5px;letter-spacing:.2em;
+    text-transform:uppercase;color:#4A4A4A}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <img class="logo" src="logo.png" alt="Rey de las Dominadas">
+    <div class="eyebrow">Test del punto débil</div>
+    <h1>¿Dónde falla<em>tu dominada?</em></h1>
+    <p class="sub">Seis preguntas sobre cómo entrenas y cómo se siente tu dominada. Al final, el eslabón que te está frenando.</p>
+  </header>
+
+  <div class="panel" id="panel">
+    <div id="pantalla-inicio">
+      <div class="panel-tag">Antes de empezar</div>
+      <p class="intro-txt">Casi nadie está estancado "en general". Se está estancado en <b>un eslabón concreto</b> de la cadena: el control escapular, el agarre, la fuerza de tirón o el cierre de la repetición. Responde con sinceridad: aquí no hay respuestas buenas ni malas, solo información sobre ti.</p>
+      <button class="btn" onclick="empezar()">Empezar el test</button>
+    </div>
+
+    <div id="pantalla-preguntas" style="display:none">
+      <div class="progreso"><div class="relleno" id="barra"></div></div>
+      <div class="num-preg" id="num-preg"></div>
+      <div class="pregunta" id="texto-preg"></div>
+      <div class="opciones" id="opciones"></div>
+    </div>
+
+    <div id="pantalla-resultado" style="display:none" role="status" aria-live="polite">
+      <div class="res-cab">
+        <div class="et">Tu punto débil</div>
+        <div class="nom" id="res-nombre"></div>
+      </div>
+      <div class="res-cuerpo">
+        <h4>Qué significa</h4><p id="res-que"></p>
+        <h4>El error que lo perpetúa</h4><p id="res-error"></p>
+        <h4>Tu siguiente paso</h4><p id="res-paso"></p>
+        <a class="cta-res" href="https://ig.me/m/lluis.calisthenics" target="_blank" rel="noopener">Escríbeme REY con tu resultado</a>
+        <button class="reiniciar" onclick="reiniciar()">Repetir el test</button>
+        <div class="nota-metodo"><b>Cómo leer esto:</b> es un autodiagnóstico orientativo basado en cómo describes tus sensaciones, no una valoración profesional. Sirve para saber por dónde empezar a mirar. La confirmación real llega viendo tu dominada en vídeo: las sensaciones engañan, la grabación no. Si tienes dolor (no molestia de esfuerzo, dolor), eso lo valora un profesional sanitario antes que cualquier plan.</div>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-eyebrow">Por qué sigues en el mismo número</div>
+    <h2>Lo que no cambia,<em>no te cambia</em></h2>
+    <p>El patrón de casi todo el que lleva meses clavado es el mismo: ir a la barra, hacer las máximas repeticiones posibles, descansar, repetir. Un día tras otro. <b>El mismo estímulo, la misma fatiga, el mismo número.</b></p>
+    <p>Tu cuerpo se adapta a lo que le pides. Si le pides siempre exactamente lo mismo, se queda donde está: ya cumple con lo que le exiges, así que no tiene ningún motivo para construir más fuerza.</p>
+    <blockquote>Estuve dos años haciendo ocho dominadas. Hoy hago más de veinticinco. No cambió mi esfuerzo: cambió el sistema.</blockquote>
+    <p>Salir del estancamiento no es entrenar más ni apretar más los dientes. Es atacar tu eslabón débil con la progresión adecuada, en el orden adecuado, dándole a tu cuerpo motivos nuevos para adaptarse. El primer paso es saber cuál es tu eslabón, y acabas de darlo.</p>
+  </section>
+
+  <div class="cierre">
+    <h2>Ya sabes dónde fallas.<br><em>El plan para atacarlo es lo mío.</em></h2>
+    <p>El Rey de las Dominadas son 30 días conmigo: plan día a día según tu nivel, corrección de tu técnica en vídeo, y test de entrada y de salida para que el progreso lo midas tú. Empezamos justo por tu punto débil.</p>
+    <a class="btn-oro" href="https://ig.me/m/lluis.calisthenics" target="_blank" rel="noopener">Escríbeme REY</a>
+    <a class="link-canal" href="https://whatsapp.com/channel/0029VbDYBo35Ui2ZCApWU709" target="_blank" rel="noopener">O entra gratis a mi canal: método y casos reales cada semana</a>
+  </div>
+
+  <footer>Rey de las Dominadas · @lluis.calisthenics</footer>
+</div>
+
+<script>
+var preguntas=[
+ {t:"Cuando cuelgas de la barra antes de empezar, ¿qué notas?",
+  ops:[{txt:"Los hombros se me van hacia las orejas, cuelgo como un peso muerto",p:"escapulas"},
+       {txt:"Las manos y los antebrazos se cargan enseguida, incluso antes de tirar",p:"agarre"},
+       {txt:"Me siento estable: mi problema empieza al subir",p:"tiron"},
+       {txt:"Arranco bien, mi guerra está arriba del todo",p:"cierre"}]},
+ {t:"¿En qué parte del recorrido se muere tu repetición cuando fallas?",
+  ops:[{txt:"Abajo del todo: me cuesta hasta despegar",p:"escapulas"},
+       {txt:"A mitad de subida: me quedo clavado en el ángulo de noventa grados",p:"tiron"},
+       {txt:"Arriba: la barbilla se queda a centímetros de la barra",p:"cierre"},
+       {txt:"No fallo por fuerza: se me abren las manos antes",p:"agarre"}]},
+ {t:"Al día siguiente de entrenar dominadas, ¿dónde notas más la carga?",
+  ops:[{txt:"Antebrazos y manos",p:"agarre"},
+       {txt:"Bíceps casi todo, la espalda apenas",p:"tiron"},
+       {txt:"Trapecios y cuello",p:"escapulas"},
+       {txt:"Espalda alta, pero mis últimas repeticiones nunca llegan del todo arriba",p:"cierre"}]},
+ {t:"¿Cuál de estas frases te describe mejor?",
+  ops:[{txt:"Noto que tiro con los brazos y no sé activar la espalda",p:"tiron"},
+       {txt:"En series largas pienso más en no soltarme que en subir",p:"agarre"},
+       {txt:"Nunca he trabajado el control escapular a propósito",p:"escapulas"},
+       {txt:"Hago medias repeticiones sin darme cuenta, me lo han dicho",p:"cierre"}]},
+ {t:"Si haces una dominada lenta a propósito, ¿qué pasa?",
+  ops:[{txt:"Abajo no consigo mantener tensión: cuelgo suelto",p:"escapulas"},
+       {txt:"La primera mitad va, la parte final se hace eterna",p:"cierre"},
+       {txt:"El agarre me tiembla mucho antes que el resto",p:"agarre"},
+       {txt:"Me cuesta todo el tirón por igual, como si faltara fuerza de base",p:"tiron"}]},
+ {t:"¿Cómo entrenas dominadas normalmente?",
+  ops:[{txt:"Máximas repeticiones al fallo, varias series, casi siempre igual",p:"tiron"},
+       {txt:"Muchas repeticiones rápidas, sin bajar del todo",p:"escapulas"},
+       {txt:"Series largas seguidas: al final ya no me responden las manos",p:"agarre"},
+       {txt:"Repeticiones sueltas cuando puedo, sin estructura fija",p:"cierre"}]}
+];
+
+var resultados={
+ escapulas:{nombre:"Escápulas · La base",
+  que:"Tu dominada empieza sin cimientos. Sin control escapular cuelgas suelto y la espalda no llega a entrar en juego antes de subir: por eso el despegue cuesta tanto y los trapecios acaban cargando lo que debería llevar el dorsal.",
+  error:"Hacer más dominadas sin trabajar nunca la posición de las escápulas por separado. Cada repetición sin base refuerza el mismo patrón que te frena.",
+  paso:"Tu progresión no empieza haciendo más repeticiones: empieza con trabajo específico de control escapular antes de cada sesión —retracciones en barra y estabilizaciones colgado— y las dominadas se reconstruyen encima. Bien atacado, suele ser el punto débil que antes devuelve repeticiones."},
+ agarre:{nombre:"Agarre · El eslabón que cede primero",
+  que:"Tu espalda probablemente puede con más dominadas de las que haces: son tus manos y antebrazos los que dicen basta antes. Estás dejando en la barra repeticiones que tu fuerza real ya tiene.",
+  error:"Llevar cada serie hasta que las manos se abren. Terminar siempre con el agarre destruido acumula fatiga sin construir capacidad, y hace que sea él quien corte todas tus series.",
+  paso:"Series que terminan con margen (dos o tres repeticiones buenas en reserva, nunca al fallo) y trabajo colgado e isométrico que construye capacidad de agarre sin destrozarlo. Es de los puntos débiles más agradecidos: se nota en semanas, no en meses."},
+ tiron:{nombre:"Tirón · Fuerza de base",
+  que:"Tiras con los brazos porque tu cuerpo nunca aprendió a tirar con la espalda, y la fuerza de base se quedó corta. Por eso te clavas a media subida y el bíceps se lleva toda la carga.",
+  error:"Series al fallo con las mismas repeticiones, un día tras otro. Es el patrón que garantiza el estancamiento: mismo estímulo, misma fatiga, mismo número. La primera regla que doy a mis clientes es justo la contraria: no entrenar nunca al fallo, terminar siempre con dos repeticiones buenas en reserva.",
+  paso:"Progresión de fuerza estructurada, no más volumen del mismo tipo, y activación escapular antes de cada sesión para que mande la espalda y no el bíceps. Es el punto débil que más necesita plan y el que menos perdona improvisar."},
+ cierre:{nombre:"Cierre · Los últimos centímetros",
+  que:"Subes, pero la parte final no llega: la barbilla se queda baja o llega con trampa. El rango final es el más débil de la dominada y el primero que desaparece con la fatiga. En una prueba, muchas de esas repeticiones no contarían.",
+  error:"Contar medias repeticiones como enteras. Cada repetición incompleta entrena el recorrido incompleto y deja el cierre cada vez más rezagado.",
+  paso:"Isométricos manteniendo la posición alta, tempo controlado en la bajada (dos o tres segundos, nunca dejarse caer) y volver a contar solo lo que de verdad cuenta. Recuperar el estándar completo suele destapar el progreso que llevabas meses sin ver."}
+};
+
+var actual=0, marcador={escapulas:0,agarre:0,tiron:0,cierre:0};
+var letras=['A','B','C','D'];
+
+function empezar(){
+  document.getElementById('pantalla-inicio').style.display='none';
+  document.getElementById('pantalla-preguntas').style.display='block';
+  mostrar();
+}
+function mostrar(){
+  var p=preguntas[actual];
+  document.getElementById('barra').style.width=(actual/preguntas.length*100)+'%';
+  document.getElementById('num-preg').textContent='Pregunta '+(actual+1)+' / '+preguntas.length;
+  document.getElementById('texto-preg').textContent=p.t;
+  var c=document.getElementById('opciones');c.innerHTML='';
+  p.ops.forEach(function(op,i){
+    var b=document.createElement('button');
+    var l=document.createElement('span');l.className='letra';l.textContent=letras[i];
+    var t=document.createElement('span');t.textContent=op.txt;
+    b.appendChild(l);b.appendChild(t);
+    b.onclick=function(){responder(op.p)};
+    c.appendChild(b);
+  });
+}
+function responder(p){
+  marcador[p]++;actual++;
+  if(actual<preguntas.length){mostrar();}else{terminar();}
+}
+function terminar(){
+  var g='escapulas';
+  for(var k in marcador){if(marcador[k]>marcador[g])g=k;}
+  var r=resultados[g];
+  document.getElementById('pantalla-preguntas').style.display='none';
+  document.getElementById('pantalla-resultado').style.display='block';
+  document.getElementById('res-nombre').textContent=r.nombre;
+  document.getElementById('res-que').textContent=r.que;
+  document.getElementById('res-error').textContent=r.error;
+  document.getElementById('res-paso').textContent=r.paso;
+  document.getElementById('panel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function reiniciar(){
+  actual=0;marcador={escapulas:0,agarre:0,tiron:0,cierre:0};
+  document.getElementById('pantalla-resultado').style.display='none';
+  document.getElementById('pantalla-inicio').style.display='block';
+}
+</script>
+</body>
+</html>

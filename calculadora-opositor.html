@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora del Opositor · Rey de las Dominadas</title>
+<meta name="description" content="¿Llegas al número de dominadas de tu baremo antes de tu examen? Calcula tu ritmo y tu zona real.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --negro:#0B0B0B;
+    --carbon:#141414;
+    --carbon-alto:#1B1B1B;
+    --oro:#C9A227;
+    --oro-claro:#E0BE55;
+    --crema:#EFEAE0;
+    --gris:#9C968C;
+    --linea:rgba(201,162,39,.22);
+    --linea-sutil:rgba(255,255,255,.07);
+    --verde:#4E8C5B;
+    --ambar:#C08A2A;
+    --rojo:#B4402F;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--negro);
+    color:var(--crema);
+    font-family:'Montserrat',sans-serif;
+    font-size:16px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+
+  /* ---------- CABECERA ---------- */
+  header{text-align:center;padding:34px 0 10px;
+    background:radial-gradient(ellipse at 50% 0%, rgba(201,162,39,.10), transparent 62%)}
+  .logo{width:150px;height:auto;margin:0 auto 20px;display:block}
+  .eyebrow{
+    font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;
+    letter-spacing:.34em;text-transform:uppercase;color:var(--oro);
+    display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px;
+  }
+  .eyebrow::before,.eyebrow::after{content:'';height:1px;width:26px;background:var(--linea)}
+  h1{
+    font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;
+    font-size:clamp(34px,9vw,62px);line-height:.98;letter-spacing:.005em;color:var(--crema);
+  }
+  h1 em{font-style:normal;color:var(--oro);display:block}
+  .sub{font-size:15.5px;color:var(--gris);max-width:460px;margin:16px auto 0}
+
+  /* ---------- CALCULADORA ---------- */
+  .panel{
+    background:var(--carbon);
+    border:1px solid var(--linea);
+    padding:26px 22px 28px;margin:30px 0 12px;
+  }
+  .panel-tag{
+    font-size:10.5px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--oro);margin-bottom:18px;
+  }
+  .campo{margin-bottom:18px}
+  .campo label{
+    display:block;font-family:'Oswald',sans-serif;font-size:15px;font-weight:500;
+    letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;color:var(--crema);
+  }
+  .campo input{
+    width:100%;padding:14px 16px;font-family:'Oswald',sans-serif;
+    font-size:26px;font-weight:600;color:var(--oro-claro);
+    background:var(--negro);border:1px solid var(--linea-sutil);
+    outline:none;transition:border-color .15s;-moz-appearance:textfield;
+  }
+  .campo input::-webkit-outer-spin-button,.campo input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .campo input::placeholder{color:#3A3A3A}
+  .campo input:focus{border-color:var(--oro)}
+  .pista{font-size:12.5px;color:var(--gris);margin-top:7px;line-height:1.5}
+  .btn{
+    display:block;width:100%;padding:18px;border:none;cursor:pointer;
+    background:var(--oro);color:var(--negro);
+    font-family:'Oswald',sans-serif;font-size:17px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;transition:background .15s;
+  }
+  .btn:hover{background:var(--oro-claro)}
+  .btn:focus-visible{outline:2px solid var(--crema);outline-offset:3px}
+
+  /* ---------- RESULTADO ---------- */
+  #resultado{display:none;margin-top:24px;border:1px solid var(--linea-sutil)}
+  #resultado.visible{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .zona-cab{padding:18px 20px;border-bottom:1px solid rgba(0,0,0,.25)}
+  .zona-cab .et{font-size:10.5px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(11,11,11,.65)}
+  .zona-cab .nom{font-family:'Oswald',sans-serif;font-size:clamp(24px,6vw,32px);font-weight:700;
+    text-transform:uppercase;line-height:1.05;margin-top:3px;color:var(--negro)}
+  .verde .zona-cab{background:var(--verde)}
+  .ambar .zona-cab{background:var(--ambar)}
+  .rojo .zona-cab{background:var(--rojo)}
+  .rojo .zona-cab .et,.verde .zona-cab .et{color:rgba(255,255,255,.75)}
+  .rojo .zona-cab .nom,.verde .zona-cab .nom{color:#fff}
+  .zona-cuerpo{background:var(--carbon-alto);padding:22px 20px}
+  .cifras{display:flex;gap:26px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--linea-sutil)}
+  .cifra .n{font-family:'Oswald',sans-serif;font-size:52px;font-weight:700;line-height:.9;color:var(--oro)}
+  .cifra .l{font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);margin-top:8px;max-width:150px;line-height:1.4}
+  .zona-txt{font-size:15px;margin-top:16px;color:var(--crema)}
+  .zona-txt strong{color:var(--oro-claro);font-weight:700}
+  .cta-res{
+    display:block;text-align:center;margin-top:20px;padding:16px;
+    background:var(--oro);color:var(--negro);text-decoration:none;
+    font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;transition:background .15s;
+  }
+  .cta-res:hover{background:var(--oro-claro)}
+  .nota-metodo{
+    font-size:12px;color:var(--gris);line-height:1.6;margin-top:16px;
+    padding:14px;border-left:2px solid var(--linea);background:rgba(255,255,255,.02);
+  }
+
+  /* ---------- SECCIONES ---------- */
+  section{padding:52px 0 0}
+  .sec-eyebrow{
+    font-size:10.5px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--oro);
+    display:flex;align-items:center;gap:12px;margin-bottom:14px;
+  }
+  .sec-eyebrow::before{content:'';height:1px;width:28px;background:var(--linea)}
+  h2{
+    font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;
+    font-size:clamp(26px,6.5vw,42px);line-height:1.02;color:var(--crema);margin-bottom:16px;
+  }
+  h2 em{font-style:normal;color:var(--oro)}
+  .lead{font-size:15.5px;color:var(--gris);margin-bottom:24px;max-width:560px}
+
+  .lista{border:1px solid var(--linea-sutil)}
+  .item{display:flex;gap:18px;padding:20px;border-bottom:1px solid var(--linea-sutil);background:var(--carbon)}
+  .item:last-child{border-bottom:none}
+  .item:nth-child(even){background:var(--carbon-alto)}
+  .rom{font-family:'Oswald',sans-serif;font-size:19px;font-weight:600;color:var(--oro);
+    min-width:26px;line-height:1.3;padding-top:1px}
+  .item .txt{font-size:14.8px;color:var(--gris);line-height:1.6}
+  .item .txt b{color:var(--crema);font-weight:700}
+
+  .aviso{
+    margin-top:16px;font-size:13px;color:var(--gris);line-height:1.6;
+    padding:16px;border:1px dashed var(--linea);
+  }
+  .aviso b{color:var(--oro-claro)}
+
+  /* ---------- CIERRE ---------- */
+  .cierre{
+    margin:56px 0 0;padding:44px 26px;text-align:center;
+    border:1px solid var(--linea);
+    background:radial-gradient(ellipse at 50% 0%, rgba(201,162,39,.12), transparent 65%), var(--carbon);
+  }
+  .cierre h2{margin-bottom:14px}
+  .cierre p{font-size:15px;color:var(--gris);max-width:470px;margin:0 auto 24px}
+  .btn-oro{
+    display:inline-block;padding:17px 40px;background:var(--oro);color:var(--negro);
+    text-decoration:none;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;transition:background .15s;
+  }
+  .btn-oro:hover{background:var(--oro-claro)}
+  .link-canal{display:block;margin-top:20px;color:var(--gris);font-size:13.5px;
+    text-decoration:underline;text-underline-offset:4px}
+  .link-canal:hover{color:var(--oro)}
+
+  footer{text-align:center;padding:36px 0 44px;font-size:11.5px;letter-spacing:.2em;
+    text-transform:uppercase;color:#4A4A4A}
+  @media (prefers-reduced-motion:reduce){#resultado.visible{animation:none}html{scroll-behavior:auto}}
+  @media (max-width:420px){.cifras{gap:18px}.cifra .n{font-size:42px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <img class="logo" src="logo.png" alt="Rey de las Dominadas">
+    <div class="eyebrow">Calculadora del opositor</div>
+    <h1>¿Llegas<em>a tu baremo?</em></h1>
+    <p class="sub">Mete tus tres números y descubre el ritmo real que necesitas y en qué zona estás hoy.</p>
+  </header>
+
+  <div class="panel">
+    <div class="panel-tag">Tus números</div>
+
+    <div class="campo">
+      <label for="actuales">Dominadas que haces hoy</label>
+      <input type="number" id="actuales" inputmode="numeric" min="0" max="60" placeholder="6">
+      <div class="pista">Estrictas y sin impulso: las que te contarían en la prueba, no las que sales del gimnasio diciendo.</div>
+    </div>
+
+    <div class="campo">
+      <label for="objetivo">Dominadas que quieres alcanzar</label>
+      <input type="number" id="objetivo" inputmode="numeric" min="1" max="60" placeholder="14">
+      <div class="pista">El número de la nota que buscas en tu baremo, no el mínimo para no eliminarte. Compruébalo en las bases oficiales de tu convocatoria.</div>
+    </div>
+
+    <div class="campo">
+      <label for="semanas">Semanas hasta tu prueba</label>
+      <input type="number" id="semanas" inputmode="numeric" min="1" max="260" placeholder="20">
+      <div class="pista">Si aún no hay fecha, calcula con la convocatoria anterior.</div>
+    </div>
+
+    <button class="btn" onclick="calcular()">Calcular mi zona</button>
+
+    <div id="resultado" role="status" aria-live="polite">
+      <div class="zona-cab">
+        <div class="et">Tu zona</div>
+        <div class="nom" id="zona-nombre"></div>
+      </div>
+      <div class="zona-cuerpo">
+        <div class="cifras">
+          <div class="cifra"><div class="n" id="faltan"></div><div class="l">dominadas te separan del objetivo</div></div>
+          <div class="cifra"><div class="n" id="ritmo"></div><div class="l">dominadas nuevas al mes que necesitas</div></div>
+        </div>
+        <div class="zona-txt" id="zona-texto"></div>
+        <a class="cta-res" href="https://ig.me/m/lluis.calisthenics" target="_blank" rel="noopener">Escríbeme REY y vemos tu caso</a>
+        <div class="nota-metodo" id="nota-metodo"></div>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-eyebrow">Antes de entrenar más</div>
+    <h2>El estándar <em>que puntúa</em></h2>
+    <p class="lead">Muchos opositores pierden repeticiones el día de la prueba por ejecución, no por falta de fuerza. Estos son los puntos que el tribunal mira en casi todas las convocatorias:</p>
+
+    <div class="lista">
+      <div class="item"><div class="rom">I</div><div class="txt"><b>Barbilla claramente por encima de la barra.</b> No "a la altura de". Si tu última repetición se queda a un dedo, para el tribunal no existe. En mis programas entrenamos con un estándar más exigente todavía —llevar la clavícula a la altura de la barra— para que el día de la prueba te sobre recorrido en lugar de faltarte.</div></div>
+      <div class="item"><div class="rom">II</div><div class="txt"><b>Extensión completa de brazos abajo.</b> El medio recorrido que te vale en el parque te anula repeticiones en la prueba.</div></div>
+      <div class="item"><div class="rom">III</div><div class="txt"><b>Sin impulso ni balanceo.</b> Piernas que se doblan, cadera que empuja: el kipping que ni notas se ve desde fuera.</div></div>
+      <div class="item"><div class="rom">IV</div><div class="txt"><b>El agarre de tu convocatoria.</b> Prono, supino y anchura cambian según el cuerpo y el año. Entrenar meses con el agarre equivocado es regalar puntos.</div></div>
+    </div>
+
+    <div class="aviso"><b>Importante:</b> los criterios exactos (agarre permitido, tiempo, si se puede parar colgado, número por nota) los fija cada convocatoria. Esta página te da el marco general; las bases oficiales de tu proceso mandan siempre.</div>
+  </section>
+
+  <section>
+    <div class="sec-eyebrow">El día de la prueba</div>
+    <h2>Tres errores que <em>te cuestan repeticiones</em></h2>
+
+    <div class="lista">
+      <div class="item"><div class="rom">I</div><div class="txt"><b>Salir a sprint.</b> Los nervios te hacen quemar las primeras repeticiones demasiado rápido. El agarre y la espalda pasan factura justo en las que decidían tu nota.</div></div>
+      <div class="item"><div class="rom">II</div><div class="txt"><b>Acortar el recorrido al fatigarte.</b> A partir de la mitad la barbilla se queda baja y los brazos dejan de estirarse. Tú cuentas catorce; el tribunal cuenta once.</div></div>
+      <div class="item"><div class="rom">III</div><div class="txt"><b>Llegar reventado.</b> Entrenar al fallo en los días previos. A una prueba se llega descansado y afinado: la última semana se planifica, no se improvisa.</div></div>
+    </div>
+  </section>
+
+  <div class="cierre">
+    <h2>La calculadora te dice cuánto te falta.<br><em>Cerrarlo a tiempo es mi trabajo.</em></h2>
+    <p>Trabajo con opositores con programación inversa desde su fecha de prueba: empezamos por tu punto de partida real y tu baremo, no por un plan genérico.</p>
+    <a class="btn-oro" href="https://ig.me/m/lluis.calisthenics" target="_blank" rel="noopener">Escríbeme REY</a>
+    <a class="link-canal" href="https://whatsapp.com/channel/0029VbDYBo35Ui2ZCApWU709" target="_blank" rel="noopener">O entra gratis a mi canal: método y casos reales cada semana</a>
+  </div>
+
+  <footer>Rey de las Dominadas · @lluis.calisthenics</footer>
+</div>
+
+<script>
+function calcular(){
+  var a=parseInt(document.getElementById('actuales').value,10);
+  var o=parseInt(document.getElementById('objetivo').value,10);
+  var s=parseInt(document.getElementById('semanas').value,10);
+  var res=document.getElementById('resultado');
+
+  if(isNaN(a)||isNaN(o)||isNaN(s)||s<1||o<1||a<0){
+    alert('Rellena los tres campos con tus números.');return;
+  }
+
+  res.classList.remove('verde','ambar','rojo');
+  var faltan=o-a, zona, nombre, texto;
+  var notaBase='<b>Cómo se calcula:</b> el ritmo es la diferencia entre tus dominadas y tu objetivo repartida entre las semanas que te quedan. Las zonas están fijadas comparando ese ritmo con el que suelo ver en mis clientes durante un bloque de trabajo. Es una referencia de mi experiencia entrenando opositores, no un dato de laboratorio.<br><br><b>Y no es lineal:</b> pasar de 3 a 7 dominadas es mucho más rápido que pasar de 14 a 18. Si tu objetivo es alto, la parte final del camino pesa más de lo que sugiere la media.';
+
+  if(faltan<=0){
+    zona='verde';nombre='Verde · Ya estás en el número';
+    document.getElementById('faltan').textContent='0';
+    document.getElementById('ritmo').textContent='—';
+    texto='<strong>Ya haces el número que buscabas.</strong> Tu trabajo cambia: consolidarlo con margen para que también salga el día malo y con nervios, blindar la ejecución al estándar del tribunal y llegar fresco a la prueba. Esta es la fase donde más se relaja la gente y donde más plazas se escapan por confianza.';
+  } else {
+    var ritmo=(faltan/s)*4.33;
+    document.getElementById('faltan').textContent=faltan;
+    document.getElementById('ritmo').textContent=(Math.round(ritmo*10)/10).toString().replace('.',',');
+
+    if(ritmo<=1.5){
+      zona='verde';nombre='Verde · Llegas con margen';
+      texto='El ritmo que te pide tu fecha es <strong>alcanzable con un plan bien estructurado</strong>. Tu riesgo no es el tiempo: es gastarlo entrenando sin progresión y presentarte más justo de lo que te tocaba. El margen es una ventaja solo si lo usas.';
+    } else if(ritmo<=3){
+      zona='ambar';nombre='Ámbar · Justo, sin margen de error';
+      texto='Llegas <strong>solo si cada semana suma</strong>. A este ritmo no caben meses de prueba y error, ni programas genéricos, ni parones largos. Necesitas progresión afinada a tu punto débil desde ya: una molestia mal gestionada o tres semanas mal enfocadas te pasan a zona roja.';
+    } else {
+      zona='rojo';nombre='Roja · Necesitas intervención ya';
+      texto='El ritmo que te exige tu fecha está <strong>por encima de lo que consigue la mayoría entrenando por su cuenta</strong>. No es imposible, pero es justo el escenario donde la diferencia entre un plan genérico y una programación inversa desde tu prueba decide si hay plaza o no. Aquí cada semana cuenta doble.';
+    }
+  }
+
+  res.classList.add(zona,'visible');
+  document.getElementById('zona-nombre').textContent=nombre;
+  document.getElementById('zona-texto').innerHTML=texto;
+  document.getElementById('nota-metodo').innerHTML=notaBase;
+  res.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+</script>
+</body>
+</html>
