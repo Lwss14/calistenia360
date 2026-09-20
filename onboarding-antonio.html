@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bienvenido a Baremo Blindado · Bombero</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070808;--bg2:#0e1012;--bg3:#151719;--bg4:#1d2124;
+  --text:#f0ede8;--text2:#899;--text3:#454b4f;
+  --steel:#e24b3a;--steel2:rgba(226,75,58,0.1);--steel3:rgba(226,75,58,0.25);
+  --gold:#c9a84c;--gold2:rgba(201,168,76,0.1);
+  --green:#1D9E75;--green2:rgba(29,158,117,0.1);--green3:rgba(29,158,117,0.22);
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);
+  --r:12px;--r2:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes lineGrow{from{width:0}to{width:100%}}
+.fu{animation:fadeUp .7s cubic-bezier(.16,1,.3,1) forwards;opacity:0}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.35s}.d4{animation-delay:.5s}.d5{animation-delay:.65s}.d6{animation-delay:.8s}.d7{animation-delay:.95s}.d8{animation-delay:1.1s}
+.wrap{max-width:680px;margin:0 auto;padding:3rem 1.25rem 6rem;position:relative;z-index:1}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:4rem;gap:1rem}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:32px;height:32px;border:1px solid var(--steel);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:15px;color:var(--steel);letter-spacing:.02em;line-height:1}
+.brand-name{font-size:11px;font-weight:500;letter-spacing:.16em;color:var(--text3);text-transform:uppercase}
+.plan-badge{font-size:10px;font-weight:500;letter-spacing:.1em;color:var(--steel);text-transform:uppercase;padding:4px 10px;border:1px solid var(--steel3);border-radius:20px;background:var(--steel2);white-space:nowrap}
+.hero{margin-bottom:3.5rem}
+.hero-from{font-size:12px;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.hero-from::before{content:'';width:20px;height:1px;background:var(--steel);opacity:.6}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,10vw,88px);line-height:.9;letter-spacing:.02em;margin-bottom:1.5rem}
+.hero-title .l1{display:block;color:var(--text)}
+.hero-title .l2{display:block;color:var(--steel)}
+.hero-title .name{display:block;color:var(--text)}
+.hero-sub{font-size:15px;color:var(--text2);line-height:1.8;max-width:540px}
+.hero-sub strong{color:var(--text);font-weight:500}
+.mission-line{display:flex;align-items:flex-start;gap:12px;margin:2.5rem 0;padding:1rem 1.25rem;background:var(--steel2);border:1px solid var(--steel3);border-radius:var(--r)}
+.mission-icon{font-size:20px;flex-shrink:0}
+.mission-text{font-size:13px;color:var(--text2);line-height:1.6}
+.mission-text strong{color:var(--steel);font-weight:500}
+.divider{height:1px;background:var(--border);margin:2.5rem 0;position:relative}
+.divider::after{content:'';position:absolute;left:0;top:0;height:1px;background:linear-gradient(90deg,var(--steel),transparent);animation:lineGrow 1.2s ease forwards;animation-delay:.5s;width:0}
+.sec-label{font-size:10px;font-weight:500;letter-spacing:.18em;color:var(--text3);text-transform:uppercase;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.msg-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);padding:1.75rem;margin-bottom:2.5rem;position:relative;overflow:hidden}
+.msg-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:linear-gradient(180deg,var(--steel),transparent)}
+.msg-text{font-size:15px;line-height:1.85;color:var(--text2);font-style:italic;margin-bottom:1.25rem}
+.msg-text strong{color:var(--text);font-style:normal}
+.msg-author{display:flex;align-items:center;gap:10px}
+.msg-av{width:32px;height:32px;border-radius:50%;background:var(--steel);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.msg-name{font-size:12px;color:var(--text3)}
+.msg-role{font-size:11px;color:var(--text3);margin-top:1px}
+.block{margin-bottom:2rem}
+.block-head{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.block-icon{width:34px;height:34px;border-radius:9px;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.block-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.03em}
+.block-items{padding-left:0}
+.bitem{display:flex;align-items:flex-start;gap:.8rem;padding:.7rem 0;border-bottom:1px solid var(--border)}
+.bitem:last-child{border-bottom:none}
+.bitem-dot{width:6px;height:6px;border-radius:50%;background:var(--steel);flex-shrink:0;margin-top:7px}
+.bitem-body{flex:1}
+.bitem-t{font-size:14px;font-weight:500;margin-bottom:2px}
+.bitem-d{font-size:12px;color:var(--text3);line-height:1.55}
+.plan-box{background:var(--bg2);border:1px solid var(--steel);border-radius:var(--r2);padding:1.25rem 1.5rem;margin-bottom:2.5rem;display:flex;align-items:center;justify-content:space-between}
+.plan-num{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--steel);line-height:1}
+.plan-lbl{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.plan-r{text-align:right}
+.plan-tag{font-size:11px;color:var(--steel);text-transform:uppercase;letter-spacing:.1em}
+.plan-sub{font-size:12px;color:var(--text3);margin-top:4px}
+.obj-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);padding:1.75rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.obj-box::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:var(--gold)}
+.obj-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);letter-spacing:.04em;margin-bottom:.5rem}
+.obj-text{font-size:14px;color:var(--text2);line-height:1.8}
+.obj-text strong{color:var(--text)}
+.garantia{background:var(--bg2);border:1px solid var(--green3);border-radius:var(--r2);padding:1.75rem;margin-bottom:2.5rem;position:relative;overflow:hidden}
+.garantia::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:var(--green)}
+.garantia-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--green);letter-spacing:.04em;margin-bottom:.5rem}
+.garantia-text{font-size:14px;color:var(--text2);line-height:1.8}
+.garantia-text strong{color:var(--text)}
+.steps{margin-bottom:2rem}
+.step{display:flex;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step-num{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--steel);opacity:.35;line-height:1;flex-shrink:0;width:34px;text-align:center}
+.step-title{font-size:14px;font-weight:500;margin-bottom:3px}
+.step-desc{font-size:12px;color:var(--text3);line-height:1.6}
+.cta-block{text-align:center;margin-bottom:2.5rem;padding:2rem 1rem 0}
+.cta-title{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.03em;margin-bottom:.5rem}
+.cta-sub{font-size:14px;color:var(--text2);line-height:1.7;max-width:460px;margin:0 auto}
+.cta-sub strong{color:var(--steel)}
+.footer{text-align:center;font-size:11px;color:var(--text3);letter-spacing:.08em;margin-top:3rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar fu d1">
+    <div class="brand"><div class="brand-mark">BB</div><span class="brand-name">Baremo Blindado · Bombero</span></div>
+    <span class="plan-badge">4 meses · 1:1</span>
+  </div>
+
+  <div class="hero">
+    <div class="hero-from fu d1">Preparación personalizada 1:1</div>
+    <div class="hero-title fu d2">
+      <span class="l1">BIENVENIDO,</span>
+      <span class="name">ANTONIO</span>
+    </div>
+    <p class="hero-sub fu d3">Ya está. A partir de esta semana dejamos atrás el plan genérico que te tenía estancado y montamos una preparación hecha <strong>para tu cuerpo y para tu convocatoria</strong>. Vamos a por tu mejor marca el día del examen. 💪🏻</p>
+  </div>
+
+  <div class="mission-line fu d3">
+    <span class="mission-icon">🎯</span>
+    <div class="mission-text">Esto no es un plan más. Llevas dos años opositando y un año estancado en tu marca de dominadas. Fallas a partir de la doce, no en fuerza máxima, y con 1,93 y 90 kg <strong>no puedes entrenar como uno de 60 kg</strong>. Todo el plan parte de ahí.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-label fu d4">Mensaje del coach</div>
+  <div class="msg-card fu d4">
+    <div class="msg-text">"Antonio, tu cuerpo grande no es un problema, es la clave de cómo hay que entrenarte. El plan genérico te ha tenido un año parado porque no está hecho para ti. Vamos a medir tu marca real desde el día cero, atacar tu punto de rotura de verdad y llevar tus dominadas estrictas a su mejor versión posible para el día del examen. <strong>Tú pones el trabajo, yo pongo el plan y la técnica.</strong> Y a partir de hoy me tienes al otro lado del WhatsApp."</div>
+    <div class="msg-author"><div class="msg-av">L</div><div><div class="msg-name">Lluís García</div><div class="msg-role">Coach · Baremo Blindado</div></div></div>
+  </div>
+
+  <!-- PUNTO DE PARTIDA -->
+  <div class="block fu d4">
+    <div class="block-head"><div class="block-icon">📍</div><div class="block-title">Punto de partida</div></div>
+    <div class="block-items">
+      <div class="bitem"><div class="bitem-dot"></div><div class="bitem-body"><div class="bitem-t">Test de entrada grabado con estándar estricto</div><div class="bitem-d">Medimos tu marca real desde el día 0. De ahí sale todo el plan, sin suposiciones.</div></div></div>
+    </div>
+  </div>
+
+  <!-- ENTRENAMIENTO -->
+  <div class="block fu d5">
+    <div class="block-head"><div class="block-icon">🏋️</div><div class="block-title">Entrenamiento</div></div>
+    <div class="block-items">
+      <div class="bitem"><div class="bitem-dot"></div><div class="bitem-body"><div class="bitem-t">Programación 100% personalizada para tu cuerpo</div><div class="bitem-d">Diseñada para tus 1,93 y 90 kg. El plan genérico es justo lo que te tenía estancado.</div></div></div>
+      <div class="bitem"><div class="bitem-dot"></div><div class="bitem-body"><div class="bitem-t">Trabajo específico de tu punto de rotura</div><div class="bitem-d">Fallas después de la doce, no en fuerza máxima. Eso se entrena distinto, y así lo vamos a entrenar.</div></div></div>
+      <div class="bitem"><div class="bitem-dot"></div><div class="bitem-body"><div class="bitem-t">Adaptación semana a semana</div><div class="bitem-d">El plan evoluciona según cómo responde tu cuerpo, no según una plantilla fija.</div></div></div>
+    </div>
+  </div>
+
+  <!-- TÉCNICA -->
+  <div class="block fu d5">
+    <div class="block-head"><div class="block-icon">🎬</div><div class="block-title">Técnica</div></div>
+    <div class="block-items">
+      <div class="bitem"><div class="bitem-dot"></div><div class="bitem-body"><div class="bitem-t">Técnica al estándar estricto de tu convocatoria de Córdoba</div><div class="bitem-d">Si el tribunal viene laxo, te cuentan más. Si viene estricto, no te anulan ninguna. Dejas de depender de la suerte.</div></div></div>
+      <div class="bitem"><div class="bitem-dot"></div><div class="bitem-body"><div class="bitem-t">Corrección con tus vídeos cada semana</div><div class="bitem-d">Me mandas tus series, te devuelvo el análisis técnico detallado.</div></div></div>
+    </div>
+  </div>
+
+  <!-- SEGUIMIENTO -->
+  <div class="block fu d6">
+    <div class="block-head"><div class="block-icon">📲</div><div class="block-title">Seguimiento</div></div>
+    <div class="block-items">
+      <div class="bitem"><div class="bitem-dot"></div><div class="bitem-body"><div class="bitem-t">WhatsApp directo conmigo</div><div class="bitem-d">Respuesta el mismo día, normalmente en menos de 5 horas. Sin bots, sin grupos, sin esperas.</div></div></div>
+      <div class="bitem"><div class="bitem-dot"></div><div class="bitem-body"><div class="bitem-t">Simulacro de examen cada mes</div><div class="bitem-d">En condiciones reales y con el baremo exacto de tu convocatoria. Siempre sabes a qué distancia estás.</div></div></div>
+    </div>
+  </div>
+
+  <!-- DÍA DE LA PRUEBA -->
+  <div class="block fu d6">
+    <div class="block-head"><div class="block-icon">🔥</div><div class="block-title">Día de la prueba</div></div>
+    <div class="block-items">
+      <div class="bitem"><div class="bitem-dot"></div><div class="bitem-body"><div class="bitem-t">Estrategia de examen</div><div class="bitem-d">Calentamiento, timing, gestión de nervios y reparto del esfuerzo para no quemarte en las primeras repeticiones.</div></div></div>
+    </div>
+  </div>
+
+  <div class="plan-box fu d6">
+    <div><div class="plan-num">4 MESES</div><div class="plan-lbl">Preparación 1:1</div></div>
+    <div class="plan-r"><div class="plan-tag">Plan activo</div><div class="plan-sub">Baremo Blindado · Bombero</div></div>
+  </div>
+
+  <!-- OBJETIVO -->
+  <div class="sec-label fu d7">El objetivo</div>
+  <div class="obj-box fu d7">
+    <div class="obj-title">Vamos a por el máximo</div>
+    <div class="obj-text">Partimos de tu marca real y trabajamos para llevar tus <strong>dominadas estrictas a su mejor versión posible el día del examen</strong>. Los objetivos de cada fase los ajusto en cuanto vea tu vídeo del test de entrada. Nada de cifras al aire: primero medimos, luego marcamos el camino.</div>
+  </div>
+
+  <!-- GARANTÍA -->
+  <div class="garantia fu d7">
+    <div class="garantia-title">Mi garantía contigo</div>
+    <div class="garantia-text">Si cumples tu parte (subes los vídeos que te pido, reportas tus sesiones cada semana y me contestas) y al llegar al examen no has subido tu marca estricta, <strong>sigo contigo 8 semanas más sin coste.</strong></div>
+  </div>
+
+  <!-- PRIMEROS PASOS -->
+  <div class="sec-label fu d8">Tus primeros pasos</div>
+  <div class="steps fu d8">
+    <div class="step"><div class="step-num">1</div><div><div class="step-title">Rellena el formulario de conocimiento</div><div class="step-desc">Te lo envío junto a esta página. Historial, material, horarios reales y lesiones si las hay. Cuanto más honesto y detallado, mejor te monto el plan.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">Grábate tu serie máxima con estándar estricto</div><div class="step-desc">Con ese vídeo veo tu punto real de partida y ajustamos los objetivos de cada fase.</div></div></div>
+  </div>
+
+  <div class="cta-block fu d8">
+    <div class="cta-title">ARRANCAMOS ESTA SEMANA</div>
+    <p class="cta-sub">Con esas dos cosas empiezo a montar tu plan. Un año estancado se acaba hoy. <strong>Vamos a por ello.</strong> 🔥</p>
+  </div>
+
+  <div class="footer fu d8">Baremo Blindado · Oposición Bombero · Preparación 1:1 con Lluís García</div>
+</div>
+</body>
+</html>
