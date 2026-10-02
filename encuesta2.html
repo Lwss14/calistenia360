@@ -12,7 +12,7 @@ html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .fu{animation:fadeUp .6s ease forwards;opacity:0}
-.d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}.d5{animation-delay:.7s}.d6{animation-delay:.85s}.d7{animation-delay:1s}.d8{animation-delay:1.15s}.d9{animation-delay:1.3s}.d10{animation-delay:1.45s}
+.d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}.d5{animation-delay:.7s}.d6{animation-delay:.85s}.d7{animation-delay:1s}.d8{animation-delay:1.15s}.d9{animation-delay:1.3s}.d10{animation-delay:1.45s}.d11{animation-delay:1.6s}
 .wrap{max-width:620px;margin:0 auto;padding:3rem 1.25rem 5rem}
 .header{text-align:center;margin-bottom:3.5rem}
 .header-eyebrow{font-size:11px;font-weight:500;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem}
@@ -48,7 +48,7 @@ textarea::placeholder,input::placeholder{color:var(--text3)}
     <form id="surveyForm" onsubmit="submitForm(event)">
 
       <div class="field fu d2">
-        <div class="field-num">01 — 08</div>
+        <div class="field-num">01 — 09</div>
         <div class="field-label">¿Dónde me viste por primera vez?</div>
         <div class="field-hint">Instagram, YouTube, un referido, un podcast, Google... sé lo más específico que puedas.</div>
         <input type="text" name="donde_me_viste" placeholder="ej. Un reel en Instagram sobre dominadas">
@@ -56,61 +56,69 @@ textarea::placeholder,input::placeholder{color:var(--text3)}
       <div class="divider"></div>
 
       <div class="field fu d3">
-        <div class="field-num">02 — 08</div>
+        <div class="field-num">02 — 09</div>
+        <div class="field-label">¿Qué publicación te hizo escribirme?</div>
+        <div class="field-hint">Ej.: el reel de 9 a 23 dominadas, el testimonio de Rubén, el carrusel de espalda y bíceps...</div>
+        <input type="text" name="publicacion" placeholder="ej. El reel de 9 a 23 dominadas">
+      </div>
+      <div class="divider"></div>
+
+      <div class="field fu d4">
+        <div class="field-num">03 — 09</div>
         <div class="field-label">¿Cuál fue el último contenido que viste antes de dar el paso?</div>
         <div class="field-hint">Sé lo más específico posible: el título, el tema o de qué iba.</div>
         <input type="text" name="ultimo_contenido" placeholder="ej. Un vídeo sobre cómo conseguir tu primera dominada">
       </div>
       <div class="divider"></div>
 
-      <div class="field fu d4">
-        <div class="field-num">03 — 08</div>
+      <div class="field fu d5">
+        <div class="field-num">04 — 09</div>
         <div class="field-label">¿Qué problema intentabas resolver cuando me encontraste?</div>
         <div class="field-hint">En tus propias palabras, no la versión "oficial". ¿Qué te frustraba de verdad?</div>
         <textarea name="problema" placeholder="Escribe aquí..."></textarea>
       </div>
       <div class="divider"></div>
 
-      <div class="field fu d5">
-        <div class="field-num">04 — 08</div>
+      <div class="field fu d6">
+        <div class="field-num">05 — 09</div>
         <div class="field-label">¿Qué te llevó a querer trabajar conmigo?</div>
         <div class="field-hint">¿Qué viste en mí o en mi contenido que te llamó la atención?</div>
         <textarea name="por_que_yo" placeholder="Escribe aquí..." required></textarea>
       </div>
       <div class="divider"></div>
 
-      <div class="field fu d6">
-        <div class="field-num">05 — 08</div>
+      <div class="field fu d7">
+        <div class="field-num">06 — 09</div>
         <div class="field-label">¿Qué fue lo que finalmente te empujó a rellenar el formulario?</div>
         <div class="field-hint">¿Fue un contenido, una historia, algo que dije o algo más?</div>
         <textarea name="push_final" placeholder="Escribe aquí..." required></textarea>
       </div>
       <div class="divider"></div>
 
-      <div class="field fu d7">
-        <div class="field-num">06 — 08</div>
+      <div class="field fu d8">
+        <div class="field-num">07 — 09</div>
         <div class="field-label">¿Cuáles fueron tus mayores dudas antes de unirte?</div>
         <div class="field-hint">¿El precio, la confianza, el momento, o algo más?</div>
         <textarea name="dudas" placeholder="Escribe aquí..." required></textarea>
       </div>
       <div class="divider"></div>
 
-      <div class="field fu d8">
-        <div class="field-num">07 — 08</div>
+      <div class="field fu d9">
+        <div class="field-num">08 — 09</div>
         <div class="field-label">Hay otros coaches online. ¿Por qué me elegiste a mí?</div>
         <div class="field-hint">Tu respuesta honesta, sin filtros.</div>
         <textarea name="por_que_no_otros" placeholder="Escribe aquí..." required></textarea>
       </div>
       <div class="divider"></div>
 
-      <div class="field fu d9">
-        <div class="field-num">08 — 08</div>
+      <div class="field fu d10">
+        <div class="field-num">09 — 09</div>
         <div class="field-label">¿Hay algo del programa que no esperabas que estuviera incluido y te sorprendió positivamente?</div>
         <div class="field-hint">Cosas que no mencioné en Instagram, en stories, en el chat...</div>
         <textarea name="sorpresa" placeholder="Escribe aquí..."></textarea>
       </div>
 
-      <div class="fu d10">
+      <div class="fu d11">
         <button type="submit" class="submit-btn">ENVIAR MIS RESPUESTAS →</button>
       </div>
     </form>
