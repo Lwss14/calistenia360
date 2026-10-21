@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Test del Punto Débil · Rey de las Dominadas</title>
-<meta name="description" content="Llevas meses estancado en dominadas y no sabes por qué. Seis preguntas para saber dónde falla tu dominada.">
+<meta name="description" content="Llevas meses estancado en dominadas y no sabes por qué. Ocho preguntas para saber dónde falla tu dominada.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -110,13 +110,13 @@
     <img class="logo" src="logo.png" alt="Rey de las Dominadas">
     <div class="eyebrow">Test del punto débil</div>
     <h1>¿Dónde falla<em>tu dominada?</em></h1>
-    <p class="sub">Seis preguntas sobre cómo entrenas y cómo se siente tu dominada. Al final, el eslabón que te está frenando.</p>
+    <p class="sub">Ocho preguntas sobre cómo entrenas y cómo se siente tu dominada. Al final, el eslabón que te está frenando.</p>
   </header>
 
   <div class="panel" id="panel">
     <div id="pantalla-inicio">
       <div class="panel-tag">Antes de empezar</div>
-      <p class="intro-txt">Casi nadie está estancado "en general". Se está estancado en <b>un eslabón concreto</b> de la cadena: el control escapular, el agarre, la fuerza de tirón o el cierre de la repetición. Responde con sinceridad: aquí no hay respuestas buenas ni malas, solo información sobre ti.</p>
+      <p class="intro-txt">Casi nadie está estancado "en general". Se está estancado en <b>un eslabón concreto</b>: el control escapular, el agarre, la fuerza de tirón o el cierre de la repetición. Y si tu técnica ya está bien, <b>en cómo programas tu entrenamiento</b>. Responde con sinceridad: aquí no hay respuestas buenas ni malas, solo información sobre ti.</p>
       <button class="btn" onclick="empezar()">Empezar el test</button>
     </div>
 
@@ -164,43 +164,59 @@
 
 <script>
 var preguntas=[
+ {t:"¿Cuántas dominadas estrictas haces hoy en una sola serie?",
+  ops:[{txt:"Entre 0 y 4",p:null},
+       {txt:"Entre 5 y 7",p:null},
+       {txt:"Entre 8 y 12",p:"techo",apto:true},
+       {txt:"Más de 12",p:"techo",apto:true}]},
+ {t:"¿Cuánto tiempo llevas estancado en ese mismo número?",
+  ops:[{txt:"Menos de un mes",p:null},
+       {txt:"Entre uno y tres meses",p:null},
+       {txt:"Entre tres y seis meses",p:"techo"},
+       {txt:"Más de seis meses",p:"techo"}]},
  {t:"Cuando cuelgas de la barra antes de empezar, ¿qué notas?",
   ops:[{txt:"Los hombros se me van hacia las orejas, cuelgo como un peso muerto",p:"escapulas"},
        {txt:"Las manos y los antebrazos se cargan enseguida, incluso antes de tirar",p:"agarre"},
        {txt:"Me siento estable: mi problema empieza al subir",p:"tiron"},
-       {txt:"Arranco bien, mi guerra está arriba del todo",p:"cierre"}]},
+       {txt:"Arranco bien, mi guerra está arriba del todo",p:"cierre"},
+       {txt:"Estable y fuerte: el problema solo aparece cuando llego a mi número",p:"techo"}]},
  {t:"¿En qué parte del recorrido se muere tu repetición cuando fallas?",
   ops:[{txt:"Abajo del todo: me cuesta hasta despegar",p:"escapulas"},
        {txt:"A mitad de subida: me quedo clavado en el ángulo de noventa grados",p:"tiron"},
        {txt:"Arriba: la barbilla se queda a centímetros de la barra",p:"cierre"},
-       {txt:"No fallo por fuerza: se me abren las manos antes",p:"agarre"}]},
+       {txt:"No fallo por fuerza: se me abren las manos antes",p:"agarre"},
+       {txt:"En ningún punto concreto: hago repeticiones completas hasta mi número y ahí no sale ni una más",p:"techo"}]},
  {t:"Al día siguiente de entrenar dominadas, ¿dónde notas más la carga?",
   ops:[{txt:"Antebrazos y manos",p:"agarre"},
        {txt:"Bíceps casi todo, la espalda apenas",p:"tiron"},
        {txt:"Trapecios y cuello",p:"escapulas"},
-       {txt:"Espalda alta, pero mis últimas repeticiones nunca llegan del todo arriba",p:"cierre"}]},
+       {txt:"Espalda alta, pero mis últimas repeticiones nunca llegan del todo arriba",p:"cierre"},
+       {txt:"En la espalda, bien repartido: lo noto donde tiene que ser",p:"techo"}]},
  {t:"¿Cuál de estas frases te describe mejor?",
   ops:[{txt:"Noto que tiro con los brazos y no sé activar la espalda",p:"tiron"},
        {txt:"En series largas pienso más en no soltarme que en subir",p:"agarre"},
        {txt:"Nunca he trabajado el control escapular a propósito",p:"escapulas"},
-       {txt:"Hago medias repeticiones sin darme cuenta, me lo han dicho",p:"cierre"}]},
+       {txt:"Hago medias repeticiones sin darme cuenta, me lo han dicho",p:"cierre"},
+       {txt:"Mi técnica está bien: lo que no sé es cómo progresar a partir de aquí",p:"techo"}]},
  {t:"Si haces una dominada lenta a propósito, ¿qué pasa?",
   ops:[{txt:"Abajo no consigo mantener tensión: cuelgo suelto",p:"escapulas"},
        {txt:"La primera mitad va, la parte final se hace eterna",p:"cierre"},
        {txt:"El agarre me tiembla mucho antes que el resto",p:"agarre"},
-       {txt:"Me cuesta todo el tirón por igual, como si faltara fuerza de base",p:"tiron"}]},
+       {txt:"Me cuesta todo el tirón por igual, como si faltara fuerza de base",p:"tiron"},
+       {txt:"Nada: la hago lenta y limpia sin problema, mi límite es pasar de mi número",p:"techo"}]},
  {t:"¿Cómo entrenas dominadas normalmente?",
   ops:[{txt:"Máximas repeticiones al fallo, varias series, casi siempre igual",p:"tiron"},
        {txt:"Muchas repeticiones rápidas, sin bajar del todo",p:"escapulas"},
        {txt:"Series largas seguidas: al final ya no me responden las manos",p:"agarre"},
-       {txt:"Repeticiones sueltas cuando puedo, sin estructura fija",p:"cierre"}]}
+       {txt:"Repeticiones sueltas cuando puedo, sin estructura fija",p:"cierre"},
+       {txt:"Con estructura (días de volumen, de máximo y de técnica), pero sigo en el mismo número",p:"techo"}]}
 ];
 
 var resultados={
  escapulas:{nombre:"Escápulas · La base",
   que:"Tu dominada empieza sin cimientos. Sin control escapular cuelgas suelto y la espalda no llega a entrar en juego antes de subir: por eso el despegue cuesta tanto y los trapecios acaban cargando lo que debería llevar el dorsal.",
   error:"Hacer más dominadas sin trabajar nunca la posición de las escápulas por separado. Cada repetición sin base refuerza el mismo patrón que te frena.",
-  paso:"Tu progresión no empieza haciendo más repeticiones: empieza con trabajo específico de control escapular antes de cada sesión —retracciones en barra y estabilizaciones colgado— y las dominadas se reconstruyen encima. Bien atacado, suele ser el punto débil que antes devuelve repeticiones."},
+  paso:"Tu progresión no empieza haciendo más repeticiones: empieza con trabajo específico de control escapular antes de cada sesión (retracciones en barra y estabilizaciones colgado) y las dominadas se reconstruyen encima. Bien atacado, suele ser el punto débil que antes devuelve repeticiones."},
  agarre:{nombre:"Agarre · El eslabón que cede primero",
   que:"Tu espalda probablemente puede con más dominadas de las que haces: son tus manos y antebrazos los que dicen basta antes. Estás dejando en la barra repeticiones que tu fuerza real ya tiene.",
   error:"Llevar cada serie hasta que las manos se abren. Terminar siempre con el agarre destruido acumula fatiga sin construir capacidad, y hace que sea él quien corte todas tus series.",
@@ -212,11 +228,16 @@ var resultados={
  cierre:{nombre:"Cierre · Los últimos centímetros",
   que:"Subes, pero la parte final no llega: la barbilla se queda baja o llega con trampa. El rango final es el más débil de la dominada y el primero que desaparece con la fatiga. En una prueba, muchas de esas repeticiones no contarían.",
   error:"Contar medias repeticiones como enteras. Cada repetición incompleta entrena el recorrido incompleto y deja el cierre cada vez más rezagado.",
-  paso:"Isométricos manteniendo la posición alta, tempo controlado en la bajada (dos o tres segundos, nunca dejarse caer) y volver a contar solo lo que de verdad cuenta. Recuperar el estándar completo suele destapar el progreso que llevabas meses sin ver."}
+  paso:"Isométricos manteniendo la posición alta, tempo controlado en la bajada (dos o tres segundos, nunca dejarse caer) y volver a contar solo lo que de verdad cuenta. Recuperar el estándar completo suele destapar el progreso que llevabas meses sin ver."},
+ techo:{nombre:"Techo de fuerza · La programación",
+  que:"Tu técnica no es el problema: despegas bien, la espalda trabaja y llegas arriba. Lo que te frena es el techo de fuerza. Tu cuerpo ya está adaptado a lo que le pides y no tiene ningún motivo para darte una repetición más.",
+  error:"Rotar esquemas sin una progresión real y hacer un máximo cada semana. Cambiar un 4x4 por un 5x3 no es progresar, es variar. Y medir tu máximo cada semana gasta la energía que necesitas para construir.",
+  paso:"Una progresión con sobrecarga medible, planificada semana a semana, trabajo con lastre para subir tu fuerza máxima, y dejar de testear el máximo salvo en momentos concretos. Es el estancamiento más frustrante porque ya lo haces casi todo bien, y también el que mejor responde a un plan bien hecho."}
 };
 
-var actual=0, marcador={escapulas:0,agarre:0,tiron:0,cierre:0};
-var letras=['A','B','C','D'];
+var actual=0, apto=false;
+var marcador={escapulas:0,agarre:0,tiron:0,cierre:0,techo:0};
+var letras=['A','B','C','D','E'];
 
 function empezar(){
   document.getElementById('pantalla-inicio').style.display='none';
@@ -234,17 +255,23 @@ function mostrar(){
     var l=document.createElement('span');l.className='letra';l.textContent=letras[i];
     var t=document.createElement('span');t.textContent=op.txt;
     b.appendChild(l);b.appendChild(t);
-    b.onclick=function(){responder(op.p)};
+    b.onclick=function(){responder(op)};
     c.appendChild(b);
   });
 }
-function responder(p){
-  marcador[p]++;actual++;
+function responder(op){
+  if(op.p){marcador[op.p]++;}
+  if(op.apto){apto=true;}
+  actual++;
   if(actual<preguntas.length){mostrar();}else{terminar();}
 }
 function terminar(){
-  var g='escapulas';
-  for(var k in marcador){if(marcador[k]>marcador[g])g=k;}
+  // Entre los cuatro eslabones técnicos, gana el de mayor puntuación (en empate, por este orden)
+  var orden=['tiron','escapulas','agarre','cierre'];
+  var g=orden[0];
+  orden.forEach(function(k){if(marcador[k]>marcador[g])g=k;});
+  // Techo de fuerza solo si hace 8 o más dominadas y sus respuestas apuntan ahí al menos tanto como al eslabón técnico
+  if(apto && marcador.techo>=marcador[g]){g='techo';}
   var r=resultados[g];
   document.getElementById('pantalla-preguntas').style.display='none';
   document.getElementById('pantalla-resultado').style.display='block';
@@ -255,7 +282,7 @@ function terminar(){
   document.getElementById('panel').scrollIntoView({behavior:'smooth',block:'start'});
 }
 function reiniciar(){
-  actual=0;marcador={escapulas:0,agarre:0,tiron:0,cierre:0};
+  actual=0;apto=false;marcador={escapulas:0,agarre:0,tiron:0,cierre:0,techo:0};
   document.getElementById('pantalla-resultado').style.display='none';
   document.getElementById('pantalla-inicio').style.display='block';
 }
